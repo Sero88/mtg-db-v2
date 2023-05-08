@@ -2,6 +2,9 @@
 import { Session } from "next-auth";
 import { SessionProvider, signIn } from "next-auth/react";
 import { ReactNode } from "react";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient();
 
 type ProviderProps = {
 	session: Session | null;
@@ -12,5 +15,9 @@ export function Providers({ session, children }: ProviderProps) {
 		return <button onClick={() => signIn()}>Sign In</button>;
 	}
 
-	return <SessionProvider session={session}>{children}</SessionProvider>;
+	return (
+		<SessionProvider session={session}>
+			<QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+		</SessionProvider>
+	);
 }
