@@ -1,7 +1,8 @@
-import styles from "../../styles/search.module.scss";
-import { useGetSets } from "../../hooks/useGetSets";
-import { QueryResult } from "../QueryResult";
+import styles from "@/styles/search.module.scss";
+import { useGetSets } from "@/hooks/useGetSets";
+import { QueryResult } from "@/components/utils/QueryResult";
 import { SetOptionsList } from "./SetOptionsList";
+import { QueryResultData } from "@/types/queryResult";
 
 type SetSearchProps = {
 	selectedSet: string;
@@ -16,7 +17,10 @@ export const SetSearch = ({ selectedSet, setChangeHandler }: SetSearchProps) => 
 	};
 
 	return (
-		<QueryResult queryResult={setsQueryResult} errorMessage="Unable to get Sets.">
+		<QueryResult
+			queryResult={setsQueryResult as QueryResultData}
+			errorMessage="Unable to get Sets."
+		>
 			<label className={styles.setField}>
 				<span>Card Set: </span>
 				<select value={selectedSet} onChange={onChangeSet}>
