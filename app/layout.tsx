@@ -1,10 +1,10 @@
 import "./globals.css";
-import { Inter } from "next/font/google";
+import { Saira } from "next/font/google";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "./api/auth/[...nextauth]/route";
 import { Providers } from "./providers";
 
-const inter = Inter({ subsets: ["latin"] });
+const saira = Saira({ weight: ["200", "400"], subsets: ["latin"] });
 
 export const metadata = {
 	title: "Create Next App",
@@ -16,8 +16,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
 	return (
 		<html lang="en">
-			<body className={inter.className}>
-				<Providers session={session}>{children}</Providers>
+			<body className={saira.className}>
+				<Providers session={session}>
+					<main>
+						<div className="wrapper">{children}</div>
+					</main>
+				</Providers>
 			</body>
 		</html>
 	);
