@@ -5,6 +5,9 @@
 /.pnp
 .pnp.js
 
+/components/practice
+/app/practice
+
 # testing
 /coverage
 
