@@ -53,3 +53,8 @@ export type ScryfallCardFace = {
 	image_uris: { small: string; normal: string };
 	mana_cost: string;
 };
+
+export enum ScryfallResultsTypeEnum {
+	PRINT,
+	GENERAL,
+}
