@@ -3,10 +3,13 @@ import { useScryfallCardSearch } from "./useScryfallCardSearch";
 import { ReactElement } from "react";
 import {
 	generalSearchMock,
+	generalSearchMockResults,
+	generalSearchMockWithOneResults,
 	generalSearchWithOneResultMock,
 	printSearchMock,
+	printSearchMockResults,
 } from "@/tests/mocks/cardSearch.mock";
-import { makeGeneralSearch, makePrintSearch } from "@/utils/scryfallCardSearch";
+import { makeGeneralSearch, makePrintSearch } from "@/utils/dataFetch/scryfallCardSearch";
 import { ScryfallResultsTypeEnum } from "@/types/scryfall";
 import { renderHook, waitFor } from "@testing-library/react";
 
@@ -23,12 +26,12 @@ const args = {
 	page: 1,
 };
 
-jest.mock("@/utils/scryfallCardSearch");
+jest.mock("@/utils/dataFetch/scryfallCardSearch");
 const mockedGeneralSearch = jest.mocked(makeGeneralSearch);
-mockedGeneralSearch.mockResolvedValue(generalSearchMock?.data);
+mockedGeneralSearch.mockResolvedValue(generalSearchMockResults);
 
 const mockedPrintSearch = jest.mocked(makePrintSearch);
-mockedPrintSearch.mockResolvedValue(printSearchMock?.data);
+mockedPrintSearch.mockResolvedValue(printSearchMockResults);
 
 describe("useCardSearch() hook", () => {
 	it("should return general search type and data", async () => {
@@ -37,12 +40,12 @@ describe("useCardSearch() hook", () => {
 		});
 
 		await waitFor(() => expect(result.current.isSuccess).toBe(true));
-		expect(result.current.data?.data).toEqual(generalSearchMock?.data);
+		expect(result.current.data?.data).toEqual(generalSearchMockResults);
 		expect(result.current.data?.type).toEqual(ScryfallResultsTypeEnum.GENERAL);
 	});
 
 	it("should return general print type and data", async () => {
-		mockedGeneralSearch.mockResolvedValue(generalSearchWithOneResultMock?.data);
+		mockedGeneralSearch.mockResolvedValue(generalSearchMockWithOneResults);
 		const { result } = renderHook(() => useScryfallCardSearch(args), {
 			wrapper,
 		});
@@ -51,6 +54,6 @@ describe("useCardSearch() hook", () => {
 			expect(result.current.data?.type).toEqual(ScryfallResultsTypeEnum.PRINT);
 		});
 
-		expect(result.current.data?.data).toEqual(printSearchMock?.data);
+		expect(result.current.data?.data).toEqual(printSearchMockResults);
 	});
 });

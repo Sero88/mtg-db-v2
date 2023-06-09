@@ -12,7 +12,11 @@ type CardListItems = {
 export function CardListItems({ cards, type, clickHandler }: CardListItems) {
 	const listOfCards = cards?.map((card: ScryfallCard, index) => {
 		return type === ScryfallResultsTypeEnum.GENERAL ? (
-			<li id={helpers.convertNameToId(card.name)} className={styles.cardWrapper} key={index}>
+			<li
+				id={helpers.convertNameToHtmlId(card.name)}
+				className={styles.cardWrapper}
+				key={index}
+			>
 				<GeneralCard data={card} clickHandler={clickHandler} />
 			</li>
 		) : (

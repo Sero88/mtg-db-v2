@@ -1,4 +1,4 @@
-import { makeGeneralSearch, makePrintSearch } from "@/utils/scryfallCardSearch";
+import { makeGeneralSearch, makePrintSearch } from "@/utils/dataFetch/scryfallCardSearch";
 import axios from "axios";
 import { generalSearchMock as cardSearchResults } from "@/tests/mocks/cardSearch.mock";
 import { ScryfallSearchCardData } from "@/types/scryfall";

@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { makeGeneralSearch, makePrintSearch } from "@/utils/scryfallCardSearch";
+import { makeGeneralSearch, makePrintSearch } from "@/utils/dataFetch/scryfallCardSearch";
 import { ScryfallResultsTypeEnum, ScryfallSearchCardData } from "@/types/scryfall";
 
 type useCardSearchProps = {
@@ -16,9 +16,9 @@ export function useScryfallCardSearch({ searchCardData, page }: useCardSearchPro
 		let printResults = undefined;
 		const generalResults = await makeGeneralSearch(searchCardData, page);
 
-		if (generalResults?.length == 1) {
+		if (generalResults?.data?.length == 1) {
 			printResults = await makePrintSearch({
-				cardName: generalResults[0].name,
+				cardName: generalResults?.data[0]?.name,
 				setCode: searchCardData.setCode,
 			});
 		}

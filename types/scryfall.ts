@@ -58,3 +58,20 @@ export enum ScryfallResultsTypeEnum {
 	PRINT,
 	GENERAL,
 }
+
+export type ScryfallResultsList = {
+	data: ScryfallCard[];
+	has_more: boolean;
+	next_page?: string;
+	total_cards: number;
+	warnings?: string[];
+};
+
+export type ScryfallApiError = {
+	object: string;
+	code: string;
+	status: number;
+	warnings?: string[];
+	type?: string;
+	details: string;
+};

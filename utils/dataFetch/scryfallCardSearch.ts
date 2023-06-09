@@ -1,4 +1,4 @@
-import { ScryfallCard } from "@/types/scryfall";
+import { ScryfallResultsList } from "@/types/scryfall";
 import { ScryfallSearchCardData } from "@/types/scryfall";
 import axios from "axios";
 
@@ -13,7 +13,7 @@ export async function makeGeneralSearch(searchCardData: ScryfallSearchCardData, 
 
 	const response = await axios.get(searchEndpoint);
 
-	return response?.data?.data as ScryfallCard[];
+	return response?.data?.data as ScryfallResultsList;
 }
 
 export async function makePrintSearch(searchCardData: ScryfallSearchCardData) {
@@ -27,7 +27,7 @@ export async function makePrintSearch(searchCardData: ScryfallSearchCardData) {
 
 	const response = await axios.get(searchEndpoint);
 
-	return response?.data?.data as ScryfallCard[];
+	return response?.data?.data as ScryfallResultsList;
 }
 
 function getSetParameter(setCode: string) {
