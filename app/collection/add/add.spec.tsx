@@ -1,7 +1,11 @@
 import AddPage from "./page";
 import { screen, render } from "@testing-library/react";
 import { useScryfallCardSearch } from "@/hooks/useScryfallCardSearch";
-import { generalSearchMockResults } from "@/tests/mocks/cardSearch.mock";
+import {
+	generalSearchMockResults,
+	noResultsMockSearch,
+	printSearchMockResults,
+} from "@/tests/mocks/cardSearch.mock";
 import * as PaginationComponent from "@/components/utils/Pagination";
 import { ScryfallResultsTypeEnum } from "@/types/scryfall";
 import * as ScryfallSearchResultsComponent from "@/components/scryfall/ScryfallSearchResults";
@@ -39,6 +43,9 @@ const hookMockedData = {
 };
 
 describe("/collection/add page", () => {
+	afterEach(() => {
+		jest.clearAllMocks();
+	});
 	it("should display header", () => {
 		//@ts-ignore
 		useScryfallCardSearchMock.mockReturnValue({
@@ -62,6 +69,32 @@ describe("/collection/add page", () => {
 		render(<AddPage />);
 
 		expect(paginationSpy).toHaveBeenCalled();
+	});
+
+	it("should display pagination when returned result data is of type: PRINT", () => {
+		//@ts-ignore
+		useScryfallCardSearchMock.mockReturnValue({
+			isLoading: false,
+			error: false,
+			data: { type: ScryfallResultsTypeEnum.PRINT, resultsList: printSearchMockResults },
+		});
+
+		render(<AddPage />);
+
+		expect(paginationSpy).not.toHaveBeenCalled();
+	});
+
+	it("should not display pagination when returned result data is empty", () => {
+		//@ts-ignore
+		useScryfallCardSearchMock.mockReturnValue({
+			isLoading: false,
+			error: false,
+			data: { ...hookMockedData, resultsList: noResultsMockSearch },
+		});
+
+		render(<AddPage />);
+
+		expect(paginationSpy).not.toHaveBeenCalled();
 	});
 
 	it("should display search results using ScryfallSearchResults", () => {

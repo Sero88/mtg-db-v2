@@ -16,6 +16,9 @@ export default function AddPage() {
 
 	const [page, setPage] = useState(1);
 	const querySearchResponse = useScryfallCardSearch({ searchCardData, page });
+	const showPagination =
+		querySearchResponse?.data?.type === ScryfallResultsTypeEnum.GENERAL &&
+		querySearchResponse?.data?.resultsList?.data?.length > 0;
 
 	const handleSearchFormSubmit = (newSearchCardData: ScryfallSearchCardData) => {
 		setSearchCardData({ ...newSearchCardData });
@@ -38,7 +41,7 @@ export default function AddPage() {
 				disabled={querySearchResponse.isLoading}
 			/>
 
-			{querySearchResponse?.data?.type === ScryfallResultsTypeEnum.GENERAL && (
+			{showPagination && querySearchResponse?.data && (
 				<Pagination
 					itemsInfo={{
 						amountPerPage: querySearchResponse?.data?.resultsList?.data?.length,
