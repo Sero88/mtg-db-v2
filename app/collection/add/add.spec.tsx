@@ -1,0 +1,131 @@
+import AddPage from "./page";
+import { screen, render } from "@testing-library/react";
+import { useScryfallCardSearch } from "@/hooks/useScryfallCardSearch";
+import { generalSearchMockResults } from "@/tests/mocks/cardSearch.mock";
+import * as PaginationComponent from "@/components/utils/Pagination";
+import { ScryfallResultsTypeEnum } from "@/types/scryfall";
+import * as ScryfallSearchResultsComponent from "@/components/scryfall/ScryfallSearchResults";
+
+jest.mock("@/hooks/useScryfallCardSearch");
+const useScryfallCardSearchMock = jest.mocked(useScryfallCardSearch);
+
+jest.mock("@/components/utils/Pagination", () => {
+	const originalModule = jest.requireActual("@/components/utils/Pagination");
+
+	return {
+		__esModule: true,
+		...originalModule,
+	};
+});
+
+jest.mock("@/components/scryfall/ScryfallSearchResults", () => {
+	const originalModule = jest.requireActual("@/components/scryfall/ScryfallSearchResults");
+
+	return {
+		__esModule: true,
+		...originalModule,
+	};
+});
+
+const paginationSpy = jest.spyOn(PaginationComponent, "Pagination");
+const scryfallSearchResultsSpy = jest.spyOn(
+	ScryfallSearchResultsComponent,
+	"ScryfallSearchResults"
+);
+
+const hookMockedData = {
+	resultsList: generalSearchMockResults,
+	type: ScryfallResultsTypeEnum.GENERAL,
+};
+
+describe("/collection/add page", () => {
+	it("should display header", () => {
+		//@ts-ignore
+		useScryfallCardSearchMock.mockReturnValue({
+			isLoading: false,
+			error: false,
+			data: undefined,
+		});
+
+		render(<AddPage />);
+		expect(screen.queryByRole("heading", { level: 1 })).not.toBeNull();
+	});
+
+	it("should display pagination when returned result data is of type: General", () => {
+		//@ts-ignore
+		useScryfallCardSearchMock.mockReturnValue({
+			isLoading: false,
+			error: false,
+			data: hookMockedData,
+		});
+
+		render(<AddPage />);
+
+		expect(paginationSpy).toHaveBeenCalled();
+	});
+
+	it("should display search results using ScryfallSearchResults", () => {
+		//@ts-ignore
+		useScryfallCardSearchMock.mockReturnValue({
+			isLoading: false,
+			error: false,
+			data: hookMockedData,
+		});
+
+		render(<AddPage />);
+
+		expect(scryfallSearchResultsSpy).toHaveBeenCalled();
+	});
+
+	it("should display loader while data is being fetched", () => {
+		//@ts-ignore
+		useScryfallCardSearchMock.mockReturnValue({
+			isLoading: true,
+			error: false,
+			data: undefined,
+		});
+
+		render(<AddPage />);
+
+		expect(screen.queryByTestId("loader")).not.toBeNull();
+	});
+
+	it("should not display loader when data fetch is complete", () => {
+		//@ts-ignore
+		useScryfallCardSearchMock.mockReturnValue({
+			isLoading: false,
+			error: false,
+			data: undefined,
+		});
+
+		render(<AddPage />);
+
+		expect(screen.queryByTestId("loader")).toBeNull();
+	});
+
+	it("should display error when data fetch fails", () => {
+		//@ts-ignore
+		useScryfallCardSearchMock.mockReturnValue({
+			isLoading: false,
+			error: true,
+			data: undefined,
+		});
+
+		render(<AddPage />);
+
+		expect(screen.queryByText(/Error:/)).not.toBeNull();
+	});
+
+	it("should not display error when data fetch is successful", () => {
+		//@ts-ignore
+		useScryfallCardSearchMock.mockReturnValue({
+			isLoading: false,
+			error: false,
+			data: hookMockedData,
+		});
+
+		render(<AddPage />);
+
+		expect(screen.queryByText(/Error:/)).toBeNull();
+	});
+});

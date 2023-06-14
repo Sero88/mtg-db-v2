@@ -2,11 +2,8 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { useScryfallCardSearch } from "./useScryfallCardSearch";
 import { ReactElement } from "react";
 import {
-	generalSearchMock,
 	generalSearchMockResults,
 	generalSearchMockWithOneResults,
-	generalSearchWithOneResultMock,
-	printSearchMock,
 	printSearchMockResults,
 } from "@/tests/mocks/cardSearch.mock";
 import { makeGeneralSearch, makePrintSearch } from "@/utils/dataFetch/scryfallCardSearch";
@@ -40,7 +37,7 @@ describe("useCardSearch() hook", () => {
 		});
 
 		await waitFor(() => expect(result.current.isSuccess).toBe(true));
-		expect(result.current.data?.data).toEqual(generalSearchMockResults);
+		expect(result.current.data?.resultsList).toEqual(generalSearchMockResults);
 		expect(result.current.data?.type).toEqual(ScryfallResultsTypeEnum.GENERAL);
 	});
 
@@ -54,6 +51,6 @@ describe("useCardSearch() hook", () => {
 			expect(result.current.data?.type).toEqual(ScryfallResultsTypeEnum.PRINT);
 		});
 
-		expect(result.current.data?.data).toEqual(printSearchMockResults);
+		expect(result.current.data?.resultsList).toEqual(printSearchMockResults);
 	});
 });

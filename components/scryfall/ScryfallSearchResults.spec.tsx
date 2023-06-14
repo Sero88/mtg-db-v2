@@ -28,7 +28,10 @@ describe("ScryfallSearchResults", () => {
 	it("should display no cards message", () => {
 		render(
 			<ScryfallSearchResults
-				cardData={{ data: noResultsMockSearch, type: ScryfallResultsTypeEnum.GENERAL }}
+				cardData={{
+					resultsList: noResultsMockSearch,
+					type: ScryfallResultsTypeEnum.GENERAL,
+				}}
 				clickHandler={clickHandler}
 			/>
 		);
@@ -39,7 +42,10 @@ describe("ScryfallSearchResults", () => {
 	it("should display header", () => {
 		render(
 			<ScryfallSearchResults
-				cardData={{ data: generalSearchMockResults, type: ScryfallResultsTypeEnum.GENERAL }}
+				cardData={{
+					resultsList: generalSearchMockResults,
+					type: ScryfallResultsTypeEnum.GENERAL,
+				}}
 				clickHandler={clickHandler}
 			/>
 		);
@@ -50,7 +56,10 @@ describe("ScryfallSearchResults", () => {
 	it("should display matched card amount and GeneralCardList when results are of type general", () => {
 		render(
 			<ScryfallSearchResults
-				cardData={{ data: generalSearchMockResults, type: ScryfallResultsTypeEnum.GENERAL }}
+				cardData={{
+					resultsList: generalSearchMockResults,
+					type: ScryfallResultsTypeEnum.GENERAL,
+				}}
 				clickHandler={clickHandler}
 			/>
 		);
@@ -69,7 +78,10 @@ describe("ScryfallSearchResults", () => {
 	it("should not display GeneralCardList when results are not of type general", () => {
 		render(
 			<ScryfallSearchResults
-				cardData={{ data: printSearchMockResults, type: ScryfallResultsTypeEnum.PRINT }}
+				cardData={{
+					resultsList: printSearchMockResults,
+					type: ScryfallResultsTypeEnum.PRINT,
+				}}
 				clickHandler={clickHandler}
 			/>
 		);

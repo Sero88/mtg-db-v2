@@ -4,7 +4,7 @@ import { GeneralCardList } from "../cards/GeneralCardList";
 type SearchResultsProps = {
 	cardData:
 		| {
-				data: ScryfallResultsList;
+				resultsList: ScryfallResultsList;
 				type: ScryfallResultsTypeEnum;
 		  }
 		| undefined;
@@ -12,22 +12,22 @@ type SearchResultsProps = {
 };
 
 export const ScryfallSearchResults = ({ cardData, clickHandler }: SearchResultsProps) => {
-	if (!cardData?.data?.total_cards) {
+	if (!cardData?.resultsList?.total_cards) {
 		return <p data-testid="no-search-match">No cards matched your search.</p>;
 	}
 
 	return (
 		<div>
-			<h2>Search Results</h2>
 			<div>
 				{
 					cardData.type === ScryfallResultsTypeEnum.GENERAL ? (
 						<>
+							<h2>Search Results</h2>
 							<p data-testid="search-matched">
-								{cardData.data.data.length} cards matched your search.
+								{cardData.resultsList.total_cards} cards matched your search.
 							</p>
 							<GeneralCardList
-								cardData={cardData?.data?.data}
+								cardData={cardData?.resultsList?.data}
 								clickHandler={clickHandler}
 							/>
 						</>

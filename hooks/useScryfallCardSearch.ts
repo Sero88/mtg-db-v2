@@ -8,24 +8,29 @@ type useCardSearchProps = {
 };
 
 export function useScryfallCardSearch({ searchCardData, page }: useCardSearchProps) {
-	return useQuery(["cardSearch", searchCardData.cardName, searchCardData.setCode], async () => {
-		if (!searchCardData.cardName && !searchCardData.setCode) {
-			return undefined;
+	return useQuery(
+		["cardSearch", searchCardData.cardName, searchCardData.setCode, page],
+		async () => {
+			if (!searchCardData.cardName && !searchCardData.setCode) {
+				return undefined;
+			}
+
+			let printResults = undefined;
+			const generalResults = await makeGeneralSearch(searchCardData, page);
+
+			if (generalResults?.data?.length == 1) {
+				printResults = await makePrintSearch({
+					cardName: generalResults?.data[0]?.name,
+					setCode: searchCardData.setCode,
+				});
+			}
+
+			return {
+				resultsList: printResults ?? generalResults,
+				type: printResults
+					? ScryfallResultsTypeEnum.PRINT
+					: ScryfallResultsTypeEnum.GENERAL,
+			};
 		}
-
-		let printResults = undefined;
-		const generalResults = await makeGeneralSearch(searchCardData, page);
-
-		if (generalResults?.data?.length == 1) {
-			printResults = await makePrintSearch({
-				cardName: generalResults?.data[0]?.name,
-				setCode: searchCardData.setCode,
-			});
-		}
-
-		return {
-			data: printResults ?? generalResults,
-			type: printResults ? ScryfallResultsTypeEnum.PRINT : ScryfallResultsTypeEnum.GENERAL,
-		};
-	});
+	);
 }

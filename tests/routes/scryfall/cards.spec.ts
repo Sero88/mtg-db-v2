@@ -4,7 +4,7 @@
 import { GET } from "@/app/api/scryfall/cards/route";
 import axios from "axios";
 import * as nextAuth from "next-auth/next";
-import { generalSearchMockResults } from "@/tests/mocks/cardSearch.mock";
+import { generalSearchMockResults, noResultsMockSearch } from "@/tests/mocks/cardSearch.mock";
 
 const getServerSessionSpy = jest.spyOn(nextAuth, "getServerSession");
 
@@ -42,7 +42,7 @@ describe("API route: /api/scryfall/cards", () => {
 			const cardResults = await response.json();
 
 			expect(cardResults.success).toEqual(false);
-			expect(cardResults.data).toEqual([]);
+			expect(cardResults.data).toEqual(noResultsMockSearch);
 		});
 	});
 });
