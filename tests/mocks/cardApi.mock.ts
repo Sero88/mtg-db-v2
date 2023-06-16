@@ -38,7 +38,7 @@ export const elvishMystic: ScryfallCard = {
 		premodern: "not_legal",
 		predh: "not_legal",
 	},
-	promo: false,
+	promo: true,
 	set: "m14",
 	set_name: "Magic 2014",
 	set_type: "core",
@@ -50,7 +50,7 @@ export const elvishMystic: ScryfallCard = {
 		usd: "0.49",
 		usd_foil: "7.77",
 	},
-	collector_number: "169",
+	collector_number: "169s",
 	layout: "normal",
 	finishes: ["nonfoil", "foil"],
 };

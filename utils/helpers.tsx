@@ -1,6 +1,6 @@
 import { CardQuantity, DisplayListItem, Version } from "@/types/collection";
 import Image from "next/image";
-import { ScryfallSet } from "../types/scryfall";
+import { ScryfallCard, ScryfallSet } from "../types/scryfall";
 
 export const helpers = {
 	collectionLimit: 4, //limit of each card in collection
@@ -128,5 +128,42 @@ export const helpers = {
 				: null;
 
 		return value;
+	},
+
+	getCollectorsData(apiCardData: ScryfallCard) {
+		const promoString = this.getCollectionPromoString(apiCardData);
+		return {
+			number: this.getCollectorsNumber(apiCardData, promoString),
+			type: this.getCollectionType(promoString),
+		};
+	},
+
+	getCollectorsNumber(apiCardData: ScryfallCard, promoString: string) {
+		return promoString
+			? apiCardData.collector_number.replace(promoString, "")
+			: apiCardData.collector_number;
+	},
+
+	getCollectionType(promoString: string) {
+		type CollectionType = {
+			[key: string]: string;
+		};
+
+		const collectionType: CollectionType = {
+			s: "pre-release",
+			p: "promo",
+		};
+
+		return promoString in collectionType ? collectionType[promoString] : "";
+	},
+
+	getCollectionPromoString(apiCardData: ScryfallCard) {
+		const findLetterRegex = /[a-z]+/gi;
+
+		const regex = new RegExp(findLetterRegex);
+
+		const regexResult = regex.exec(apiCardData.collector_number);
+
+		return regexResult?.[0] ? regexResult?.[0] : "";
 	},
 };
