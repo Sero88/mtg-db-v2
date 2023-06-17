@@ -1,7 +1,7 @@
 import { ScryfallCard } from "@/types/scryfall";
 import styles from "@/styles/results.module.scss";
-import { ScryfallResultsTypeEnum } from "@/types/scryfall";
-import { CardListItems } from "./CardListItems";
+import { helpers } from "@/utils/helpers";
+import { GeneralCard } from "./GeneralCard";
 
 type GeneralCardListProps = {
 	cardData: ScryfallCard[];
@@ -11,11 +11,17 @@ export function GeneralCardList({ cardData, clickHandler }: GeneralCardListProps
 	return (
 		<>
 			<ul className={styles.resultsList}>
-				<CardListItems
-					cards={cardData}
-					type={ScryfallResultsTypeEnum.GENERAL}
-					clickHandler={clickHandler}
-				/>
+				{cardData.map((card, index) => {
+					return (
+						<li
+							id={helpers.convertNameToHtmlId(card.name)}
+							className={styles.cardWrapper}
+							key={index}
+						>
+							<GeneralCard data={card} clickHandler={clickHandler} />
+						</li>
+					);
+				})}
 			</ul>
 		</>
 	);

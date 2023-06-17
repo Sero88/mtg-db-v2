@@ -7,6 +7,7 @@ import { ScryfallSearchResults } from "./ScryfallSearchResults";
 import { ScryfallResultsTypeEnum } from "@/types/scryfall";
 import { render, screen } from "@testing-library/react";
 import * as GeneralCardListComponent from "@/components/cards/GeneralCardList";
+import * as PrintCardListComponent from "@/components/cards/PrintCardList";
 
 jest.mock("@/components/cards/GeneralCardList", () => {
 	const originalModule = jest.requireActual("@/components/cards/GeneralCardList");
@@ -17,8 +18,18 @@ jest.mock("@/components/cards/GeneralCardList", () => {
 	};
 });
 
+jest.mock("@/components/cards/PrintCardList", () => {
+	const originalModule = jest.requireActual("@/components/cards/PrintCardList");
+
+	return {
+		__esModule: true,
+		...originalModule,
+	};
+});
+
 const clickHandler = jest.fn();
 const generalCardListSpy = jest.spyOn(GeneralCardListComponent, "GeneralCardList");
+const printCardListSpy = jest.spyOn(PrintCardListComponent, "PrintCardList");
 
 describe("ScryfallSearchResults", () => {
 	afterEach(() => {
@@ -39,12 +50,26 @@ describe("ScryfallSearchResults", () => {
 		expect(screen.queryByTestId("no-search-match")).not.toBeNull();
 	});
 
-	it("should display header", () => {
+	it("should display header for general results", () => {
 		render(
 			<ScryfallSearchResults
 				cardData={{
 					resultsList: generalSearchMockResults,
 					type: ScryfallResultsTypeEnum.GENERAL,
+				}}
+				clickHandler={clickHandler}
+			/>
+		);
+
+		expect(screen.queryByRole("heading", { level: 2 })).not.toBeNull();
+	});
+
+	it("should display header fron print results", () => {
+		render(
+			<ScryfallSearchResults
+				cardData={{
+					resultsList: printSearchMockResults,
+					type: ScryfallResultsTypeEnum.PRINT,
 				}}
 				clickHandler={clickHandler}
 			/>
@@ -73,9 +98,10 @@ describe("ScryfallSearchResults", () => {
 		);
 
 		expect(screen.queryByTestId("search-matched")).not.toBeNull();
+		expect(printCardListSpy).not.toHaveBeenCalled();
 	});
 
-	it("should not display GeneralCardList when results are not of type general", () => {
+	it("should display PrintCardList and not GeneralCardList when results are of type PRINT", () => {
 		render(
 			<ScryfallSearchResults
 				cardData={{
@@ -87,5 +113,6 @@ describe("ScryfallSearchResults", () => {
 		);
 
 		expect(generalCardListSpy).not.toHaveBeenCalled();
+		expect(printCardListSpy).toHaveBeenCalled();
 	});
 });

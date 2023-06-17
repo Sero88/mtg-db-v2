@@ -1,5 +1,7 @@
 import { ScryfallResultsList, ScryfallResultsTypeEnum } from "@/types/scryfall";
 import { GeneralCardList } from "../cards/GeneralCardList";
+import { PrintCardList } from "../cards/PrintCardList";
+import styles from "@/styles/results.module.scss";
 
 type SearchResultsProps = {
 	cardData:
@@ -17,23 +19,24 @@ export const ScryfallSearchResults = ({ cardData, clickHandler }: SearchResultsP
 	}
 
 	return (
-		<div>
-			<div>
-				{
-					cardData.type === ScryfallResultsTypeEnum.GENERAL ? (
-						<>
-							<h2>Search Results</h2>
-							<p data-testid="search-matched">
-								{cardData.resultsList.total_cards} cards matched your search.
-							</p>
-							<GeneralCardList
-								cardData={cardData?.resultsList?.data}
-								clickHandler={clickHandler}
-							/>
-						</>
-					) : null //printCardList search results goes here
-				}
-			</div>
+		<div className={styles.searchResults}>
+			{cardData.type === ScryfallResultsTypeEnum.GENERAL ? (
+				<>
+					<h2>Search Results</h2>
+					<p data-testid="search-matched">
+						{cardData.resultsList.total_cards} cards matched your search.
+					</p>
+					<GeneralCardList
+						cardData={cardData?.resultsList?.data}
+						clickHandler={clickHandler}
+					/>
+				</>
+			) : (
+				<>
+					<h2>{cardData?.resultsList.data[0].name}:</h2>
+					<PrintCardList cardData={cardData?.resultsList?.data} />
+				</>
+			)}
 		</div>
 	);
 };
