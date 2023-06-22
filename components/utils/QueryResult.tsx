@@ -1,6 +1,7 @@
 import { Loader } from "@/components/utils/Loader";
 import { QueryResultData } from "@/types/queryResult";
 import { ReactElement } from "react";
+import styles from "@/styles/queryResults.module.scss";
 
 export type QueryResultProps = {
 	queryResult: QueryResultData;
@@ -14,7 +15,11 @@ export function QueryResult({
 	errorMessage = "Something went wrong. Please try again",
 }: QueryResultProps) {
 	if (queryResult.isLoading) {
-		return <Loader />;
+		return (
+			<div className={styles.loaderWrapper}>
+				<Loader />
+			</div>
+		);
 	}
 
 	if (queryResult.error) {

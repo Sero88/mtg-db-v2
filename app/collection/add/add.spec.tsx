@@ -1,5 +1,5 @@
 import AddPage from "./page";
-import { screen, render } from "@testing-library/react";
+import { screen, render, fireEvent, waitFor } from "@testing-library/react";
 import { useScryfallCardSearch } from "@/hooks/useScryfallCardSearch";
 import {
 	generalSearchMockResults,
@@ -30,6 +30,8 @@ jest.mock("@/components/scryfall/ScryfallSearchResults", () => {
 		...originalModule,
 	};
 });
+
+document.getElementById = jest.fn().mockImplementation(() => {});
 
 const paginationSpy = jest.spyOn(PaginationComponent, "Pagination");
 const scryfallSearchResultsSpy = jest.spyOn(
@@ -160,5 +162,101 @@ describe("/collection/add page", () => {
 		render(<AddPage />);
 
 		expect(screen.queryByText(/Error:/)).toBeNull();
+	});
+
+	it("should not display back button when viewing general results", () => {
+		//@ts-ignore
+		useScryfallCardSearchMock.mockReturnValue({
+			isLoading: false,
+			error: false,
+			data: hookMockedData,
+		});
+
+		render(<AddPage />);
+
+		expect(screen.queryByTestId("backToList")).toBeNull();
+	});
+
+	it("should display back button when viewing print results from general results", async () => {
+		//@ts-ignore
+		useScryfallCardSearchMock.mockReturnValue({
+			isLoading: false,
+			error: false,
+			data: hookMockedData,
+		});
+
+		render(<AddPage />);
+
+		const generalCard = await screen.findByText(hookMockedData.resultsList.data[0].name);
+
+		//@ts-ignore
+		useScryfallCardSearchMock.mockReturnValue({
+			isLoading: false,
+			error: false,
+			data: {
+				resultsList: printSearchMockResults,
+				type: ScryfallResultsTypeEnum.PRINT,
+			},
+		});
+
+		fireEvent.click(generalCard);
+
+		expect(screen.queryByTestId("backToList")).not.toBeNull();
+	});
+
+	it("should not display back button when viewing print results directly from search", () => {
+		//@ts-ignore
+		useScryfallCardSearchMock.mockReturnValue({
+			isLoading: false,
+			error: false,
+			data: {
+				resultsList: printSearchMockResults,
+				type: ScryfallResultsTypeEnum.PRINT,
+			},
+		});
+
+		render(<AddPage />);
+
+		expect(screen.queryByTestId("backToList")).toBeNull();
+	});
+
+	it("clicking back button should take user back to previous general results list", async () => {
+		//@ts-ignore
+		useScryfallCardSearchMock.mockReturnValue({
+			isLoading: false,
+			error: false,
+			data: hookMockedData,
+		});
+
+		render(<AddPage />);
+
+		const generalCard = await screen.findByText(hookMockedData.resultsList.data[0].name);
+
+		//@ts-ignore
+		useScryfallCardSearchMock.mockReturnValue({
+			isLoading: false,
+			error: false,
+			data: {
+				resultsList: printSearchMockResults,
+				type: ScryfallResultsTypeEnum.PRINT,
+			},
+		});
+
+		fireEvent.click(generalCard);
+
+		const backButton = screen.getByTestId("backToList");
+
+		//@ts-ignore
+		useScryfallCardSearchMock.mockReturnValue({
+			isLoading: false,
+			error: false,
+			data: hookMockedData,
+		});
+
+		fireEvent.click(backButton);
+
+		await waitFor(() => {
+			expect(screen.queryByText(hookMockedData.resultsList.data[1].name)).not.toBeNull();
+		});
 	});
 });

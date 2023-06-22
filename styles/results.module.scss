@@ -23,11 +23,3 @@
 	grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
 	gap: 2.5rem 2.5rem;
 }
-
-.backButton {
-	border: 0;
-	color: $dark-green;
-	background-color: transparent;
-	cursor: pointer;
-	padding: 1rem;
-}

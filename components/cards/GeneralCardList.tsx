@@ -12,13 +12,13 @@ export function GeneralCardList({ cardData, clickHandler }: GeneralCardListProps
 		<>
 			<ul className={styles.resultsList}>
 				{cardData.map((card, index) => {
+					const cardId = helpers.convertNameToHtmlId(card.name);
 					return (
-						<li
-							id={helpers.convertNameToHtmlId(card.name)}
-							className={styles.cardWrapper}
-							key={index}
-						>
-							<GeneralCard data={card} clickHandler={clickHandler} />
+						<li id={cardId} className={styles.cardWrapper} key={index}>
+							<GeneralCard
+								data={card}
+								clickHandler={() => clickHandler(card.name, cardId)}
+							/>
 						</li>
 					);
 				})}

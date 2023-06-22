@@ -1,0 +1,9 @@
+@import "./variables.scss";
+
+.backButton {
+	border: 0;
+	color: $dark-green;
+	background-color: transparent;
+	cursor: pointer;
+	margin-top: 3rem;
+}
