@@ -20,6 +20,7 @@ export default function AddPage() {
 	const [generalSearchList, setGeneralSearchList] = useState({
 		cardId: "",
 		previousSearch: initialCardSearch,
+		page: 1,
 	});
 
 	const [page, setPage] = useState(1);
@@ -39,24 +40,29 @@ export default function AddPage() {
 		querySearchResponse?.data?.type === ScryfallResultsTypeEnum.GENERAL &&
 		generalSearchList.cardId;
 
-	const handleSearchFormSubmit = (newSearchCardData: ScryfallSearchCardData) => {
-		setSearchCardData({ ...newSearchCardData });
+	const resetGeneralSearchList = () => {
 		setGeneralSearchList({
 			cardId: "",
 			previousSearch: initialCardSearch,
+			page: 1,
 		});
+	};
+
+	const handleSearchFormSubmit = (newSearchCardData: ScryfallSearchCardData) => {
+		setSearchCardData({ ...newSearchCardData });
+		resetGeneralSearchList();
 		setPage(1);
 	};
 
 	const searchCardNameHandler = (cardName: string, cardId: string) => {
-		setGeneralSearchList({ cardId, previousSearch: { ...searchCardData } });
+		setGeneralSearchList({ cardId, previousSearch: { ...searchCardData }, page });
 		setSearchCardData({ ...searchCardData, cardName });
 		setPage(1);
 	};
 
 	const goBackToList = () => {
 		setSearchCardData({ ...generalSearchList.previousSearch });
-		setPage(1);
+		setPage(generalSearchList.page);
 	};
 
 	const pageSelectionHandler = (newPage: number) => {
@@ -66,10 +72,7 @@ export default function AddPage() {
 	useEffect(() => {
 		if (backFromPrintView) {
 			document?.getElementById(generalSearchList.cardId)?.scrollIntoView();
-			setGeneralSearchList({
-				cardId: "",
-				previousSearch: initialCardSearch,
-			});
+			resetGeneralSearchList();
 		}
 	}, [backFromPrintView]);
 
