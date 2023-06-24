@@ -11,6 +11,7 @@ export type ScryfallSet = {
 export type ScryfallSearchCardData = {
 	cardName: string;
 	setCode: string;
+	isPrintSearch?: boolean;
 };
 
 export type ScryfallCard = {

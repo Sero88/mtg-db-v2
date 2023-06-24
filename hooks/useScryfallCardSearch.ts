@@ -15,21 +15,28 @@ export function useScryfallCardSearch({ searchCardData, page }: useCardSearchPro
 				return undefined;
 			}
 
-			let printResults = undefined;
-			const generalResults = await makeGeneralSearch(searchCardData, page);
+			const initialSearchResults = !searchCardData.isPrintSearch
+				? await makeGeneralSearch(searchCardData, page)
+				: await makePrintSearch({
+						cardName: searchCardData.cardName,
+						setCode: searchCardData.setCode,
+				  });
 
-			if (generalResults?.data?.length == 1) {
-				printResults = await makePrintSearch({
-					cardName: generalResults?.data[0]?.name,
+			let secondSearchPrintResults = undefined;
+			if (initialSearchResults?.data?.length == 1 && !searchCardData.isPrintSearch) {
+				secondSearchPrintResults = await makePrintSearch({
+					cardName: initialSearchResults?.data[0]?.name,
 					setCode: searchCardData.setCode,
+					isPrintSearch: true,
 				});
 			}
 
 			return {
-				resultsList: printResults ?? generalResults,
-				type: printResults
-					? ScryfallResultsTypeEnum.PRINT
-					: ScryfallResultsTypeEnum.GENERAL,
+				resultsList: secondSearchPrintResults ?? initialSearchResults,
+				type:
+					searchCardData.isPrintSearch || secondSearchPrintResults
+						? ScryfallResultsTypeEnum.PRINT
+						: ScryfallResultsTypeEnum.GENERAL,
 			};
 		}
 	);

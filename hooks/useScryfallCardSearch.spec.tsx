@@ -19,6 +19,7 @@ const args = {
 	searchCardData: {
 		cardName: "testName",
 		setCode: "testSet",
+		isPrintSearch: false,
 	},
 	page: 1,
 };
@@ -31,6 +32,9 @@ const mockedPrintSearch = jest.mocked(makePrintSearch);
 mockedPrintSearch.mockResolvedValue(printSearchMockResults);
 
 describe("useCardSearch() hook", () => {
+	afterEach(() => {
+		jest.clearAllMocks();
+	});
 	it("should return general search type and data", async () => {
 		const { result } = renderHook(() => useScryfallCardSearch(args), {
 			wrapper,
@@ -41,7 +45,7 @@ describe("useCardSearch() hook", () => {
 		expect(result.current.data?.type).toEqual(ScryfallResultsTypeEnum.GENERAL);
 	});
 
-	it("should return general print type and data", async () => {
+	it("should return print type and data", async () => {
 		mockedGeneralSearch.mockResolvedValue(generalSearchMockWithOneResults);
 		const { result } = renderHook(() => useScryfallCardSearch(args), {
 			wrapper,
@@ -52,5 +56,26 @@ describe("useCardSearch() hook", () => {
 		});
 
 		expect(result.current.data?.resultsList).toEqual(printSearchMockResults);
+	});
+
+	it("should return print data without running general query first if isPrintSearch is passed", async () => {
+		mockedPrintSearch.mockResolvedValue(printSearchMockResults);
+		const { result } = renderHook(
+			() =>
+				useScryfallCardSearch({
+					...args,
+					searchCardData: { ...args.searchCardData, isPrintSearch: true },
+				}),
+			{
+				wrapper,
+			}
+		);
+
+		await waitFor(() => {
+			expect(result.current.data?.type).toEqual(ScryfallResultsTypeEnum.PRINT);
+		});
+
+		expect(result.current.data?.resultsList).toEqual(printSearchMockResults);
+		expect(mockedGeneralSearch).not.toHaveBeenCalled();
 	});
 });

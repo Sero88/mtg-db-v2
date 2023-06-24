@@ -19,6 +19,11 @@ export function PrintCardDetails({ data }: CardDetailsProps) {
 					{` | `}
 					<span>{data.set_name}</span>
 				</span>
+				<br />
+				<span className={styles.collectorsData}>
+					{`Reg: $${data?.prices?.usd} `}
+					{data?.prices?.usd_foil && `/ Foil: $${data?.prices?.usd_foil}`}
+				</span>
 			</p>
 		</div>
 	);

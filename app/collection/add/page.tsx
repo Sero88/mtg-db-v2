@@ -10,9 +10,10 @@ import { Pagination } from "@/components/utils/Pagination";
 import styles from "@/styles/collection-add.page.module.scss";
 
 export default function AddPage() {
-	const initialCardSearch = {
+	const initialCardSearch: ScryfallSearchCardData = {
 		cardName: "",
 		setCode: "",
+		isPrintSearch: false,
 	};
 
 	const [searchCardData, setSearchCardData] = useState<ScryfallSearchCardData>(initialCardSearch);
@@ -49,14 +50,14 @@ export default function AddPage() {
 	};
 
 	const handleSearchFormSubmit = (newSearchCardData: ScryfallSearchCardData) => {
-		setSearchCardData({ ...newSearchCardData });
+		setSearchCardData({ ...newSearchCardData, isPrintSearch: false });
 		resetGeneralSearchList();
 		setPage(1);
 	};
 
 	const searchCardNameHandler = (cardName: string, cardId: string) => {
 		setGeneralSearchList({ cardId, previousSearch: { ...searchCardData }, page });
-		setSearchCardData({ ...searchCardData, cardName });
+		setSearchCardData({ ...searchCardData, cardName, isPrintSearch: true });
 		setPage(1);
 	};
 
