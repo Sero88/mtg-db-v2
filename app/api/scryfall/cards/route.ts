@@ -5,12 +5,6 @@ import { authOptions } from "../../auth/[...nextauth]/route";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
-	const session = await getServerSession(authOptions);
-
-	if (!session) {
-		return NextResponse.json({ error: "You must be logged in" }, { status: 401 });
-	}
-
 	const apiUrl = "https://api.scryfall.com";
 
 	const { searchParams } = new URL(request.url);
