@@ -39,7 +39,7 @@ export class CardCollection {
 			return this.noDbConnectionResponse();
 		}
 
-		const projection = { projection: { scryfallId: 1, quantity: 1 } };
+		const projection = { projection: { scryfallId: 1, quantity: 1, _id: 0 } };
 
 		const results = await this.db
 			.collection(process.env.DATABASE_TABLE_VERSIONS as string)
