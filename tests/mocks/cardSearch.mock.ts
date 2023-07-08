@@ -1,4 +1,4 @@
-import { elvishMystic, nissaVastwoodSeer } from "./cardApi.mock";
+import { elvishMystic, nissaVastwoodSeer } from "./scryfallCard.mock";
 
 export const generalSearchMock = { data: [elvishMystic, nissaVastwoodSeer] };
 export const generalSearchWithOneResultMock = { data: [elvishMystic] };
