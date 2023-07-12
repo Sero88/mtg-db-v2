@@ -12,9 +12,8 @@ const paths = [
 	{ name: "scryfall", endpoint: "http://localhost:3000/api/scryfall/cards?query=elf&page=1" },
 ];
 
-process.env.NEXTAUTH_SECRET = "123";
 describe("middleware", () => {
-	test.each(paths)("all path api/$name/ should redirect to login", async (path) => {
+	test.skip.each(paths)("all path api/$name/ should redirect to login", async (path) => {
 		const response = await axios.get(path.endpoint);
 		expect(response.request.path).toEqual(expect.stringMatching(/api\/auth/));
 	});

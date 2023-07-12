@@ -2,9 +2,12 @@
 	"name": "mtg-db-v2",
 	"version": "0.1.0",
 	"private": true,
+	"engines": {
+		"node": "18.16.0"
+	},
 	"scripts": {
 		"dev": "next dev",
-		"build": "jest && next build",
+		"build": "jest && jest models && next build",
 		"test": "jest",
 		"start": "next start",
 		"lint": "next lint"

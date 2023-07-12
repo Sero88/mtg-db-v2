@@ -47,6 +47,7 @@ i: have two functions generalSearch and printSearch
 [] remove the types into their own files under /types
 [] analyze the search results and break down into smaller components
 [] for card wrappers - print vs general - extract interweaved logic to their own utility function
+[] middleware testing. I'm currently skipping these tests, this type of testing requires the app to be running. So it can actually hit the endpoints paths. Need to find a way to test it w/o this.
 
 BUGS:
 [] image issue, double face card showing error

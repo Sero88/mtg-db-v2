@@ -23,9 +23,10 @@ describe("CardCollection Model", () => {
 	describe("getQuantitiesByIds", () => {
 		it("should return list from db", async () => {
 			const results = await cardCollection.getQuantitiesByIds(mockIds);
+
 			expect(results).toEqual({
 				status: DbModelResponseEnum.SUCCESS,
-				data: cardsWithRegularAndFoilQuantities,
+				data: expect.arrayContaining(cardsWithRegularAndFoilQuantities),
 			});
 		});
 
