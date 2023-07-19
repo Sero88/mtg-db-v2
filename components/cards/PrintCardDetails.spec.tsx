@@ -39,4 +39,26 @@ describe("PrintCardDetails component", () => {
 		expect(screen.queryByText(/Reg:\s\$[0-9]+\.[0-9]+/)).not.toBeNull();
 		expect(screen.queryByText(/Foil:\s\$[0-9]+\.[0-9]+/)).toBeNull();
 	});
+
+	it("should show price divider if both prices are present", () => {
+		const elvishMysticCardDataWithNoFoil = {
+			...elvishMysticCardData,
+			prices: { usd: "10.00", usd_foil: "20.00" },
+		};
+
+		render(<PrintCardDetails data={elvishMysticCardDataWithNoFoil} />);
+
+		expect(screen.queryByText(/Reg:\s\$[0-9]+\.[0-9]+\,/)).not.toBeNull();
+	});
+
+	it("should not show price divider if both prices are not provided", () => {
+		const elvishMysticCardDataWithNoFoil = {
+			...elvishMysticCardData,
+			prices: { usd: "10.00", usd_foil: null },
+		};
+
+		render(<PrintCardDetails data={elvishMysticCardDataWithNoFoil} />);
+
+		expect(screen.queryByText(/Reg:\s\$[0-9]+\.[0-9]+\,/)).toBeNull();
+	});
 });

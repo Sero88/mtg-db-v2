@@ -9,6 +9,9 @@ export function PrintCardDetails({ data }: CardDetailsProps) {
 	const collectorsData = helpers.getCollectorsData(data);
 	const promoType = collectorsData.type ? ` (${collectorsData.type})` : "";
 
+	const showRegularPrice = data?.prices?.usd !== null;
+	const showFoilPrice = data?.prices?.usd_foil !== null;
+	const showDivider = showRegularPrice && showFoilPrice;
 	return (
 		<div className={styles.cardDetails}>
 			<p>
@@ -21,8 +24,9 @@ export function PrintCardDetails({ data }: CardDetailsProps) {
 				</span>
 				<br />
 				<span className={styles.collectorsData}>
-					{`Reg: $${data?.prices?.usd} `}
-					{data?.prices?.usd_foil && `/ Foil: $${data?.prices?.usd_foil}`}
+					{showRegularPrice && `Reg: $${data?.prices?.usd}`}
+					{showDivider && `, `}
+					{showFoilPrice && data?.prices?.usd_foil && `Foil: $${data?.prices?.usd_foil}`}
 				</span>
 			</p>
 		</div>

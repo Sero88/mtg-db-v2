@@ -4,10 +4,7 @@ import { render } from "@testing-library/react";
 import { generalSearchMock } from "@/tests/mocks/cardSearch.mock";
 import * as PrintCardDetailsComponent from "./PrintCardDetails";
 import * as CollectionCardMenuComponent from "./CollectionCardMenu";
-import {
-	cardsWithRegularAndFoilQuantities,
-	collectionQuantityMock,
-} from "@/tests/mocks/collectionQuantity.mock";
+import { collectionQuantityMock } from "@/tests/mocks/collectionQuantity.mock";
 
 jest.mock("./CardImage", () => {
 	const originalModule = jest.requireActual("./CardImage");
