@@ -1,7 +1,12 @@
 export type CardQuantity = {
-	regular: number;
-	foil: number;
+	[CollectionCardQuantityTypeEnum.REGULAR]?: number;
+	[CollectionCardQuantityTypeEnum.FOIL]?: number;
 };
+
+export enum CollectionCardQuantityTypeEnum {
+	REGULAR = "regular",
+	FOIL = "foil",
+}
 
 export type DisplayListItem = {
 	name: string;
@@ -30,3 +35,8 @@ interface VersionInterface {
 export interface Version extends VersionInterface {
 	quantity: { regular?: number; foil?: number }; //optional since we may or may not have of either type
 }
+
+export type QuantityCardCollection = {
+	scryfallId: string;
+	quantity: CardQuantity;
+};

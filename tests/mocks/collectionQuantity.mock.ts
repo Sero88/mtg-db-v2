@@ -1,5 +1,3 @@
-import { ObjectId } from "mongodb";
-
 export const cardsWithRegularAndFoilQuantities = [
 	{
 		quantity: { regular: 2 },
@@ -18,3 +16,12 @@ export const cardsWithRegularAndFoilQuantities = [
 		scryfallId: "42ba0e13-d20f-47f9-9c86-2b0b13c39ada",
 	},
 ];
+
+export const collectionQuantityMock = {
+	regular: 2,
+	foil: 1,
+};
+
+export const getIdsFromQuantitiesResultMock = () => {
+	return cardsWithRegularAndFoilQuantities.map((result) => result.scryfallId);
+};

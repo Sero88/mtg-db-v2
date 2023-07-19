@@ -10,7 +10,8 @@
 		"build": "jest && jest models && next build",
 		"test": "jest",
 		"start": "next start",
-		"lint": "next lint"
+		"lint": "next lint",
+		"coverage": "jest --coverage"
 	},
 	"dependencies": {
 		"@types/node": "20.1.0",

@@ -9,6 +9,7 @@ import {
 import * as PaginationComponent from "@/components/utils/Pagination";
 import { ScryfallResultsTypeEnum } from "@/types/scryfall";
 import * as ScryfallSearchResultsComponent from "@/components/scryfall/ScryfallSearchResults";
+import { cardsWithRegularAndFoilQuantities } from "@/tests/mocks/collectionQuantity.mock";
 
 jest.mock("@/hooks/useScryfallCardSearch");
 const useScryfallCardSearchMock = jest.mocked(useScryfallCardSearch);
@@ -30,6 +31,8 @@ jest.mock("@/components/scryfall/ScryfallSearchResults", () => {
 		...originalModule,
 	};
 });
+
+jest.mock("@/hooks/useGetCollectionCardQuantityById.ts");
 
 document.getElementById = jest.fn().mockImplementation(() => {});
 

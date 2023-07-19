@@ -2,12 +2,15 @@ import { ScryfallCard, ScryfallResultsTypeEnum } from "@/types/scryfall";
 import { CardImage } from "./CardImage";
 import styles from "@/styles/card.module.scss";
 import { PrintCardDetails } from "./PrintCardDetails";
+import { CardQuantity } from "@/types/collection";
+import { CollectionCardMenu } from "./CollectionCardMenu";
 
 type PrintCardProps = {
 	data: ScryfallCard;
+	collectionQuantity: CardQuantity;
 };
 
-export function PrintCard({ data }: PrintCardProps) {
+export function PrintCard({ data, collectionQuantity }: PrintCardProps) {
 	const cardImageUrl = data.image_uris?.normal
 		? data.image_uris?.normal
 		: data.card_faces?.[0].image_uris?.normal;
@@ -20,6 +23,7 @@ export function PrintCard({ data }: PrintCardProps) {
 					name={data.name}
 					type={ScryfallResultsTypeEnum.PRINT}
 				/>
+				<CollectionCardMenu quantity={collectionQuantity} cardData={data} />
 			</div>
 			<PrintCardDetails data={data} />
 		</div>

@@ -1,5 +1,7 @@
 import { printSearchMockResults } from "@/tests/mocks/cardSearch.mock";
 import { helpers } from "./helpers";
+import { elvishMystic, nissaVastwoodSeer, priestOfTitania } from "@/tests/mocks/scryfallCard.mock";
+import { cardsWithRegularAndFoilQuantities } from "@/tests/mocks/collectionQuantity.mock";
 
 describe("util helpers", () => {
 	describe("convertNameToHtmlId", () => {
@@ -73,6 +75,45 @@ describe("util helpers", () => {
 			const printMockNoPromo = { ...printSearchMockResults.data[0], collector_number: "169" };
 			const promoString = helpers.getCollectionPromoString(printMockNoPromo);
 			expect(promoString).toEqual("");
+		});
+	});
+
+	describe("scryfallCardHasRegularVersion", () => {
+		it("should return true when scryfall card has regular version", () => {
+			const hasRegular = helpers.scryfallCardHasRegularVersion(elvishMystic);
+
+			expect(hasRegular).toEqual(true);
+		});
+
+		it("should return false when scryfall card only has foil version", () => {
+			const hasRegular = helpers.scryfallCardHasRegularVersion(nissaVastwoodSeer);
+
+			expect(hasRegular).toEqual(false);
+		});
+	});
+
+	describe("scryfallCardHasFoilVersion", () => {
+		it("should return true when scryfall card has foil version", () => {
+			const hasFoil = helpers.scryfallCardHasFoilVersion(nissaVastwoodSeer);
+
+			expect(hasFoil).toEqual(true);
+		});
+
+		it("should return false when scryfall card does not have foil version", () => {
+			const hasFoil = helpers.scryfallCardHasFoilVersion(priestOfTitania);
+
+			expect(hasFoil).toEqual(false);
+		});
+	});
+
+	describe("mapIdWithQuantities", () => {
+		it("should return map scryfallId => quantity", () => {
+			const mappedQuantities = helpers.mapIdWithQuantities(cardsWithRegularAndFoilQuantities);
+
+			expect(mappedQuantities.size).toEqual(cardsWithRegularAndFoilQuantities.length);
+			expect(mappedQuantities.get(cardsWithRegularAndFoilQuantities[0].scryfallId)).toEqual(
+				expect.objectContaining(cardsWithRegularAndFoilQuantities[0].quantity)
+			);
 		});
 	});
 });

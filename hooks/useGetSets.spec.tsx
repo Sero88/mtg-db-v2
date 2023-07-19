@@ -19,7 +19,7 @@ describe("useGetSets", () => {
 			wrapper,
 		});
 
-		await waitFor(() => result.current.isSuccess);
+		await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
 		expect(axiosSpy).toHaveBeenCalledWith("/api/scryfall/sets");
 	});
@@ -29,7 +29,7 @@ describe("useGetSets", () => {
 			wrapper,
 		});
 
-		await waitFor(() => result.current.isSuccess);
+		await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
 		expect(result.current.data).toEqual(setsList);
 	});
