@@ -12,15 +12,17 @@ export function CardImage({ imageUri, name, type }: CardImageProps) {
 	const imageClass = type == ScryfallResultsTypeEnum.PRINT ? " " + styles.imagePrint : "";
 
 	return (
-		<Image
-			src={imageUri}
-			width={196}
-			height={273}
-			data-name={name}
-			data-type={type}
-			alt={name}
-			className={styles.cardImage + imageClass}
-			unoptimized={true}
-		/>
+		<div className={styles.cardWrapper}>
+			<Image
+				src={imageUri}
+				width={196}
+				height={273}
+				data-name={name}
+				data-type={type}
+				alt={name}
+				className={styles.cardImage + imageClass}
+				unoptimized={true}
+			/>
+		</div>
 	);
 }
