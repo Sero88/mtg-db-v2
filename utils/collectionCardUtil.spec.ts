@@ -1,10 +1,10 @@
-import { CollectionCardHelper } from "./collectionCardHelper";
+import { CollectionCardUtil } from "./collectionCardUtil";
 import { cardsWithRegularAndFoilQuantities } from "@/tests/mocks/collectionQuantity.mock";
 
-describe("CollectionCardHelper", () => {
+describe("CollectionCardUtil", () => {
 	describe("mapIdWithQuantities", () => {
 		it("should return map scryfallId => quantity", () => {
-			const mappedQuantities = CollectionCardHelper.mapIdWithQuantities(
+			const mappedQuantities = CollectionCardUtil.mapIdWithQuantities(
 				cardsWithRegularAndFoilQuantities
 			);
 

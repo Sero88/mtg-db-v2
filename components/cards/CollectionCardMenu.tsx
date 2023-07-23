@@ -2,7 +2,7 @@ import Image from "next/image";
 import styles from "@/styles/collectionMenu.module.scss";
 import { ScryfallCard } from "@/types/scryfall";
 import { CardQuantity, CollectionCardQuantityTypeEnum } from "@/types/collection";
-import { ScryfallHelper } from "@/utils/scryfallHelper";
+import { ScryfallUtil } from "@/utils/scryfallUtil";
 
 type CollectionCardMenuProp = {
 	cardData: ScryfallCard;
@@ -53,7 +53,7 @@ export function CollectionCardMenu({ quantity, cardData }: CollectionCardMenuPro
 				/>
 			</li>
 
-			{ScryfallHelper.hasRegularVersion(cardData) && (
+			{ScryfallUtil.hasRegularVersion(cardData) && (
 				<li className={styles.collectionQuantity}>
 					<input
 						name={regularFieldName}
@@ -69,7 +69,7 @@ export function CollectionCardMenu({ quantity, cardData }: CollectionCardMenuPro
 				</li>
 			)}
 
-			{ScryfallHelper.hasFoilVersion(cardData) && (
+			{ScryfallUtil.hasFoilVersion(cardData) && (
 				<li className={styles.collectionQuantityFoil}>
 					<input
 						name={foilFieldName}

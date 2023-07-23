@@ -1,6 +1,6 @@
 import { QuantityCardCollection } from "@/types/collection";
 
-export const CollectionCardHelper = {
+export const CollectionCardUtil = {
 	mapIdWithQuantities(cardQuantities: QuantityCardCollection[] | undefined) {
 		const collectionData = new Map();
 

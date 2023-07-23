@@ -1,6 +1,6 @@
 import { ScryfallCard } from "@/types/scryfall";
 import styles from "@/styles/results.module.scss";
-import { helpers } from "@/utils/helpers";
+import { GeneralUtil } from "@/utils/generalUtil";
 import { GeneralCard } from "./GeneralCard";
 
 type GeneralCardListProps = {
@@ -12,7 +12,7 @@ export function GeneralCardList({ cardData, clickHandler }: GeneralCardListProps
 		<>
 			<ul className={styles.resultsList}>
 				{cardData.map((card, index) => {
-					const cardId = helpers.convertNameToHtmlId(card.name);
+					const cardId = GeneralUtil.convertNameToHtmlId(card.name);
 					return (
 						<li id={cardId} className={styles.cardWrapper} key={index}>
 							<GeneralCard

@@ -1,12 +1,12 @@
 import styles from "@/styles/card.module.scss";
 import { ScryfallCard } from "@/types/scryfall";
-import { ScryfallHelper } from "@/utils/scryfallHelper";
+import { ScryfallUtil } from "@/utils/scryfallUtil";
 
 type CardDetailsProps = {
 	data: ScryfallCard;
 };
 export function PrintCardDetails({ data }: CardDetailsProps) {
-	const collectorsData = ScryfallHelper.getCollectorsData(data);
+	const collectorsData = ScryfallUtil.getCollectorsData(data);
 	const promoType = collectorsData.type ? ` (${collectorsData.type})` : "";
 
 	const showRegularPrice = data?.prices?.usd !== null;

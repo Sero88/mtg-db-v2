@@ -1,6 +1,6 @@
 import { ScryfallCard } from "@/types/scryfall";
 
-export const ScryfallHelper = {
+export const ScryfallUtil = {
 	getPromoString(apiCardData: ScryfallCard) {
 		const findLetterRegex = /[a-z]+/gi;
 

@@ -1,7 +1,5 @@
 import axios from "axios";
-import { helpers } from "@/utils/helpers";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "../../auth/[...nextauth]/route";
+import { GeneralUtil } from "@/utils/generalUtil";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
@@ -24,11 +22,11 @@ export async function GET(request: Request) {
 
 	try {
 		const results = await axios.get(fullQuery);
-		return NextResponse.json(helpers.apiResponse(true, results?.data));
+		return NextResponse.json(GeneralUtil.apiResponse(true, results?.data));
 	} catch (e: any) {
 		if (e?.response?.data?.code == "not_found") {
 			return NextResponse.json(
-				helpers.apiResponse(false, {
+				GeneralUtil.apiResponse(false, {
 					object: "list",
 					total_cards: 0,
 					has_more: false,
@@ -37,6 +35,6 @@ export async function GET(request: Request) {
 				{ status: 200 }
 			);
 		}
-		return NextResponse.json(helpers.apiResponse(false, null), { status: 500 });
+		return NextResponse.json(GeneralUtil.apiResponse(false, null), { status: 500 });
 	}
 }
