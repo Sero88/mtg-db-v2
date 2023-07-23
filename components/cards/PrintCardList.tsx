@@ -4,6 +4,7 @@ import { helpers } from "@/utils/helpers";
 import { PrintCard } from "./PrintCard";
 import { useGetCollectionCardQuantityById } from "@/hooks/useGetCollectionCardQuantityById";
 import { useMemo } from "react";
+import { CollectionCardHelper } from "@/utils/collectionCardHelper";
 
 type PrintCardListProps = {
 	cardData: ScryfallCard[];
@@ -13,7 +14,7 @@ export function PrintCardList({ cardData }: PrintCardListProps) {
 	const { data: cardQuantities } = useGetCollectionCardQuantityById(cardIds);
 
 	const mappedCardQuantities = useMemo(() => {
-		return helpers.mapIdWithQuantities(cardQuantities);
+		return CollectionCardHelper.mapIdWithQuantities(cardQuantities);
 	}, [cardQuantities]);
 
 	return (
