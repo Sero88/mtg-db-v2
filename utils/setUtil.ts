@@ -11,7 +11,7 @@ export const allowedSets = [
 	//"promo",
 ];
 
-export const setHelper = {
+export const SetUtil = {
 	getCardSet: function (apiSet: string) {
 		const set = apiSet.length > officialSetCharLimit ? apiSet.substring(1) : apiSet;
 		return set;

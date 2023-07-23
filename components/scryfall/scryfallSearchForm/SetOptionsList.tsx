@@ -1,5 +1,5 @@
 import { ScryfallSet } from "@/types/scryfall";
-import { setHelper } from "@/utils/sets";
+import { SetUtil } from "@/utils/setUtil";
 import { ReactElement } from "react";
 export function SetOptionsList({ setsData }: { setsData: ScryfallSet[] }) {
 	if (!setsData) {
@@ -9,7 +9,7 @@ export function SetOptionsList({ setsData }: { setsData: ScryfallSet[] }) {
 	const setList: ReactElement[] = [];
 
 	setsData?.forEach((set: ScryfallSet) => {
-		if (setHelper.isAllowedSearchSet(set)) {
+		if (SetUtil.isAllowedSearchSet(set)) {
 			setList.push(
 				<option value={set.code} key={`set${set.code}`}>
 					{set.name}
