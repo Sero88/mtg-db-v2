@@ -4,6 +4,9 @@
 import { cardsWithRegularAndFoilQuantities } from "@/tests/mocks/collectionQuantity.mock";
 import { CardCollection } from "./cardCollection";
 import { DbModelResponseEnum } from "@/types/utils";
+import { CollectionCardUtil } from "@/utils/CollectionCardUtil";
+import { elvishMystic } from "@/tests/mocks/scryfallCard.mock";
+import { elvishMysticCollectionCard } from "@/tests/mocks/collectionCard.mock";
 
 const mockIds = cardsWithRegularAndFoilQuantities.map((card) => {
 	return card.scryfallId;
@@ -40,6 +43,15 @@ describe("CardCollection Model", () => {
 					})
 				);
 			});
+		});
+	});
+
+	describe("upsertCard", () => {
+		it("should upsert a card", async () => {
+			const card = CollectionCardUtil.buildCardQueryObject(elvishMystic);
+			const results = await cardCollection.upsertCard(card);
+
+			expect(results).toEqual(elvishMysticCollectionCard);
 		});
 	});
 });

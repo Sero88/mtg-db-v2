@@ -1,6 +1,7 @@
+import { CollectionCard } from "@/types/collection";
 import { DbModelResponseEnum } from "@/types/utils";
 import { connect } from "@/utils/mongodb";
-import { Db, MongoClient } from "mongodb";
+import { Db, MongoClient, ReturnDocument } from "mongodb";
 
 export class CardCollection {
 	private db: Db | undefined;
@@ -47,5 +48,30 @@ export class CardCollection {
 			.toArray();
 
 		return this.responseObject(DbModelResponseEnum.SUCCESS, results);
+	}
+
+	private async upsertCard(cardObject: CollectionCard) {
+		if (!this.db) {
+			return this.noDbConnectionResponse();
+		}
+
+		const filter = {
+			oracleId: cardObject.oracleId,
+		};
+
+		const update = {
+			$set: cardObject,
+		};
+
+		const options = {
+			upsert: true,
+			returnDocument: ReturnDocument.AFTER,
+		};
+
+		const results = await this.db
+			.collection(process.env.DATABASE_TABLE_CARDS!)
+			.findOneAndUpdate(filter, update, options);
+
+		return results?.value ?? false;
 	}
 }
