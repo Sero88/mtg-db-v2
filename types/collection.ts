@@ -1,6 +1,17 @@
-export type CardQuantity = {
-	[CollectionCardQuantityTypeEnum.REGULAR]?: number;
-	[CollectionCardQuantityTypeEnum.FOIL]?: number;
+export type CollectionCard = {
+	name: string;
+	oracleId: string;
+	colorIdentity: string[] | null; //cards always have a color identity, colorless = null (empty array on scryfall)
+	types: string[];
+	cardFaces: CollectionCardFace[];
+
+	versions?: Version[]; //CollectionCardType will be usually queried with versions
+	keywords?: string[]; //not all cards can have keywords it is an optional field
+};
+
+export type CollectionCardQuantity = {
+	[CollectionCardQuantityTypeEnum.REGULAR]: number;
+	[CollectionCardQuantityTypeEnum.FOIL]: number;
 };
 
 export enum CollectionCardQuantityTypeEnum {
@@ -36,7 +47,24 @@ export interface Version extends VersionInterface {
 	quantity: { regular?: number; foil?: number }; //optional since we may or may not have of either type
 }
 
+export interface VersionQuery extends VersionInterface {
+	"quantity.regular"?: number;
+	"quantity.foil"?: number;
+}
+
 export type QuantityCardCollection = {
 	scryfallId: string;
-	quantity: CardQuantity;
+	quantity: CollectionCardQuantity;
+};
+
+export type CollectionCardFace = {
+	manaValue: number | null; // not on scryfall, my own field:  mana value(aka cmc) field
+	manaCost: string | null; // not to be confused with manaValue. ManaValue is the converted mana cost (mana value), while manaCost is the representation of how it can be casted: {2}{G}
+
+	//optional values - depending on the type of card, these may or may not apply, thus optional
+	oracleText?: string;
+	power?: string;
+	toughness?: string;
+	loyalty?: number;
+	flavorText?: string;
 };

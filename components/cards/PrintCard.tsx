@@ -2,12 +2,12 @@ import { ScryfallCard, ScryfallResultsTypeEnum } from "@/types/scryfall";
 import { CardImage } from "./CardImage";
 import styles from "@/styles/card.module.scss";
 import { PrintCardDetails } from "./PrintCardDetails";
-import { CardQuantity } from "@/types/collection";
+import { CollectionCardQuantity } from "@/types/collection";
 import { CollectionCardMenu } from "./CollectionCardMenu";
 
 type PrintCardProps = {
 	data: ScryfallCard;
-	collectionQuantity: CardQuantity;
+	collectionQuantity: CollectionCardQuantity;
 };
 
 export function PrintCard({ data, collectionQuantity }: PrintCardProps) {

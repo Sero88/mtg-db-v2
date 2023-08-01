@@ -66,6 +66,7 @@ export class CardCollection {
 		const options = {
 			upsert: true,
 			returnDocument: ReturnDocument.AFTER,
+			projection: { _id: 0 },
 		};
 
 		const results = await this.db

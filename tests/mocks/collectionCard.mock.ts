@@ -1,7 +1,6 @@
 import { ObjectId } from "mongodb";
 
 export const elvishMysticCollectionCard = {
-	_id: new ObjectId("61d37452968c978f78b1e6c4"),
 	oracleId: "3f3b2c10-21f8-4e13-be83-4ef3fa36e123",
 	cardFaces: [
 		{
@@ -18,4 +17,16 @@ export const elvishMysticCollectionCard = {
 	colorIdentity: ["G"],
 	name: "Elvish Mystic",
 	types: ["Creature", "Elf", "Druid"],
+};
+
+export const nissaVastwoodSeerCollectionCard = {
+	name: "Nissa, Vastwood Seer // Nissa, Sage Animist",
+	oracleId: "35754a21-9fba-4370-a254-292918a777ba",
+	colorIdentity: ["G"],
+	types: ["Legendary", "Creature", "Elf", "Scout", "Planeswalker", "Nissa"],
+	cardFaces: [
+		{ manaValue: 3, manaCost: "{2}{G}" },
+		{ manaValue: null, manaCost: null },
+	],
+	keywords: ["Transform"],
 };

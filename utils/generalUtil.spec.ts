@@ -1,5 +1,4 @@
 import { GeneralUtil } from "./generalUtil";
-import { cardsWithRegularAndFoilQuantities } from "@/tests/mocks/collectionQuantity.mock";
 
 describe("util helpers", () => {
 	describe("convertNameToHtmlId", () => {

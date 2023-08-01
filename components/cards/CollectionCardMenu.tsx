@@ -1,12 +1,12 @@
 import Image from "next/image";
 import styles from "@/styles/collectionMenu.module.scss";
 import { ScryfallCard } from "@/types/scryfall";
-import { CardQuantity, CollectionCardQuantityTypeEnum } from "@/types/collection";
+import { CollectionCardQuantity, CollectionCardQuantityTypeEnum } from "@/types/collection";
 import { ScryfallUtil } from "@/utils/scryfallUtil";
 
 type CollectionCardMenuProp = {
 	cardData: ScryfallCard;
-	quantity: CardQuantity;
+	quantity: CollectionCardQuantity;
 };
 export function CollectionCardMenu({ quantity, cardData }: CollectionCardMenuProp) {
 	const regularQty = quantity?.regular ?? 0;
