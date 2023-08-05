@@ -10,8 +10,8 @@ export type CollectionCard = {
 };
 
 export type CollectionCardQuantity = {
-	[CollectionCardQuantityTypeEnum.REGULAR]: number;
-	[CollectionCardQuantityTypeEnum.FOIL]: number;
+	[CollectionCardQuantityTypeEnum.REGULAR]?: number;
+	[CollectionCardQuantityTypeEnum.FOIL]?: number;
 };
 
 export enum CollectionCardQuantityTypeEnum {
@@ -65,6 +65,6 @@ export type CollectionCardFace = {
 	oracleText?: string;
 	power?: string;
 	toughness?: string;
-	loyalty?: number;
+	loyalty?: string;
 	flavorText?: string;
 };

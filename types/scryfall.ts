@@ -35,7 +35,7 @@ export type ScryfallCard = {
 	//can be missing or nullable
 	mana_cost?: string;
 	flavor_text?: string;
-	loyalty?: number;
+	loyalty?: string;
 	oracle_text?: string;
 	power?: string;
 	toughness?: string;
@@ -53,6 +53,12 @@ export type ScryfallCardPrices = {
 export type ScryfallCardFace = {
 	image_uris: { small: string; normal: string };
 	mana_cost: string;
+	loyalty?: string;
+	power?: string;
+	toughness?: string;
+	flavor_text?: string;
+	oracle_text?: string;
+	artist?: string;
 };
 
 export enum ScryfallResultsTypeEnum {
