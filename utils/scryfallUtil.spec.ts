@@ -85,4 +85,29 @@ describe("util scryfall helpers", () => {
 			expect(hasFoil).toEqual(false);
 		});
 	});
+
+	describe("getCardTypes", () => {
+		it("should return card types from ScryfallCard", () => {
+			const types = ScryfallUtil.getCardTypes(nissaVastwoodSeer);
+
+			expect(types).toEqual([
+				"Legendary",
+				"Creature",
+				"Elf",
+				"Scout",
+				"Planeswalker",
+				"Nissa",
+			]);
+		});
+	});
+
+	describe("isMultiface", () => {
+		it("should return true when it is a multiface card", () => {
+			expect(ScryfallUtil.isMultiface(nissaVastwoodSeer)).toEqual(true);
+		});
+
+		it("should return false when card is not multiface", () => {
+			expect(ScryfallUtil.isMultiface(elvishMystic)).toEqual(false);
+		});
+	});
 });

@@ -1,12 +1,12 @@
 import { ScryfallCard } from "@/types/scryfall";
 
 export const ScryfallUtil = {
-	getPromoString(apiCardData: ScryfallCard) {
+	getPromoString(scryfallCard: ScryfallCard) {
 		const findLetterRegex = /[a-z]+/gi;
 
 		const regex = new RegExp(findLetterRegex);
 
-		const regexResult = regex.exec(apiCardData.collector_number);
+		const regexResult = regex.exec(scryfallCard.collector_number);
 
 		return regexResult?.[0] ? regexResult?.[0] : "";
 	},
@@ -24,18 +24,18 @@ export const ScryfallUtil = {
 		return promoString in collectionType ? collectionType[promoString] : "";
 	},
 
-	getCollectorsData(apiCardData: ScryfallCard) {
-		const promoString = this.getPromoString(apiCardData);
+	getCollectorsData(scryfallCard: ScryfallCard) {
+		const promoString = this.getPromoString(scryfallCard);
 		return {
-			number: this.getCollectorsNumber(apiCardData, promoString),
+			number: this.getCollectorsNumber(scryfallCard, promoString),
 			type: this.getCollectionType(promoString),
 		};
 	},
 
-	getCollectorsNumber(apiCardData: ScryfallCard, promoString: string) {
+	getCollectorsNumber(scryfallCard: ScryfallCard, promoString: string) {
 		return promoString
-			? apiCardData.collector_number.replace(promoString, "")
-			: apiCardData.collector_number;
+			? scryfallCard.collector_number.replace(promoString, "")
+			: scryfallCard.collector_number;
 	},
 
 	hasRegularVersion(card: ScryfallCard) {
@@ -54,5 +54,30 @@ export const ScryfallUtil = {
 		}
 
 		return hasFoil;
+	},
+
+	/**
+	 *
+	 * @param scryfallCard
+	 * @returns types such as Tribal, Sorcery, Instant, etc
+	 */
+	getCardTypes: function (scryfallCard: ScryfallCard) {
+		const typeLineString = scryfallCard.type_line
+			? scryfallCard.type_line.replace(/(—\s)|(\/\s?)+/g, "")
+			: ""; //replace "-" or "/"
+		const typesArray = typeLineString.split(" ");
+
+		const types: string[] = [];
+		typesArray.forEach((type) => {
+			if (!types.includes(type)) {
+				types.push(type);
+			}
+		});
+
+		return types;
+	},
+
+	isMultiface: function (scryfallCard: ScryfallCard): boolean {
+		return !!scryfallCard?.card_faces;
 	},
 };
