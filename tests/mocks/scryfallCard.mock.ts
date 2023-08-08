@@ -4,6 +4,7 @@ export const elvishMystic: ScryfallCard = {
 	id: "60d0e6a6-629a-45a7-bfcb-25ba7156788b",
 	oracle_id: "3f3b2c10-21f8-4e13-be83-4ef3fa36e123",
 	name: "Elvish Mystic",
+	layout: "normal",
 	image_uris: {
 		small: "https://cards.scryfall.io/small/front/6/0/60d0e6a6-629a-45a7-bfcb-25ba7156788b.jpg?1562829984",
 		normal: "https://cards.scryfall.io/normal/front/6/0/60d0e6a6-629a-45a7-bfcb-25ba7156788b.jpg?1562829984",
@@ -38,23 +39,23 @@ export const elvishMystic: ScryfallCard = {
 		premodern: "not_legal",
 		predh: "not_legal",
 	},
-	promo: true,
+	finishes: ["nonfoil", "foil"],
+	promo: false,
 	set: "m14",
 	set_name: "Magic 2014",
 	set_type: "core",
+	collector_number: "169",
 	rarity: "common",
 	flavor_text:
 		'"Life grows everywhere. My kin merely find those places where it grows strongest."\n—Nissa Revane',
 	artist: "Wesley Burt",
 	prices: {
-		usd: "0.49",
-		usd_foil: "7.77",
+		usd: "0.44",
+		usd_foil: "8.39",
 	},
-	collector_number: "169s",
-	layout: "normal",
-	finishes: ["nonfoil", "foil"],
 };
 
+//this is a promo: convention, double-face card with only a foil print
 export const nissaVastwoodSeer: ScryfallCard = {
 	id: "008b1ea5-1a8d-4a9d-b208-421fea2f9c58",
 	oracle_id: "35754a21-9fba-4370-a254-292918a777ba",
@@ -63,28 +64,28 @@ export const nissaVastwoodSeer: ScryfallCard = {
 	type_line: "Legendary Creature — Elf Scout // Legendary Planeswalker — Nissa",
 	color_identity: ["G"],
 	keywords: ["Transform"],
-	collector_number: "189",
 	card_faces: [
 		{
 			mana_cost: "{2}{G}",
-			image_uris: {
-				small: "https://cards.scryfall.io/small/front/0/0/008b1ea5-1a8d-4a9d-b208-421fea2f9c58.jpg?1666871396",
-				normal: "https://cards.scryfall.io/normal/front/0/0/008b1ea5-1a8d-4a9d-b208-421fea2f9c58.jpg?1666871396",
-			},
 			oracle_text:
 				"When Nissa, Vastwood Seer enters the battlefield, you may search your library for a basic Forest card, reveal it, put it into your hand, then shuffle.\nWhenever a land enters the battlefield under your control, if you control seven or more lands, exile Nissa, then return her to the battlefield transformed under her owner's control.",
 			power: "2",
 			toughness: "2",
+			artist: "Wayne Reynolds",
+			image_uris: {
+				small: "https://cards.scryfall.io/small/front/0/0/008b1ea5-1a8d-4a9d-b208-421fea2f9c58.jpg?1666871396",
+				normal: "https://cards.scryfall.io/normal/front/0/0/008b1ea5-1a8d-4a9d-b208-421fea2f9c58.jpg?1666871396",
+			},
 		},
 		{
 			mana_cost: "",
 			oracle_text:
 				"+1: Reveal the top card of your library. If it's a land card, put it onto the battlefield. Otherwise, put it into your hand.\n−2: Create Ashaya, the Awoken World, a legendary 4/4 green Elemental creature token.\n−7: Untap up to six target lands. They become 6/6 Elemental creatures. They're still lands.",
 			loyalty: "3",
-			artist: "Wesley Burt",
+			artist: "Wayne Reynolds",
 			image_uris: {
-				small: "https://cards.scryfall.io/small/back/f/f/ff0063da-ab6b-499d-8e87-8b34d46f0372.jpg?1562209457",
-				normal: "https://cards.scryfall.io/normal/back/f/f/ff0063da-ab6b-499d-8e87-8b34d46f0372.jpg?1562209457",
+				small: "https://cards.scryfall.io/small/back/0/0/008b1ea5-1a8d-4a9d-b208-421fea2f9c58.jpg?1666871396",
+				normal: "https://cards.scryfall.io/normal/back/0/0/008b1ea5-1a8d-4a9d-b208-421fea2f9c58.jpg?1666871396",
 			},
 		},
 	],
@@ -116,12 +117,13 @@ export const nissaVastwoodSeer: ScryfallCard = {
 	set: "ps15",
 	set_name: "San Diego Comic-Con 2015",
 	set_type: "promo",
+	collector_number: "189",
 	rarity: "mythic",
 	artist: "Wayne Reynolds",
 	promo_types: ["convention"],
 	prices: {
 		usd: null,
-		usd_foil: "70.57",
+		usd_foil: "64.21",
 	},
 };
 

@@ -101,6 +101,12 @@ describe("CollectionCardUtil", () => {
 
 	describe("buildVersionObject", () => {
 		it("should build a collection version object", () => {
+			const expectedVersionObject = {
+				...nissaVastwoodSeerCollectionVersion,
+				quantity: undefined,
+				"quantity.foil": 1,
+			};
+			delete expectedVersionObject.quantity;
 			const cardVersion = CollectionCardUtil.buildVersionObject(
 				nissaVastwoodSeer,
 				{
@@ -109,7 +115,7 @@ describe("CollectionCardUtil", () => {
 				CollectionCardQuantityTypeEnum.FOIL
 			);
 
-			expect(cardVersion).toEqual(nissaVastwoodSeerCollectionVersion);
+			expect(cardVersion).toEqual(expectedVersionObject);
 		});
 	});
 });

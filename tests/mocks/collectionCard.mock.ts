@@ -1,7 +1,10 @@
 import { ObjectId } from "mongodb";
 
 export const elvishMysticCollectionCard = {
+	name: "Elvish Mystic",
 	oracleId: "3f3b2c10-21f8-4e13-be83-4ef3fa36e123",
+	colorIdentity: ["G"],
+	types: ["Creature", "Elf", "Druid"],
 	cardFaces: [
 		{
 			manaValue: 1,
@@ -14,9 +17,6 @@ export const elvishMysticCollectionCard = {
 			oracleText: "{T}: Add {G}.",
 		},
 	],
-	colorIdentity: ["G"],
-	name: "Elvish Mystic",
-	types: ["Creature", "Elf", "Druid"],
 };
 
 export const nissaVastwoodSeerCollectionCard = {
@@ -51,7 +51,7 @@ export const nissaVastwoodSeerCollectionVersion = {
 	isPromo: true,
 	collectionNumber: "189",
 	rarity: "mythic",
-	prices: { regular: null, foil: 70.57 },
+	prices: { regular: null, foil: 64.21 },
 	images: [
 		{
 			artist: "Wayne Reynolds",
@@ -59,11 +59,11 @@ export const nissaVastwoodSeerCollectionVersion = {
 				"https://cards.scryfall.io/normal/front/0/0/008b1ea5-1a8d-4a9d-b208-421fea2f9c58.jpg?1666871396",
 		},
 		{
-			artist: "Wesley Burt",
+			artist: "Wayne Reynolds",
 			imageUri:
-				"https://cards.scryfall.io/normal/back/f/f/ff0063da-ab6b-499d-8e87-8b34d46f0372.jpg?1562209457",
+				"https://cards.scryfall.io/normal/back/0/0/008b1ea5-1a8d-4a9d-b208-421fea2f9c58.jpg?1666871396",
 		},
 	],
 	promoTypes: ["convention"],
-	"quantity.foil": 1,
+	quantity: { foil: 1 },
 };

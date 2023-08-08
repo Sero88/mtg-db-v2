@@ -5,7 +5,10 @@ import { ScryfallUtil } from "./scryfallUtil";
 describe("util scryfall helpers", () => {
 	describe("getCollectorsData", () => {
 		it("should return object with number and type", () => {
-			const collectorsData = ScryfallUtil.getCollectorsData(printSearchMockResults.data[0]);
+			const collectorsData = ScryfallUtil.getCollectorsData({
+				...printSearchMockResults.data[0],
+				collector_number: "169s",
+			});
 
 			expect(collectorsData).toEqual(
 				expect.objectContaining({
@@ -40,7 +43,10 @@ describe("util scryfall helpers", () => {
 
 	describe("getPromoString", () => {
 		it("should extract promo string from collector's number suffix", () => {
-			const promoString = ScryfallUtil.getPromoString(printSearchMockResults.data[0]);
+			const promoString = ScryfallUtil.getPromoString({
+				...printSearchMockResults.data[0],
+				collector_number: "169s",
+			});
 			expect(promoString).toEqual("s");
 		});
 
