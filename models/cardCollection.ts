@@ -1,4 +1,5 @@
-import { CollectionCard } from "@/types/collection";
+import { CollectionCard, VersionQuery } from "@/types/collection";
+import { ScryfallCard } from "@/types/scryfall";
 import { DbModelResponseEnum } from "@/types/utils";
 import { connect } from "@/utils/mongodb";
 import { Db, MongoClient, ReturnDocument } from "mongodb";
@@ -50,6 +51,77 @@ export class CardCollection {
 		return this.responseObject(DbModelResponseEnum.SUCCESS, results);
 	}
 
+	private async isCardObjectUsedByOtherVersions(card: ScryfallCard) {
+		//verify connection
+		if (!this.db) {
+			return this.noDbConnectionResponse();
+		}
+
+		const filter = {
+			oracleId: card.oracle_id,
+		};
+
+		const results = await this.db
+			.collection(process.env.DATABASE_TABLE_VERSIONS!)
+			.findOne(filter);
+
+		return !!results ? true : false;
+	}
+
+	private async removeCardObject(card: ScryfallCard) {
+		//verify connection
+		if (!this.db) {
+			return this.noDbConnectionResponse();
+		}
+
+		const cardFilter = {
+			oracleId: card.oracle_id,
+		};
+
+		const deleteResult = await this.db
+			.collection(process.env.DATABASE_TABLE_CARDS!)
+			.deleteOne(cardFilter);
+
+		if (deleteResult?.deletedCount < 1) {
+			return false;
+		}
+
+		return true;
+	}
+	private async removeCardVersion(card: ScryfallCard) {
+		//verify connection
+		if (!this.db) {
+			return this.noDbConnectionResponse();
+		}
+
+		const filter = {
+			scryfallId: card.id,
+		};
+
+		const deleteResult = await this.db
+			.collection(process.env.DATABASE_TABLE_VERSIONS!)
+			.deleteOne(filter);
+
+		if (deleteResult?.deletedCount < 1) {
+			return false;
+		}
+
+		return true;
+	}
+
+	async removeCard(card: ScryfallCard) {
+		const versionDelete = this.removeCardVersion(card);
+		let cardObjectDelete;
+
+		const isBeingUsed = await this.isCardObjectUsedByOtherVersions(card);
+
+		if (!isBeingUsed) {
+			cardObjectDelete = this.removeCardObject(card);
+		}
+
+		return { versionDelete, cardObjectDelete };
+	}
+
 	private async upsertCard(cardObject: CollectionCard) {
 		if (!this.db) {
 			return this.noDbConnectionResponse();
@@ -69,10 +141,35 @@ export class CardCollection {
 			projection: { _id: 0 },
 		};
 
-		const results = await this.db
+		const result = await this.db
 			.collection(process.env.DATABASE_TABLE_CARDS!)
 			.findOneAndUpdate(filter, update, options);
 
-		return results?.value ?? false;
+		return result?.value ?? false;
+	}
+
+	private async upsertVersion(version: VersionQuery) {
+		if (!this.db) {
+			return this.noDbConnectionResponse();
+		}
+		const filter = {
+			scryfallId: version.scryfallId,
+		};
+
+		const update = {
+			$set: version,
+		};
+
+		const options = {
+			upsert: true,
+			returnDocument: ReturnDocument.AFTER,
+			projection: { _id: 0 },
+		};
+
+		const result = await this.db
+			.collection(process.env.DATABASE_TABLE_VERSIONS!)
+			.findOneAndUpdate(filter, update, options);
+
+		return result?.value ?? false;
 	}
 }

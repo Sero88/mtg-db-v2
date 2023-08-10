@@ -5,7 +5,6 @@ export type CollectionCard = {
 	types: string[];
 	cardFaces: CollectionCardFace[];
 
-	versions?: Version[]; //CollectionCardType will be usually queried with versions
 	keywords?: string[]; //not all cards can have keywords it is an optional field
 };
 
