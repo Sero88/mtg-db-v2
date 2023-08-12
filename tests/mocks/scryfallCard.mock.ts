@@ -55,6 +55,61 @@ export const elvishMystic: ScryfallCard = {
 	},
 };
 
+export const elvishMysticLordOfTheRingsPrint: ScryfallCard = {
+	id: "880468be-3f4d-4dbf-92e7-cf212da7f718",
+	oracle_id: "3f3b2c10-21f8-4e13-be83-4ef3fa36e123",
+	name: "Elvish Mystic",
+	layout: "normal",
+	image_uris: {
+		small: "https://cards.scryfall.io/small/front/8/8/880468be-3f4d-4dbf-92e7-cf212da7f718.jpg?1686965975",
+		normal: "https://cards.scryfall.io/normal/front/8/8/880468be-3f4d-4dbf-92e7-cf212da7f718.jpg?1686965975",
+	},
+	mana_cost: "{G}",
+	type_line: "Creature — Elf Druid",
+	oracle_text: "{T}: Add {G}.",
+	power: "1",
+	toughness: "1",
+	color_identity: ["G"],
+	keywords: [],
+	legalities: {
+		standard: "not_legal",
+		future: "not_legal",
+		historic: "legal",
+		gladiator: "legal",
+		pioneer: "legal",
+		explorer: "legal",
+		modern: "legal",
+		legacy: "legal",
+		pauper: "legal",
+		vintage: "legal",
+		penny: "legal",
+		commander: "legal",
+		oathbreaker: "legal",
+		brawl: "not_legal",
+		historicbrawl: "legal",
+		alchemy: "not_legal",
+		paupercommander: "legal",
+		duel: "legal",
+		oldschool: "not_legal",
+		premodern: "not_legal",
+		predh: "not_legal",
+	},
+	finishes: ["nonfoil"],
+	promo: false,
+	set: "ltc",
+	set_name: "Tales of Middle-earth Commander",
+	set_type: "commander",
+	collector_number: "238",
+	rarity: "common",
+	flavor_text:
+		'"The Three Rings of the Elves were not made as weapons of war or conquest—that is not their power. Those who made them did not desire strength or domination or hoarded wealth, but understanding, making, and healing, to preserve all things unstained."\n—Elrond',
+	artist: "Iga Oliwiak",
+	prices: {
+		usd: "0.59",
+		usd_foil: null,
+	},
+};
+
 //this is a promo: convention, double-face card with only a foil print
 export const nissaVastwoodSeer: ScryfallCard = {
 	id: "008b1ea5-1a8d-4a9d-b208-421fea2f9c58",

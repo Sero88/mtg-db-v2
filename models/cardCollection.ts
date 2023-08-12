@@ -1,6 +1,12 @@
-import { CollectionCard, VersionQuery } from "@/types/collection";
+import {
+	CollectionCard,
+	CollectionCardQuantity,
+	VersionQuery,
+	CollectionCardQuantityTypeEnum,
+} from "@/types/collection";
 import { ScryfallCard } from "@/types/scryfall";
 import { DbModelResponseEnum } from "@/types/utils";
+import { CollectionCardUtil } from "@/utils/collectionCardUtil";
 import { connect } from "@/utils/mongodb";
 import { Db, MongoClient, ReturnDocument } from "mongodb";
 
@@ -18,37 +24,6 @@ export class CardCollection {
 	private noDbConnectionResponse() {
 		console.error("No db connection available.");
 		return this.responseObject(DbModelResponseEnum.ERROR, {});
-	}
-
-	async dbConnect() {
-		try {
-			this.client = await connect();
-
-			this.db = this.client.db(process.env.DATABASE_NAME);
-
-			return true;
-		} catch (e) {
-			return false;
-		}
-	}
-
-	async dbDisconnect() {
-		this.client ? await this.client.close() : false;
-	}
-
-	async getQuantitiesByIds(cardIds: string[]) {
-		if (!this.db) {
-			return this.noDbConnectionResponse();
-		}
-
-		const projection = { projection: { scryfallId: 1, quantity: 1, _id: 0 } };
-
-		const results = await this.db
-			.collection(process.env.DATABASE_TABLE_VERSIONS as string)
-			.find({ scryfallId: { $in: cardIds } }, projection)
-			.toArray();
-
-		return this.responseObject(DbModelResponseEnum.SUCCESS, results);
 	}
 
 	private async isCardObjectUsedByOtherVersions(card: ScryfallCard) {
@@ -109,19 +84,6 @@ export class CardCollection {
 		return true;
 	}
 
-	async removeCard(card: ScryfallCard) {
-		const versionDelete = this.removeCardVersion(card);
-		let cardObjectDelete;
-
-		const isBeingUsed = await this.isCardObjectUsedByOtherVersions(card);
-
-		if (!isBeingUsed) {
-			cardObjectDelete = this.removeCardObject(card);
-		}
-
-		return { versionDelete, cardObjectDelete };
-	}
-
 	private async upsertCard(cardObject: CollectionCard) {
 		if (!this.db) {
 			return this.noDbConnectionResponse();
@@ -171,5 +133,100 @@ export class CardCollection {
 			.findOneAndUpdate(filter, update, options);
 
 		return result?.value ?? false;
+	}
+
+	async dbConnect() {
+		try {
+			this.client = await connect();
+
+			this.db = this.client.db(process.env.DATABASE_NAME);
+
+			return true;
+		} catch (e) {
+			return false;
+		}
+	}
+
+	async dbDisconnect() {
+		this.client ? await this.client.close() : false;
+	}
+
+	async getQuantitiesByIds(cardIds: string[]) {
+		if (!this.db) {
+			return this.noDbConnectionResponse();
+		}
+
+		const projection = { projection: { scryfallId: 1, quantity: 1, _id: 0 } };
+
+		const results = await this.db
+			.collection(process.env.DATABASE_TABLE_VERSIONS as string)
+			.find({ scryfallId: { $in: cardIds } }, projection)
+			.toArray();
+
+		return this.responseObject(DbModelResponseEnum.SUCCESS, results);
+	}
+
+	async removeCard(card: ScryfallCard) {
+		const versionDelete = await this.removeCardVersion(card);
+		const isBeingUsed = await this.isCardObjectUsedByOtherVersions(card);
+
+		if (!isBeingUsed) {
+			const cardObjectDelete = this.removeCardObject(card);
+			return versionDelete && cardObjectDelete;
+		}
+
+		return !!versionDelete;
+	}
+
+	async setQuantity(
+		card: ScryfallCard,
+		quantity: CollectionCardQuantity,
+		type: CollectionCardQuantityTypeEnum
+	) {
+		const regularQty = quantity[CollectionCardQuantityTypeEnum.REGULAR];
+		const foilQty = quantity[CollectionCardQuantityTypeEnum.FOIL];
+
+		//if both quantities are now 0, remove card
+		if (regularQty === 0 && foilQty === 0) {
+			const removeResult = await this.removeCard(card);
+			if (!removeResult) {
+				return this.responseObject(
+					DbModelResponseEnum.ERROR,
+					"Something went wrong. Unable to complete set action. Card deletion error. Check server logs."
+				);
+			}
+
+			return this.responseObject(DbModelResponseEnum.SUCCESS, removeResult);
+		}
+
+		//there are no cards to remove ignore
+		if (!regularQty && !foilQty) {
+			return this.responseObject(DbModelResponseEnum.ERROR, "Quantity can't be less than 0");
+		}
+
+		const cardCollectionObject = CollectionCardUtil.buildCardQueryObject(card);
+		const versionObject = CollectionCardUtil.buildVersionQueryObject(card, quantity, type);
+
+		//create the card object if one does not exist already
+		const upsertResults = await this.upsertCard(cardCollectionObject);
+
+		if (!upsertResults) {
+			return this.responseObject(
+				DbModelResponseEnum.ERROR,
+				"Unable to upsert card. Check server logs."
+			);
+		}
+
+		//update the version object
+		const upsertVersionResult = await this.upsertVersion(versionObject);
+
+		if (!upsertVersionResult) {
+			return this.responseObject(
+				DbModelResponseEnum.ERROR,
+				"Unable to upsert version. Check server logs."
+			);
+		}
+
+		return this.responseObject(DbModelResponseEnum.SUCCESS, upsertVersionResult);
 	}
 }

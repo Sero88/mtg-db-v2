@@ -107,7 +107,7 @@ describe("CollectionCardUtil", () => {
 				"quantity.foil": 1,
 			};
 			delete expectedVersionObject.quantity;
-			const cardVersion = CollectionCardUtil.buildVersionObject(
+			const cardVersion = CollectionCardUtil.buildVersionQueryObject(
 				nissaVastwoodSeer,
 				{
 					[CollectionCardQuantityTypeEnum.FOIL]: 1,

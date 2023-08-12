@@ -147,7 +147,7 @@ export const CollectionCardUtil = {
 		return cardCollectionObject;
 	},
 
-	buildVersionObject(
+	buildVersionQueryObject(
 		scryfallCard: ScryfallCard,
 		quantity: CollectionCardQuantity,
 		type: CollectionCardQuantityTypeEnum
