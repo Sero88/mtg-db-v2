@@ -5,17 +5,22 @@ import { PrintCard } from "./PrintCard";
 import { useGetCollectionCardQuantityById } from "@/hooks/useGetCollectionCardQuantityById";
 import { useMemo } from "react";
 import { CollectionCardUtil } from "@/utils/collectionCardUtil";
+import { Loader } from "../utils/Loader";
 
 type PrintCardListProps = {
 	cardData: ScryfallCard[];
 };
 export function PrintCardList({ cardData }: PrintCardListProps) {
 	const cardIds = cardData.map((card: ScryfallCard) => card.id);
-	const { data: cardQuantities } = useGetCollectionCardQuantityById(cardIds);
+	const { data: cardQuantities, isLoading } = useGetCollectionCardQuantityById(cardIds);
 
 	const mappedCardQuantities = useMemo(() => {
 		return CollectionCardUtil.mapIdWithQuantities(cardQuantities);
 	}, [cardQuantities]);
+
+	if (isLoading) {
+		return <Loader />;
+	}
 
 	return (
 		<>
