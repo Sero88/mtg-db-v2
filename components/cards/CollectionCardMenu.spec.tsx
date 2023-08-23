@@ -19,9 +19,6 @@ mutateMock.mockImplementation(() => ({
 	data: getSetQuantityResultMock(),
 }));
 
-//@ts-ignore
-updateHookSpy.mockImplementation(() => ({ mutate: mutateMock }));
-
 const quantity = {
 	[CollectionCardQuantityTypeEnum.REGULAR]: 1,
 	[CollectionCardQuantityTypeEnum.FOIL]: 2,
@@ -32,7 +29,17 @@ const quantityFoil = {
 	[CollectionCardQuantityTypeEnum.FOIL]: 1,
 };
 
+const newQuantity = 4;
+
 describe("CollectionCardMenu", () => {
+	beforeEach(() => {
+		//@ts-ignore
+		updateHookSpy.mockImplementation(() => ({
+			mutate: mutateMock,
+			isLoading: false,
+			isError: false,
+		}));
+	});
 	it("should display logo", () => {
 		render(<CollectionCardMenu cardData={elvishMystic} quantity={quantity} />);
 
@@ -78,7 +85,6 @@ describe("CollectionCardMenu", () => {
 	});
 
 	it("should run update quantity when value changes: foil", async () => {
-		const newQuantity = 4;
 		render(<CollectionCardMenu cardData={nissaVastwoodSeer} quantity={quantityFoil} />);
 
 		const foilInput = screen.getByTestId("foil-input");
@@ -99,8 +105,6 @@ describe("CollectionCardMenu", () => {
 	});
 
 	it("should run update quantity when value changes: regular", async () => {
-		const newQuantity = 4;
-
 		mutateMock.mockImplementation(() => ({
 			data: getSetQuantityResultMock(elvishMysticCollectionVersion),
 		}));
@@ -122,5 +126,29 @@ describe("CollectionCardMenu", () => {
 		});
 
 		expect(updateHookSpy).toHaveBeenCalled();
+	});
+
+	it("should show loader when updating quantity", () => {
+		//@ts-ignore
+		updateHookSpy.mockImplementation(() => ({
+			mutate: mutateMock,
+			isLoading: true,
+			isError: false,
+		}));
+
+		render(<CollectionCardMenu cardData={nissaVastwoodSeer} quantity={quantityFoil} />);
+
+		expect(screen.queryByTestId("loader")).not.toBeNull();
+	});
+
+	it("should not show loader when update hook is not loading", () => {
+		//@ts-ignore
+		updateHookSpy.mockImplementation(() => ({
+			mutate: mutateMock,
+			isLoading: false,
+			isError: false,
+		}));
+
+		expect(screen.queryByTestId("loader")).toBeNull();
 	});
 });
