@@ -6,6 +6,8 @@ import * as PrintCardDetailsComponent from "./PrintCardDetails";
 import * as CollectionCardMenuComponent from "./CollectionCardMenu";
 import { collectionQuantityMock } from "@/tests/mocks/collectionQuantity.mock";
 
+jest.mock("@/hooks/useUpdateCollectionCardQuantity");
+
 jest.mock("./CardImage", () => {
 	const originalModule = jest.requireActual("./CardImage");
 	return {

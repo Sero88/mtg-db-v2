@@ -1,4 +1,5 @@
-import { CollectionCardQuantityTypeEnum } from "@/types/collection";
+import { CollectionCardQuantityTypeEnum, Version } from "@/types/collection";
+import { nissaVastwoodSeerCollectionVersion } from "./collectionCard.mock";
 
 export const cardsWithRegularAndFoilQuantities = [
 	{
@@ -35,4 +36,13 @@ export const collectionQuantityMock = {
 
 export const getIdsFromQuantitiesResultMock = () => {
 	return cardsWithRegularAndFoilQuantities.map((result) => result.scryfallId);
+};
+
+export const getSetQuantityResultMock = (
+	cardVersion: Version = nissaVastwoodSeerCollectionVersion
+) => {
+	return {
+		...cardVersion,
+		quantity: { [CollectionCardQuantityTypeEnum.FOIL]: 4 },
+	};
 };

@@ -13,6 +13,7 @@ jest.mock("@/components/cards/PrintCard", () => {
 const printCardSpy = jest.spyOn(PrintCardComponent, "PrintCard");
 
 jest.mock("@/hooks/useGetCollectionCardQuantityById.ts");
+jest.mock("@/hooks/useUpdateCollectionCardQuantity");
 
 describe("PrintCardList component", () => {
 	beforeEach(() => {

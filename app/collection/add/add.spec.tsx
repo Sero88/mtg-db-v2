@@ -32,6 +32,7 @@ jest.mock("@/components/scryfall/ScryfallSearchResults", () => {
 });
 
 jest.mock("@/hooks/useGetCollectionCardQuantityById.ts");
+jest.mock("@/hooks/useUpdateCollectionCardQuantity");
 
 document.getElementById = jest.fn().mockImplementation(() => {});
 

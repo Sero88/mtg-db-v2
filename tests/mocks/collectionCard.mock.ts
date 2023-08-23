@@ -1,4 +1,4 @@
-import { ObjectId } from "mongodb";
+import { CollectionCardQuantityTypeEnum, Version } from "@/types/collection";
 
 export const elvishMysticCollectionCard = {
 	name: "Elvish Mystic",
@@ -17,6 +17,24 @@ export const elvishMysticCollectionCard = {
 			oracleText: "{T}: Add {G}.",
 		},
 	],
+};
+
+export const elvishMysticCollectionVersion = {
+	set: "m14",
+	scryfallId: "60d0e6a6-629a-45a7-bfcb-25ba7156788b",
+	oracleId: "3f3b2c10-21f8-4e13-be83-4ef3fa36e123",
+	isPromo: false,
+	collectionNumber: "169",
+	rarity: "common",
+	prices: { regular: 0.44, foil: 8.39 },
+	images: [
+		{
+			artist: "Wesley Burt",
+			imageUri:
+				"https://cards.scryfall.io/normal/front/6/0/60d0e6a6-629a-45a7-bfcb-25ba7156788b.jpg?1562829984",
+		},
+	],
+	quantity: { [CollectionCardQuantityTypeEnum.REGULAR]: 1 },
 };
 
 export const nissaVastwoodSeerCollectionCard = {
@@ -44,7 +62,7 @@ export const nissaVastwoodSeerCollectionCard = {
 	keywords: ["Transform"],
 };
 
-export const nissaVastwoodSeerCollectionVersion = {
+export const nissaVastwoodSeerCollectionVersion: Version = {
 	set: "s15",
 	scryfallId: "008b1ea5-1a8d-4a9d-b208-421fea2f9c58",
 	oracleId: "35754a21-9fba-4370-a254-292918a777ba",
@@ -65,5 +83,5 @@ export const nissaVastwoodSeerCollectionVersion = {
 		},
 	],
 	promoTypes: ["convention"],
-	quantity: { foil: 1 },
+	quantity: { [CollectionCardQuantityTypeEnum.FOIL]: 1 },
 };

@@ -3,16 +3,26 @@ import styles from "@/styles/collectionMenu.module.scss";
 import { ScryfallCard } from "@/types/scryfall";
 import { CollectionCardQuantity, CollectionCardQuantityTypeEnum } from "@/types/collection";
 import { ScryfallUtil } from "@/utils/scryfallUtil";
+import { useUpdateCollectionCardQuantity } from "@/hooks/useUpdateCollectionCardQuantity";
+import { Loader } from "../utils/Loader";
 
 type CollectionCardMenuProp = {
 	cardData: ScryfallCard;
 	quantity: CollectionCardQuantity;
 };
 export function CollectionCardMenu({ quantity, cardData }: CollectionCardMenuProp) {
-	const regularQty = quantity?.regular ?? 0;
-	const foilQty = quantity?.foil ?? 0;
 	const regularFieldName = "collection-quantity";
 	const foilFieldName = "collection-foil-quantity";
+
+	const updateCardQuantity = useUpdateCollectionCardQuantity();
+
+	const regularQty = updateCardQuantity?.data?.quantity?.regular
+		? updateCardQuantity?.data?.quantity?.regular
+		: quantity?.regular ?? 0;
+
+	const foilQty = updateCardQuantity?.data?.quantity?.foil
+		? updateCardQuantity?.data?.quantity?.foil
+		: quantity?.foil ?? 0;
 
 	const selectText = (e: React.MouseEvent<Element, MouseEvent>) => {
 		const element = e.target as HTMLInputElement;
@@ -21,25 +31,36 @@ export function CollectionCardMenu({ quantity, cardData }: CollectionCardMenuPro
 
 	const updateQuantity = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const newQuantity = e.target.value == "" ? 0 : parseInt(e.target.value);
+		const fieldName = e.target.name;
 
-		// e.target.name == regularFieldName
-		// 	? updateCollectionHandler(
-		// 			cardData,
-		// 			{
-		// 				[CollectionCardQuantityTypeEnum.REGULAR]: newQuantity,
-		// 				[CollectionCardQuantityTypeEnum.FOIL]: foilQty,
-		// 			},
-		// 			CollectionCardQuantityTypeEnum.REGULAR
-		// 	  )
-		// 	: updateCollectionHandler(
-		// 			cardData,
-		// 			{
-		// 				[CollectionCardQuantityTypeEnum.REGULAR]: regularQty,
-		// 				[CollectionCardQuantityTypeEnum.FOIL]: newQuantity,
-		// 			},
-		// 			CollectionCardQuantityTypeEnum.FOIL
-		// 	  );
+		if (fieldName == regularFieldName) {
+			updateCardQuantity.mutate({
+				card: cardData,
+				quantity: {
+					[CollectionCardQuantityTypeEnum.REGULAR]: newQuantity,
+					[CollectionCardQuantityTypeEnum.FOIL]: foilQty,
+				},
+				type: CollectionCardQuantityTypeEnum.REGULAR,
+			});
+		} else if (fieldName == foilFieldName) {
+			updateCardQuantity.mutate({
+				card: cardData,
+				quantity: {
+					[CollectionCardQuantityTypeEnum.REGULAR]: regularQty,
+					[CollectionCardQuantityTypeEnum.FOIL]: newQuantity,
+				},
+				type: CollectionCardQuantityTypeEnum.FOIL,
+			});
+		}
 	};
+
+	if (updateCardQuantity.isLoading) {
+		return (
+			<ul className={styles.collectionMenu}>
+				<Loader />
+			</ul>
+		);
+	}
 
 	return (
 		<ul className={styles.collectionMenu}>
@@ -84,6 +105,8 @@ export function CollectionCardMenu({ quantity, cardData }: CollectionCardMenuPro
 					/>
 				</li>
 			)}
+
+			{updateCardQuantity.isError && <p>Error Updating</p>}
 		</ul>
 	);
 }

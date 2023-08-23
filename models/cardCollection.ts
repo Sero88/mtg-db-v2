@@ -183,8 +183,8 @@ export class CardCollection {
 		quantity: CollectionCardQuantity,
 		type: CollectionCardQuantityTypeEnum
 	) {
-		const regularQty = quantity[CollectionCardQuantityTypeEnum.REGULAR];
-		const foilQty = quantity[CollectionCardQuantityTypeEnum.FOIL];
+		const regularQty = quantity?.[CollectionCardQuantityTypeEnum.REGULAR];
+		const foilQty = quantity?.[CollectionCardQuantityTypeEnum.FOIL];
 
 		//if both quantities are now 0, remove card
 		if (regularQty === 0 && foilQty === 0) {

@@ -28,6 +28,7 @@ jest.mock("@/components/cards/PrintCardList", () => {
 });
 
 jest.mock("@/hooks/useGetCollectionCardQuantityById.ts");
+jest.mock("@/hooks/useUpdateCollectionCardQuantity");
 
 const clickHandler = jest.fn();
 const generalCardListSpy = jest.spyOn(GeneralCardListComponent, "GeneralCardList");

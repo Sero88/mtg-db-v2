@@ -1,5 +1,5 @@
-import { cardsWithRegularAndFoilQuantities } from "@/tests/mocks/collectionQuantity.mock";
+import { getSetQuantityResultMock } from "@/tests/mocks/collectionQuantity.mock";
 
 export async function useGetCollectionCardQuantityById() {
-	return { data: { cardsWithRegularAndFoilQuantities } };
+	return { data: { getSetQuantityResultMock } };
 }
