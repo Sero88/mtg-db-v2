@@ -5,12 +5,16 @@ import { CollectionCardQuantity, CollectionCardQuantityTypeEnum } from "@/types/
 import { ScryfallUtil } from "@/utils/scryfallUtil";
 import { useUpdateCollectionCardQuantity } from "@/hooks/useUpdateCollectionCardQuantity";
 import { Loader } from "../utils/Loader";
+import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
 
 type CollectionCardMenuProp = {
 	cardData: ScryfallCard;
 	quantity: CollectionCardQuantity;
 };
 export function CollectionCardMenu({ quantity, cardData }: CollectionCardMenuProp) {
+	const [updatedField, setUpdatedField] = useState("");
 	const regularFieldName = "collection-quantity";
 	const foilFieldName = "collection-foil-quantity";
 
@@ -52,6 +56,8 @@ export function CollectionCardMenu({ quantity, cardData }: CollectionCardMenuPro
 				type: CollectionCardQuantityTypeEnum.FOIL,
 			});
 		}
+
+		setUpdatedField(fieldName);
 	};
 
 	if (updateCardQuantity.isLoading) {
@@ -77,6 +83,11 @@ export function CollectionCardMenu({ quantity, cardData }: CollectionCardMenuPro
 			{ScryfallUtil.hasRegularVersion(cardData) && (
 				<li className={styles.collectionQuantity}>
 					<input
+						className={
+							updatedField == regularFieldName && updateCardQuantity.isError
+								? styles.inputError
+								: ""
+						}
 						name={regularFieldName}
 						type="number"
 						value={regularQty ?? 0}
@@ -93,6 +104,11 @@ export function CollectionCardMenu({ quantity, cardData }: CollectionCardMenuPro
 			{ScryfallUtil.hasFoilVersion(cardData) && (
 				<li className={styles.collectionQuantityFoil}>
 					<input
+						className={
+							updatedField == foilFieldName && updateCardQuantity.isError
+								? styles.inputError
+								: ""
+						}
 						name={foilFieldName}
 						type="number"
 						value={foilQty ?? 0}
@@ -106,7 +122,12 @@ export function CollectionCardMenu({ quantity, cardData }: CollectionCardMenuPro
 				</li>
 			)}
 
-			{updateCardQuantity.isError && <p>Error Updating</p>}
+			{updateCardQuantity.isError && (
+				<div className={styles.updateError} data-testid="updateError">
+					<FontAwesomeIcon icon={faCircleExclamation} />
+					<p>Error Updating</p>
+				</div>
+			)}
 		</ul>
 	);
 }

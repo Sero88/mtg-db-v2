@@ -149,6 +149,21 @@ describe("CollectionCardMenu", () => {
 			isError: false,
 		}));
 
+		render(<CollectionCardMenu cardData={nissaVastwoodSeer} quantity={quantityFoil} />);
+
 		expect(screen.queryByTestId("loader")).toBeNull();
+	});
+
+	it("should show error when update fails", () => {
+		//@ts-ignore
+		updateHookSpy.mockImplementation(() => ({
+			mutate: mutateMock,
+			isLoading: false,
+			isError: true,
+		}));
+
+		render(<CollectionCardMenu cardData={nissaVastwoodSeer} quantity={quantityFoil} />);
+
+		expect(screen.queryByTestId("updateError")).not.toBeNull();
 	});
 });

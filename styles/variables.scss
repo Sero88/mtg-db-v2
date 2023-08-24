@@ -5,6 +5,18 @@ $blue: #0f597c;
 $dark-blue: #002738;
 $gray: #ececec;
 $dark-gray: #ccc;
-$main-font:'Saira', sans-serif;
+$main-font: "Saira", sans-serif;
+$error: #c80303;
+$pink: #ffeaed;
+$foil: linear-gradient(
+	135deg,
+	rgba(255, 38, 0, 0.15),
+	rgba(255, 187, 0, 0.15),
+	rgba(0, 128, 6, 0.15),
+	rgba(177, 242, 253, 0.15),
+	rgba(0, 0, 255, 0.15),
+	rgba(234, 130, 238, 0.15),
+	rgba(238, 130, 130, 0.15)
+);
 
 $max-content-size: 120rem;
