@@ -166,4 +166,18 @@ describe("CollectionCardMenu", () => {
 
 		expect(screen.queryByTestId("updateError")).not.toBeNull();
 	});
+
+	it("should show success message when update is successful", () => {
+		//@ts-ignore
+		updateHookSpy.mockImplementation(() => ({
+			mutate: mutateMock,
+			isLoading: false,
+			isError: false,
+			isSuccess: true,
+		}));
+
+		render(<CollectionCardMenu cardData={nissaVastwoodSeer} quantity={quantityFoil} />);
+
+		expect(screen.queryByTestId("updateSuccess")).not.toBeNull();
+	});
 });

@@ -95,4 +95,20 @@
 			font-size: 1rem;
 		}
 	}
+
+	.updateSuccess {
+		color: $light-green;
+		margin: 1rem 0;
+		display: inline-flex;
+		flex-direction: column;
+		gap: 0.25rem;
+		svg {
+			display: inline-block;
+		}
+		p {
+			margin: 0;
+			line-height: 1rem;
+			font-size: 1rem;
+		}
+	}
 }

@@ -7,7 +7,7 @@ import { useUpdateCollectionCardQuantity } from "@/hooks/useUpdateCollectionCard
 import { Loader } from "../utils/Loader";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
+import { faCircleExclamation, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 
 type CollectionCardMenuProp = {
 	cardData: ScryfallCard;
@@ -126,6 +126,13 @@ export function CollectionCardMenu({ quantity, cardData }: CollectionCardMenuPro
 				<div className={styles.updateError} data-testid="updateError">
 					<FontAwesomeIcon icon={faCircleExclamation} />
 					<p>Error Updating</p>
+				</div>
+			)}
+
+			{updateCardQuantity.isSuccess && (
+				<div className={styles.updateSuccess} data-testid="updateSuccess">
+					<FontAwesomeIcon icon={faCheckCircle} />
+					<p>Updated</p>
 				</div>
 			)}
 		</ul>
