@@ -196,7 +196,12 @@ export class CardCollection {
 				);
 			}
 
-			return this.responseObject(DbModelResponseEnum.SUCCESS, removeResult);
+			return this.responseObject(DbModelResponseEnum.SUCCESS, {
+				quantity: {
+					[CollectionCardQuantityTypeEnum.REGULAR]: 0,
+					[CollectionCardQuantityTypeEnum.FOIL]: 0,
+				},
+			});
 		}
 
 		//there are no cards to remove ignore

@@ -20,13 +20,15 @@ export function CollectionCardMenu({ quantity, cardData }: CollectionCardMenuPro
 
 	const updateCardQuantity = useUpdateCollectionCardQuantity();
 
-	const regularQty = updateCardQuantity?.data?.quantity?.regular
-		? updateCardQuantity?.data?.quantity?.regular
-		: quantity?.regular ?? 0;
+	const regularQty =
+		updateCardQuantity?.data?.quantity?.regular >= 0
+			? updateCardQuantity?.data?.quantity?.regular
+			: quantity?.regular ?? 0;
 
-	const foilQty = updateCardQuantity?.data?.quantity?.foil
-		? updateCardQuantity?.data?.quantity?.foil
-		: quantity?.foil ?? 0;
+	const foilQty =
+		updateCardQuantity?.data?.quantity?.foil >= 0
+			? updateCardQuantity?.data?.quantity?.foil
+			: quantity?.foil ?? 0;
 
 	const selectText = (e: React.MouseEvent<Element, MouseEvent>) => {
 		const element = e.target as HTMLInputElement;

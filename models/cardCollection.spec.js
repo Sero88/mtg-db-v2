@@ -193,7 +193,12 @@ describe("CardCollection Model", () => {
 				CollectionCardQuantityTypeEnum.REGULAR
 			);
 
-			expect(resultRemove?.status).toEqual(DbModelResponseEnum.SUCCESS);
+			expect(resultRemove?.status).toEqual(DbModelResponseEnum.SUCCESS, {
+				quantity: {
+					[CollectionCardQuantityTypeEnum.REGULAR]: 0,
+					[CollectionCardQuantityTypeEnum.FOIL]: 0,
+				},
+			});
 		});
 
 		it("should return error when is not able to remove card", async () => {
