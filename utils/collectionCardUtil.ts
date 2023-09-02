@@ -198,7 +198,7 @@ export const CollectionCardUtil = {
 		"promo_types" in scryfallCard ? (version.promoTypes = scryfallCard.promo_types) : false;
 
 		//quantity value for either regular or foil
-		type == "regular"
+		type == CollectionCardQuantityTypeEnum.REGULAR
 			? (version["quantity.regular"] = quantity.regular)
 			: (version["quantity.foil"] = quantity.foil);
 

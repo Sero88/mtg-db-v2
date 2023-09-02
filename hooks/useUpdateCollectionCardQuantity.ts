@@ -18,10 +18,6 @@ export function useUpdateCollectionCardQuantity() {
 				...updateCardObject,
 			});
 
-			if (!response.data.success) {
-				throw new Error("Unable to update card quantity");
-			}
-
 			return response?.data?.data;
 		}
 	);

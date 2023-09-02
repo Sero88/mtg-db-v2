@@ -36,6 +36,7 @@ describe("CollectionCardMenu", () => {
 		//@ts-ignore
 		updateHookSpy.mockImplementation(() => ({
 			mutate: mutateMock,
+			mutateAsync: mutateMock,
 			isLoading: false,
 			isError: false,
 		}));

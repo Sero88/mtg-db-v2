@@ -178,6 +178,12 @@ export class CardCollection {
 		return !!versionDelete;
 	}
 
+	/**
+	 *
+	 * @param card
+	 * @param quantity Note it uses quantity object, not just one type of quantity (ie regulor OR foil). This is so we can update/remove accordingly
+	 * @param type Depending on the type passed, only that type will be updated, the other quanity type won't be touched.
+	 */
 	async setQuantity(
 		card: ScryfallCard,
 		quantity: CollectionCardQuantity,

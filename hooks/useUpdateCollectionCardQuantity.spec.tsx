@@ -43,19 +43,4 @@ describe("useUpdateCollectionCardQuantity", () => {
 			})
 		);
 	});
-
-	it("should throw error if update fails", async () => {
-		axiosSpy.mockResolvedValue({ data: { data: mocksetQuantityResult, success: false } });
-		const expectedError = new Error("Unable to update card quantity");
-
-		const { result } = renderHook(() => useUpdateCollectionCardQuantity(), {
-			wrapper,
-		});
-
-		result.current.mutate(mutateObject);
-
-		await waitFor(() => expect(result.current.isError).toBe(true));
-
-		expect(result.current.error).toEqual(expectedError);
-	});
 });

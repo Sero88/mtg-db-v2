@@ -13,50 +13,56 @@ type CollectionCardMenuProp = {
 	cardData: ScryfallCard;
 	quantity: CollectionCardQuantity;
 };
-export function CollectionCardMenu({ quantity, cardData }: CollectionCardMenuProp) {
+export function CollectionCardMenu({
+	quantity: initialQuantities,
+	cardData,
+}: CollectionCardMenuProp) {
 	const [updatedField, setUpdatedField] = useState("");
+	const [quantities, setQuantities] = useState({
+		[CollectionCardQuantityTypeEnum.REGULAR]:
+			initialQuantities?.[CollectionCardQuantityTypeEnum.REGULAR] ?? 0,
+		[CollectionCardQuantityTypeEnum.FOIL]:
+			initialQuantities?.[CollectionCardQuantityTypeEnum.FOIL] ?? 0,
+	});
+
 	const regularFieldName = "collection-quantity";
 	const foilFieldName = "collection-foil-quantity";
-
 	const updateCardQuantity = useUpdateCollectionCardQuantity();
-
-	const regularQty =
-		updateCardQuantity?.data?.quantity?.regular >= 0
-			? updateCardQuantity?.data?.quantity?.regular
-			: quantity?.regular ?? 0;
-
-	const foilQty =
-		updateCardQuantity?.data?.quantity?.foil >= 0
-			? updateCardQuantity?.data?.quantity?.foil
-			: quantity?.foil ?? 0;
 
 	const selectText = (e: React.MouseEvent<Element, MouseEvent>) => {
 		const element = e.target as HTMLInputElement;
 		element.select();
 	};
 
-	const updateQuantity = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const updateQuantity = async (e: React.ChangeEvent<HTMLInputElement>) => {
 		const newQuantity = e.target.value == "" ? 0 : parseInt(e.target.value);
 		const fieldName = e.target.name;
+		let updateResults;
 
 		if (fieldName == regularFieldName) {
-			updateCardQuantity.mutate({
+			updateResults = await updateCardQuantity.mutateAsync({
 				card: cardData,
 				quantity: {
 					[CollectionCardQuantityTypeEnum.REGULAR]: newQuantity,
-					[CollectionCardQuantityTypeEnum.FOIL]: foilQty,
+					[CollectionCardQuantityTypeEnum.FOIL]:
+						quantities[CollectionCardQuantityTypeEnum.FOIL],
 				},
 				type: CollectionCardQuantityTypeEnum.REGULAR,
 			});
 		} else if (fieldName == foilFieldName) {
-			updateCardQuantity.mutate({
+			updateResults = await updateCardQuantity.mutateAsync({
 				card: cardData,
 				quantity: {
-					[CollectionCardQuantityTypeEnum.REGULAR]: regularQty,
+					[CollectionCardQuantityTypeEnum.REGULAR]:
+						quantities[CollectionCardQuantityTypeEnum.REGULAR],
 					[CollectionCardQuantityTypeEnum.FOIL]: newQuantity,
 				},
 				type: CollectionCardQuantityTypeEnum.FOIL,
 			});
+		}
+
+		if (updateResults?.quantity) {
+			setQuantities({ ...updateResults.quantity });
 		}
 
 		setUpdatedField(fieldName);
@@ -92,7 +98,7 @@ export function CollectionCardMenu({ quantity, cardData }: CollectionCardMenuPro
 						}
 						name={regularFieldName}
 						type="number"
-						value={regularQty ?? 0}
+						value={quantities[CollectionCardQuantityTypeEnum.REGULAR] ?? 0}
 						onClick={(e) => {
 							selectText(e);
 						}}
@@ -113,7 +119,7 @@ export function CollectionCardMenu({ quantity, cardData }: CollectionCardMenuPro
 						}
 						name={foilFieldName}
 						type="number"
-						value={foilQty ?? 0}
+						value={quantities[CollectionCardQuantityTypeEnum.FOIL] ?? 0}
 						onClick={(e) => {
 							selectText(e);
 						}}
