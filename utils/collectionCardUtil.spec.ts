@@ -3,6 +3,7 @@ import { CollectionCardUtil } from "./collectionCardUtil";
 import { cardsWithRegularAndFoilQuantities } from "@/tests/mocks/collectionQuantity.mock";
 import {
 	elvishMysticCollectionCard,
+	elvishMysticCollectionVersion,
 	nissaVastwoodSeerCollectionCard,
 	nissaVastwoodSeerCollectionVersion,
 } from "@/tests/mocks/collectionCard.mock";
@@ -109,13 +110,31 @@ describe("CollectionCardUtil", () => {
 			delete expectedVersionObject.quantity;
 			const cardVersion = CollectionCardUtil.buildVersionQueryObject(
 				nissaVastwoodSeer,
-				{
-					[CollectionCardQuantityTypeEnum.FOIL]: 1,
-				},
+				1,
 				CollectionCardQuantityTypeEnum.FOIL
 			);
 
 			expect(cardVersion).toEqual(expectedVersionObject);
+		});
+	});
+
+	describe("versionIsCurrentlyUsed", () => {
+		it("should return true when one of the quantities is greater than zero expect the one passed", () => {
+			expect(
+				CollectionCardUtil.versionIsCurrentlyUsed(
+					elvishMysticCollectionVersion,
+					CollectionCardQuantityTypeEnum.FOIL
+				)
+			).toEqual(true);
+		});
+
+		it("should return false when there are no quantities greater than zero aside from the one passed", () => {
+			expect(
+				CollectionCardUtil.versionIsCurrentlyUsed(
+					elvishMysticCollectionVersion,
+					CollectionCardQuantityTypeEnum.REGULAR
+				)
+			).toEqual(false);
 		});
 	});
 });

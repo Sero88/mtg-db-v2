@@ -6,7 +6,7 @@ import { DbModelResponseEnum } from "@/types/utils";
 export async function PATCH(request: Request) {
 	const data = await request.json();
 
-	const { card, quantity, type } = data;
+	const { card, newQuantity, type } = data;
 
 	const cardCollection = new CardCollection();
 	const isConnected = await cardCollection.dbConnect();
@@ -15,7 +15,7 @@ export async function PATCH(request: Request) {
 		return NextResponse.json({ error: "Unable to connect to database." }, { status: 500 });
 	}
 
-	const updateResults = await cardCollection.setQuantity(card, quantity, type);
+	const updateResults = await cardCollection.setQuantity(card, type, newQuantity);
 
 	if (updateResults.status == DbModelResponseEnum.SUCCESS) {
 		return NextResponse.json(GeneralUtil.apiResponse(true, updateResults?.data));

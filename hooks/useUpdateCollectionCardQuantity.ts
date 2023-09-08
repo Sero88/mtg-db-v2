@@ -5,8 +5,8 @@ import { ScryfallCard } from "@/types/scryfall";
 
 type UpdateCollectionQuantityArgs = {
 	card: ScryfallCard;
-	quantity: CollectionCardQuantity;
 	type: CollectionCardQuantityTypeEnum;
+	newQuantity: number;
 };
 export function useUpdateCollectionCardQuantity() {
 	return useMutation(

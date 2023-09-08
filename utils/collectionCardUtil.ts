@@ -5,6 +5,7 @@ import {
 	QuantityCardCollection,
 	VersionQuery,
 	CollectionCardQuantityTypeEnum,
+	Version,
 } from "@/types/collection";
 import { ScryfallCard, ScryfallCardFace } from "@/types/scryfall";
 import { ScryfallUtil } from "./scryfallUtil";
@@ -149,7 +150,7 @@ export const CollectionCardUtil = {
 
 	buildVersionQueryObject(
 		scryfallCard: ScryfallCard,
-		quantity: CollectionCardQuantity,
+		quantity: number,
 		type: CollectionCardQuantityTypeEnum
 	) {
 		const collectorsData = ScryfallUtil.getCollectorsData(scryfallCard);
@@ -199,9 +200,18 @@ export const CollectionCardUtil = {
 
 		//quantity value for either regular or foil
 		type == CollectionCardQuantityTypeEnum.REGULAR
-			? (version["quantity.regular"] = quantity.regular)
-			: (version["quantity.foil"] = quantity.foil);
+			? (version["quantity.regular"] = quantity)
+			: (version["quantity.foil"] = quantity);
 
 		return version;
+	},
+
+	versionIsCurrentlyUsed(version: Version, type: CollectionCardQuantityTypeEnum) {
+		for (const prop in version.quantity) {
+			if (version.quantity[prop as CollectionCardQuantityTypeEnum]! > 0 && prop != type) {
+				return true;
+			}
+		}
+		return false;
 	},
 };

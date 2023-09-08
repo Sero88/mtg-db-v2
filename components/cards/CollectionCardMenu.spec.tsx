@@ -94,10 +94,7 @@ describe("CollectionCardMenu", () => {
 		await waitFor(() => {
 			expect(mutateMock).toHaveBeenCalledWith({
 				card: nissaVastwoodSeer,
-				quantity: {
-					[CollectionCardQuantityTypeEnum.REGULAR]: 0,
-					[CollectionCardQuantityTypeEnum.FOIL]: newQuantity,
-				},
+				newQuantity,
 				type: CollectionCardQuantityTypeEnum.FOIL,
 			});
 		});
@@ -118,10 +115,7 @@ describe("CollectionCardMenu", () => {
 		await waitFor(() => {
 			expect(mutateMock).toHaveBeenCalledWith({
 				card: elvishMystic,
-				quantity: {
-					[CollectionCardQuantityTypeEnum.REGULAR]: newQuantity,
-					[CollectionCardQuantityTypeEnum.FOIL]: quantity.foil,
-				},
+				newQuantity,
 				type: CollectionCardQuantityTypeEnum.REGULAR,
 			});
 		});

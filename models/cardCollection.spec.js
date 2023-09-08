@@ -13,6 +13,7 @@ import {
 import {
 	elvishMysticCollectionCard,
 	nissaVastwoodSeerCollectionVersion,
+	elvishMysticCollectionVersion,
 } from "@/tests/mocks/collectionCard.mock";
 import { CollectionCardQuantityTypeEnum } from "@/types/collection";
 const mockIds = cardsWithRegularAndFoilQuantities.map((card) => {
@@ -23,6 +24,7 @@ describe("CardCollection Model", () => {
 	const cardCollection = new CardCollection();
 	const upsertCardSpy = jest.spyOn(cardCollection, "upsertCard");
 	const upsertVersionSpy = jest.spyOn(cardCollection, "upsertVersion");
+	const getCardVersionSpy = jest.spyOn(cardCollection, "getCardVersion");
 
 	beforeAll(async () => {
 		await cardCollection.dbConnect();
@@ -72,9 +74,7 @@ describe("CardCollection Model", () => {
 		it("should upsert card version", async () => {
 			const cardVersion = CollectionCardUtil.buildVersionQueryObject(
 				nissaVastwoodSeer,
-				{
-					[CollectionCardQuantityTypeEnum.FOIL]: 1,
-				},
+				1,
 				CollectionCardQuantityTypeEnum.FOIL
 			);
 
@@ -178,19 +178,14 @@ describe("CardCollection Model", () => {
 		it("should remove card when both quantities are set to zero", async () => {
 			const resultRemove = await cardCollection.setQuantity(
 				elvishMystic,
-				{
-					[CollectionCardQuantityTypeEnum.REGULAR]: 0,
-					[CollectionCardQuantityTypeEnum.FOIL]: 0,
-				},
-				CollectionCardQuantityTypeEnum.REGULAR
+				CollectionCardQuantityTypeEnum.REGULAR,
+				0
 			);
 
 			await cardCollection.setQuantity(
 				elvishMystic,
-				{
-					[CollectionCardQuantityTypeEnum.REGULAR]: 1,
-				},
-				CollectionCardQuantityTypeEnum.REGULAR
+				CollectionCardQuantityTypeEnum.REGULAR,
+				1
 			);
 
 			expect(resultRemove?.status).toEqual(DbModelResponseEnum.SUCCESS, {
@@ -202,30 +197,14 @@ describe("CardCollection Model", () => {
 		});
 
 		it("should return error when is not able to remove card", async () => {
+			getCardVersionSpy.mockResolvedValue(elvishMysticCollectionVersion);
 			const resultRemove = await cardCollection.setQuantity(
 				{ ...elvishMystic, id: "123FAKE" },
-				{
-					[CollectionCardQuantityTypeEnum.REGULAR]: 0,
-					[CollectionCardQuantityTypeEnum.FOIL]: 0,
-				},
-				CollectionCardQuantityTypeEnum.REGULAR
+				CollectionCardQuantityTypeEnum.REGULAR,
+				0
 			);
 
 			expect(resultRemove?.status).toEqual(DbModelResponseEnum.ERROR);
-		});
-
-		it("should return error when quantities are both empty", async () => {
-			const resultRemove = await cardCollection.setQuantity(
-				elvishMystic,
-				{
-					[CollectionCardQuantityTypeEnum.REGULAR]: "",
-					[CollectionCardQuantityTypeEnum.FOIL]: "",
-				},
-				CollectionCardQuantityTypeEnum.REGULAR
-			);
-
-			expect(resultRemove?.status).toEqual(DbModelResponseEnum.ERROR);
-			expect(resultRemove.data).toEqual("Quantity can't be less than 0");
 		});
 
 		it("should return error when unable to upsert card", async () => {
@@ -259,18 +238,14 @@ describe("CardCollection Model", () => {
 		it("should return success when quantity was set correctly", async () => {
 			const result = await cardCollection.setQuantity(
 				nissaVastwoodSeer,
-				{
-					[CollectionCardQuantityTypeEnum.FOIL]: 3,
-				},
-				CollectionCardQuantityTypeEnum.FOIL
+				CollectionCardQuantityTypeEnum.FOIL,
+				3
 			);
 
 			await cardCollection.setQuantity(
 				nissaVastwoodSeer,
-				{
-					[CollectionCardQuantityTypeEnum.FOIL]: 1,
-				},
-				CollectionCardQuantityTypeEnum.FOIL
+				CollectionCardQuantityTypeEnum.FOIL,
+				1
 			);
 
 			expect(result.status).toEqual(DbModelResponseEnum.SUCCESS);

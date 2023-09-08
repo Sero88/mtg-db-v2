@@ -11,9 +11,9 @@ type PrintCardProps = {
 };
 
 export function PrintCard({ data, collectionQuantity }: PrintCardProps) {
-	const cardImageUrl = data.image_uris?.normal
-		? data.image_uris?.normal
-		: data.card_faces?.[0].image_uris?.normal;
+	const cardImageUrl = data?.image_uris?.normal
+		? data?.image_uris?.normal
+		: data?.card_faces?.[0].image_uris?.normal;
 
 	return (
 		<div className={styles.card}>

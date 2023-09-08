@@ -1,8 +1,8 @@
 import {
 	CollectionCard,
-	CollectionCardQuantity,
 	VersionQuery,
 	CollectionCardQuantityTypeEnum,
+	Version,
 } from "@/types/collection";
 import { ScryfallCard } from "@/types/scryfall";
 import { DbModelResponseEnum } from "@/types/utils";
@@ -41,6 +41,27 @@ export class CardCollection {
 			.findOne(filter);
 
 		return !!results ? true : false;
+	}
+
+	private async getCardVersion(card: ScryfallCard) {
+		//verify connection
+		if (!this.db) {
+			throw new Error("no db connection");
+		}
+
+		const filter = {
+			scryfallId: card.id,
+		};
+
+		const options = {
+			projection: { _id: 0 },
+		};
+
+		const results = await this.db
+			.collection<Version>(process.env.DATABASE_TABLE_VERSIONS!)
+			.findOne(filter, options);
+
+		return results ? (results as Version) : null;
 	}
 
 	private async removeCardObject(card: ScryfallCard) {
@@ -186,14 +207,17 @@ export class CardCollection {
 	 */
 	async setQuantity(
 		card: ScryfallCard,
-		quantity: CollectionCardQuantity,
-		type: CollectionCardQuantityTypeEnum
+		type: CollectionCardQuantityTypeEnum,
+		newQuantity: number
 	) {
-		const regularQty = quantity?.[CollectionCardQuantityTypeEnum.REGULAR];
-		const foilQty = quantity?.[CollectionCardQuantityTypeEnum.FOIL];
+		const cardVersion = await this.getCardVersion(card);
+		const hasExistingQuantity = cardVersion?.quantity?.[type]! > 0;
 
-		//if both quantities are now 0, remove card
-		if (regularQty === 0 && foilQty === 0) {
+		if (
+			newQuantity === 0 &&
+			hasExistingQuantity &&
+			!CollectionCardUtil.versionIsCurrentlyUsed(cardVersion!, type)
+		) {
 			const removeResult = await this.removeCard(card);
 			if (!removeResult) {
 				return this.responseObject(
@@ -210,13 +234,8 @@ export class CardCollection {
 			});
 		}
 
-		//there are no cards to remove ignore
-		if (!regularQty && !foilQty) {
-			return this.responseObject(DbModelResponseEnum.ERROR, "Quantity can't be less than 0");
-		}
-
 		const cardCollectionObject = CollectionCardUtil.buildCardQueryObject(card);
-		const versionObject = CollectionCardUtil.buildVersionQueryObject(card, quantity, type);
+		const versionObject = CollectionCardUtil.buildVersionQueryObject(card, newQuantity, type);
 
 		//create the card object if one does not exist already
 		const upsertResults = await this.upsertCard(cardCollectionObject);

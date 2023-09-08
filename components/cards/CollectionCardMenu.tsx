@@ -11,22 +11,21 @@ import { faCircleExclamation, faCheckCircle } from "@fortawesome/free-solid-svg-
 
 type CollectionCardMenuProp = {
 	cardData: ScryfallCard;
-	quantity: CollectionCardQuantity;
+	quantity: {
+		[CollectionCardQuantityTypeEnum.REGULAR]?: number | string | undefined;
+		[CollectionCardQuantityTypeEnum.FOIL]?: number | string | undefined;
+	};
 };
+
 export function CollectionCardMenu({
 	quantity: initialQuantities,
 	cardData,
 }: CollectionCardMenuProp) {
+	const regularField = CollectionCardQuantityTypeEnum.REGULAR;
+	const foilField = CollectionCardQuantityTypeEnum.FOIL;
 	const [updatedField, setUpdatedField] = useState("");
-	const [quantities, setQuantities] = useState({
-		[CollectionCardQuantityTypeEnum.REGULAR]:
-			initialQuantities?.[CollectionCardQuantityTypeEnum.REGULAR] ?? 0,
-		[CollectionCardQuantityTypeEnum.FOIL]:
-			initialQuantities?.[CollectionCardQuantityTypeEnum.FOIL] ?? 0,
-	});
+	const [quantities, setQuantities] = useState(initialQuantities);
 
-	const regularFieldName = "collection-quantity";
-	const foilFieldName = "collection-foil-quantity";
 	const updateCardQuantity = useUpdateCollectionCardQuantity();
 
 	const selectText = (e: React.MouseEvent<Element, MouseEvent>) => {
@@ -35,31 +34,22 @@ export function CollectionCardMenu({
 	};
 
 	const updateQuantity = async (e: React.ChangeEvent<HTMLInputElement>) => {
-		const newQuantity = e.target.value == "" ? 0 : parseInt(e.target.value);
-		const fieldName = e.target.name;
+		const newQuantity = parseInt(e.target.value);
+		const fieldName = e.target.name as CollectionCardQuantityTypeEnum;
 		let updateResults;
 
-		if (fieldName == regularFieldName) {
-			updateResults = await updateCardQuantity.mutateAsync({
-				card: cardData,
-				quantity: {
-					[CollectionCardQuantityTypeEnum.REGULAR]: newQuantity,
-					[CollectionCardQuantityTypeEnum.FOIL]:
-						quantities[CollectionCardQuantityTypeEnum.FOIL],
-				},
-				type: CollectionCardQuantityTypeEnum.REGULAR,
-			});
-		} else if (fieldName == foilFieldName) {
-			updateResults = await updateCardQuantity.mutateAsync({
-				card: cardData,
-				quantity: {
-					[CollectionCardQuantityTypeEnum.REGULAR]:
-						quantities[CollectionCardQuantityTypeEnum.REGULAR],
-					[CollectionCardQuantityTypeEnum.FOIL]: newQuantity,
-				},
-				type: CollectionCardQuantityTypeEnum.FOIL,
-			});
+		if (isNaN(newQuantity)) {
+			fieldName == regularField
+				? setQuantities({ ...quantities, [regularField]: "" })
+				: setQuantities({ ...quantities, [foilField]: "" });
+			return;
 		}
+
+		updateResults = await updateCardQuantity.mutateAsync({
+			card: cardData,
+			type: fieldName,
+			newQuantity,
+		});
 
 		if (updateResults?.quantity) {
 			setQuantities({ ...updateResults.quantity });
@@ -92,13 +82,12 @@ export function CollectionCardMenu({
 				<li className={styles.collectionQuantity}>
 					<input
 						className={
-							updatedField == regularFieldName && updateCardQuantity.isError
+							updatedField == regularField && updateCardQuantity.isError
 								? styles.inputError
 								: ""
 						}
-						name={regularFieldName}
-						type="number"
-						value={quantities[CollectionCardQuantityTypeEnum.REGULAR] ?? 0}
+						name={regularField}
+						value={quantities?.[regularField] ?? 0}
 						onClick={(e) => {
 							selectText(e);
 						}}
@@ -113,13 +102,12 @@ export function CollectionCardMenu({
 				<li className={styles.collectionQuantityFoil}>
 					<input
 						className={
-							updatedField == foilFieldName && updateCardQuantity.isError
+							updatedField == foilField && updateCardQuantity.isError
 								? styles.inputError
 								: ""
 						}
-						name={foilFieldName}
-						type="number"
-						value={quantities[CollectionCardQuantityTypeEnum.FOIL] ?? 0}
+						name={foilField}
+						value={quantities?.[foilField] ?? 0}
 						onClick={(e) => {
 							selectText(e);
 						}}
