@@ -149,23 +149,34 @@ describe("CollectionCardMenu", () => {
 		expect(screen.queryByTestId("loader")).toBeNull();
 	});
 
-	it("should show error when update fails", () => {
+	it("should show error when update fails", async () => {
+		const resolveNullMock = jest.fn().mockResolvedValue(null);
+
 		//@ts-ignore
 		updateHookSpy.mockImplementation(() => ({
 			mutate: mutateMock,
+			mutateAsync: resolveNullMock,
 			isLoading: false,
 			isError: true,
 		}));
 
+		mutateMock.mockResolvedValueOnce(null);
+
 		render(<CollectionCardMenu cardData={nissaVastwoodSeer} quantity={quantityFoil} />);
 
-		expect(screen.queryByTestId("updateError")).not.toBeNull();
+		const foilInput = screen.getByTestId("foil-input");
+		fireEvent.change(foilInput, { target: { value: newQuantity } });
+
+		await waitFor(() => {
+			expect(screen.queryByTestId("updateError")).not.toBeNull();
+		});
 	});
 
-	it("should show success message when update is successful", () => {
+	it("should show success message when update is successful", async () => {
 		//@ts-ignore
 		updateHookSpy.mockImplementation(() => ({
 			mutate: mutateMock,
+			mutateAsync: jest.fn().mockResolvedValue(getSetQuantityResultMock()),
 			isLoading: false,
 			isError: false,
 			isSuccess: true,
@@ -173,6 +184,11 @@ describe("CollectionCardMenu", () => {
 
 		render(<CollectionCardMenu cardData={nissaVastwoodSeer} quantity={quantityFoil} />);
 
-		expect(screen.queryByTestId("updateSuccess")).not.toBeNull();
+		const foilInput = screen.getByTestId("foil-input");
+		fireEvent.change(foilInput, { target: { value: newQuantity } });
+
+		await waitFor(() => {
+			expect(screen.queryByTestId("updateSuccess")).not.toBeNull();
+		});
 	});
 });

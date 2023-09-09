@@ -1,7 +1,7 @@
 import Image from "next/image";
 import styles from "@/styles/collectionMenu.module.scss";
 import { ScryfallCard } from "@/types/scryfall";
-import { CollectionCardQuantity, CollectionCardQuantityTypeEnum } from "@/types/collection";
+import { CardCollectionMenuStatus, CollectionCardQuantityTypeEnum } from "@/types/collection";
 import { ScryfallUtil } from "@/utils/scryfallUtil";
 import { useUpdateCollectionCardQuantity } from "@/hooks/useUpdateCollectionCardQuantity";
 import { Loader } from "../utils/Loader";
@@ -25,6 +25,7 @@ export function CollectionCardMenu({
 	const foilField = CollectionCardQuantityTypeEnum.FOIL;
 	const [updatedField, setUpdatedField] = useState("");
 	const [quantities, setQuantities] = useState(initialQuantities);
+	const [updateStatus, setUpdateStatus] = useState(CardCollectionMenuStatus.INITIAL);
 
 	const updateCardQuantity = useUpdateCollectionCardQuantity();
 
@@ -37,6 +38,8 @@ export function CollectionCardMenu({
 		const newQuantity = parseInt(e.target.value);
 		const fieldName = e.target.name as CollectionCardQuantityTypeEnum;
 		let updateResults;
+
+		setUpdateStatus(CardCollectionMenuStatus.INITIAL);
 
 		if (isNaN(newQuantity)) {
 			fieldName == regularField
@@ -53,6 +56,9 @@ export function CollectionCardMenu({
 
 		if (updateResults?.quantity) {
 			setQuantities({ ...updateResults.quantity });
+			setUpdateStatus(CardCollectionMenuStatus.UPDATED);
+		} else {
+			setUpdateStatus(CardCollectionMenuStatus.ERROR);
 		}
 
 		setUpdatedField(fieldName);
@@ -118,14 +124,14 @@ export function CollectionCardMenu({
 				</li>
 			)}
 
-			{updateCardQuantity.isError && (
+			{updateCardQuantity.isError && updateStatus == CardCollectionMenuStatus.ERROR && (
 				<div className={styles.updateError} data-testid="updateError">
 					<FontAwesomeIcon icon={faCircleExclamation} />
 					<p>Error Updating</p>
 				</div>
 			)}
 
-			{updateCardQuantity.isSuccess && (
+			{updateCardQuantity.isSuccess && updateStatus == CardCollectionMenuStatus.UPDATED && (
 				<div className={styles.updateSuccess} data-testid="updateSuccess">
 					<FontAwesomeIcon icon={faCheckCircle} />
 					<p>Updated</p>

@@ -67,3 +67,9 @@ export type CollectionCardFace = {
 	loyalty?: string;
 	flavorText?: string;
 };
+
+export enum CardCollectionMenuStatus {
+	INITIAL,
+	UPDATED,
+	ERROR,
+}
