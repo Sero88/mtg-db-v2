@@ -94,9 +94,7 @@ describe("CardCollection Model", () => {
 
 			const card = CollectionCardUtil.buildVersionQueryObject(
 				elvishMysticLordOfTheRingsPrint,
-				{
-					[CollectionCardQuantityTypeEnum.REGULAR]: 1,
-				},
+				1,
 				CollectionCardQuantityTypeEnum.REGULAR
 			);
 			await cardCollection.upsertVersion(card);
@@ -211,10 +209,8 @@ describe("CardCollection Model", () => {
 			upsertCardSpy.mockResolvedValue(false);
 			const result = await cardCollection.setQuantity(
 				elvishMystic,
-				{
-					[CollectionCardQuantityTypeEnum.REGULAR]: 1,
-				},
-				CollectionCardQuantityTypeEnum.REGULAR
+				CollectionCardQuantityTypeEnum.REGULAR,
+				1
 			);
 
 			expect(result.status).toEqual(DbModelResponseEnum.ERROR);
@@ -225,10 +221,8 @@ describe("CardCollection Model", () => {
 			upsertVersionSpy.mockResolvedValue(false);
 			const result = await cardCollection.setQuantity(
 				elvishMystic,
-				{
-					[CollectionCardQuantityTypeEnum.REGULAR]: 1,
-				},
-				CollectionCardQuantityTypeEnum.REGULAR
+				CollectionCardQuantityTypeEnum.REGULAR,
+				1
 			);
 
 			expect(result.status).toEqual(DbModelResponseEnum.ERROR);
