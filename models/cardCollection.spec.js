@@ -14,6 +14,7 @@ import {
 	elvishMysticCollectionCard,
 	nissaVastwoodSeerCollectionVersion,
 	elvishMysticCollectionVersion,
+	plusTwoMaceCollectionVersion,
 } from "@/tests/mocks/collectionCard.mock";
 import { CollectionCardQuantityTypeEnum } from "@/types/collection";
 const mockIds = cardsWithRegularAndFoilQuantities.map((card) => {
@@ -247,6 +248,15 @@ describe("CardCollection Model", () => {
 				...nissaVastwoodSeerCollectionVersion,
 				quantity: { [CollectionCardQuantityTypeEnum.FOIL]: 3 },
 			});
+		});
+	});
+	describe("getCards", () => {
+		const cardName = "+2 Mace";
+		it("should get search results by card name", async () => {
+			const results = await cardCollection.getCards({ cardName });
+
+			expect(results?.data[0]?.name).toEqual(cardName);
+			expect(results?.status).toEqual(DbModelResponseEnum.SUCCESS);
 		});
 	});
 });

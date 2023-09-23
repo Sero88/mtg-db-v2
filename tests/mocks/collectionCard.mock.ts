@@ -85,3 +85,41 @@ export const nissaVastwoodSeerCollectionVersion: Version = {
 	promoTypes: ["convention"],
 	quantity: { [CollectionCardQuantityTypeEnum.FOIL]: 1 },
 };
+
+export const plusTwoMaceCollectionVersion = {
+	_id: "650cb59a7f459a9c4ada599a",
+	cardFaces: [
+		{
+			flavorText: "The weight of this magic weapon falls heavy on the wicked.",
+			manaCost: "{1}{W}",
+			manaValue: 2,
+			oracleText:
+				"Equipped creature gets +2/+2.Equip {3} ({3}: Attach to target creature you control. Equip only as a sorcery.)",
+		},
+	],
+	colorIdentity: ["W"],
+	keywords: ["Equip"],
+	name: "+2 Mace",
+	oracleId: "629fe1be-272d-465f-b9b1-2ce177410f13",
+	types: ["Artifact", "Equipment"],
+	versions: [
+		{
+			_id: "650cb59a7f459a9c4ada59b5",
+			collectionNumber: "1",
+			images: [
+				{
+					artist: "Jarel Threat",
+					imageUri:
+						"https://cards.scryfall.io/normal/front/e/8/e882c9f9-bf30-46b6-bedc-379d2c80e5cb.jpg?1627701221",
+				},
+			],
+			isPromo: false,
+			oracleId: "629fe1be-272d-465f-b9b1-2ce177410f13",
+			prices: { foil: 0.04, regular: 0.02 },
+			quantity: { regular: 3 },
+			rarity: "common",
+			scryfallId: "e882c9f9-bf30-46b6-bedc-379d2c80e5cb",
+			set: "afr",
+		},
+	],
+};

@@ -214,4 +214,41 @@ export const CollectionCardUtil = {
 		}
 		return false;
 	},
+
+	// @deprecated
+	getUniqueWords: function (text: string): { words: string[]; text: string } {
+		//remove any stop words
+		const stopWords = ["in", "on", "a", "the", "of", "an", "to"];
+		stopWords.forEach((stopWord) => {
+			const regex = new RegExp(`${stopWord}\\s`, "gi");
+			text = text.replace(regex, "");
+		});
+
+		//remove any extra space and split by space
+		text = text.trim();
+		const words = text.split(" ");
+
+		//search for unique words
+		const uniqueWords: string[] = [];
+		words.forEach((word) => {
+			const lowerCaseWord = word.toLocaleLowerCase();
+			if (uniqueWords.includes(lowerCaseWord)) {
+				return;
+			}
+			uniqueWords.push(lowerCaseWord);
+		});
+
+		const uniqueText = uniqueWords.join(" ");
+
+		return { words: uniqueWords, text: uniqueText };
+	},
+
+	constructTextQuery(textToSearch: string) {
+		const nonAlphaNumeric = /([^a-zA-Z0-9])/gim;
+		const subs = "\\$1";
+
+		const escapedText = textToSearch.replace(nonAlphaNumeric, subs);
+
+		return new RegExp(`${escapedText}`, "i");
+	},
 };

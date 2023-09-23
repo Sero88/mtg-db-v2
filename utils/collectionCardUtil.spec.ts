@@ -137,4 +137,42 @@ describe("CollectionCardUtil", () => {
 			).toEqual(false);
 		});
 	});
+
+	describe("getUniqueWords", () => {
+		it("should remove stop words", () => {
+			const uniqueWords = CollectionCardUtil.getUniqueWords("In the middle of the door");
+			const expectedString = "middle door";
+			const expecteduniqueWords = ["middle", "door"];
+
+			expect(uniqueWords).toEqual({
+				words: expecteduniqueWords,
+				text: expectedString,
+			});
+		});
+
+		it("should remove repeated words", () => {
+			const uniqueWords = CollectionCardUtil.getUniqueWords("Eye for an eye");
+			const expectedString = "eye for";
+			const expecteduniqueWords = ["eye", "for"];
+
+			expect(uniqueWords).toEqual({
+				words: expecteduniqueWords,
+				text: expectedString,
+			});
+		});
+	});
+
+	describe("constructTextQuery", () => {
+		it("should return query regex", () => {
+			const textQuery = CollectionCardUtil.constructTextQuery("Door to nothingness");
+			const expectedRegex = new RegExp(`Door\\ to\\ nothingness`, "i");
+			expect(textQuery).toEqual(expectedRegex);
+		});
+
+		it("should escape non-alphanumeric chars", () => {
+			const textQuery = CollectionCardUtil.constructTextQuery("+2 Mace");
+			const expectedRegex = new RegExp(`\\+2\\ Mace`, "i");
+			expect(textQuery).toEqual(expectedRegex);
+		});
+	});
 });

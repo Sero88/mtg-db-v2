@@ -5,6 +5,7 @@ import {
 	Version,
 } from "@/types/collection";
 import { ScryfallCard } from "@/types/scryfall";
+import { SearchQuery, SearchQueryFields } from "@/types/search";
 import { DbModelResponseEnum } from "@/types/utils";
 import { CollectionCardUtil } from "@/utils/collectionCardUtil";
 import { connect } from "@/utils/mongodb";
@@ -199,12 +200,6 @@ export class CardCollection {
 		return !!versionDelete;
 	}
 
-	/**
-	 *
-	 * @param card
-	 * @param quantity Note it uses quantity object, not just one type of quantity (ie regulor OR foil). This is so we can update/remove accordingly
-	 * @param type Depending on the type passed, only that type will be updated, the other quanity type won't be touched.
-	 */
 	async setQuantity(
 		card: ScryfallCard,
 		type: CollectionCardQuantityTypeEnum,
@@ -258,5 +253,94 @@ export class CardCollection {
 		}
 
 		return this.responseObject(DbModelResponseEnum.SUCCESS, upsertVersionResult);
+	}
+
+	async getCards(searchFields: SearchQueryFields) {
+		let queryObject: SearchQuery = { $expr: { $eq: [1, 1] } };
+		let setsQuery = { $expr: { $eq: [1, 1] } };
+		let rarityQuery = { $expr: { $eq: [1, 1] } };
+
+		if (searchFields.cardName) {
+			queryObject.name = CollectionCardUtil.constructTextQuery(searchFields.cardName);
+		}
+
+		/* if (searchFields.cardText) {
+			//todo: remove after completing searchFields functionality
+			//@ts-ignore
+			queryObject["cardFaces.oracleText"] = this.constructTextQuery(searchFields.cardText);
+		}
+
+		if (searchFields.cardTypes && searchFields.cardTypes.items.length > 0) {
+			//todo: remove after completing searchFields functionality
+			//@ts-ignore
+			queryObject["types"] = this.constructTypesQuery(
+				searchFields.cardTypes.items,
+				searchFields.cardTypes.conditionals.allowPartials
+			);
+		}
+
+		if (searchFields.cardColors && searchFields.cardColors.selected.length > 0) {
+			//todo: remove after completing searchFields functionality
+			//@ts-ignore
+			queryObject["colorIdentity"] = this.constructColorsQuery(searchFields.cardColors);
+		}
+
+		if (searchFields.cardStats && Object.keys(searchFields.cardStats).length > 0) {
+			//todo: remove after completing searchFields functionality
+			//@ts-ignore
+			queryObject = this.constructStatQueries(searchFields.cardStats, queryObject);
+		}
+
+		if (searchFields.cardSets && searchFields.cardSets.items.length > 0) {
+			//todo: remove after completing searchFields functionality
+			//@ts-ignore
+			setsQuery = this.constructSetsQuery(searchFields.cardSets.items);
+		}
+
+		if (searchFields.cardRarity && searchFields.cardRarity.selected.length > 0) {
+			//todo: remove after completing searchFields functionality
+			//@ts-ignore
+			rarityQuery = this.constructRarityQuery(searchFields.cardRarity.selected);
+		}
+ */
+		const queryWithVersions = [
+			{
+				$lookup: {
+					from: process.env.DATABASE_TABLE_VERSIONS,
+					localField: "oracleId",
+					foreignField: "oracleId",
+					as: "versions",
+				},
+			},
+			{
+				$match: setsQuery,
+			},
+			{
+				$match: rarityQuery,
+			},
+			{
+				$match: queryObject,
+			},
+		];
+
+		// {sort:{name: 1},projection: this.findProjection}
+
+		//todo remove after testing 👇
+		console.log("search form data: ", searchFields);
+		//todo remove after testing 👆
+
+		//todo remove after testing 👇
+		console.log("searching query object:", queryWithVersions);
+		//todo remove after testing 👆
+
+		//todo remove after testing 👇
+		console.log("searching query object:", JSON.stringify(queryWithVersions));
+		//todo remove after testing 👆
+
+		const results = await this.db!.collection(process.env.DATABASE_TABLE_CARDS!)
+			.aggregate(queryWithVersions)
+			.toArray();
+
+		return this.responseObject(DbModelResponseEnum.SUCCESS, results);
 	}
 }
