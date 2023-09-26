@@ -6,8 +6,6 @@ import { DbModelResponseEnum } from "@/types/utils";
 export async function POST(request: Request) {
 	const data = await request.json();
 
-	const { searchQuery } = data;
-
 	const cardCollection = new CardCollection();
 	const isConnected = await cardCollection.dbConnect();
 
@@ -15,7 +13,7 @@ export async function POST(request: Request) {
 		return NextResponse.json({ error: "Unable to connect to database." }, { status: 500 });
 	}
 
-	const results = await cardCollection.getCards(searchQuery);
+	const results = await cardCollection.getCards(data);
 
 	if (results.status == DbModelResponseEnum.SUCCESS) {
 		return NextResponse.json(GeneralUtil.apiResponse(true, results?.data));

@@ -3,12 +3,14 @@ import { CardName } from "@/components/search/fields/CardName";
 import { SearchFields } from "@/types/search";
 import { useState } from "react";
 import styles from "@/styles/collectionSearchResults.module.scss";
+import { useCollectionCardSearch } from "@/hooks/useCollectionCardSearch";
 
 export default function SearchPage() {
 	const initialFormFields = {
 		[SearchFields.NAME]: "",
 	};
 	const [formFields, setFormFields] = useState(initialFormFields);
+	const searchResponse = useCollectionCardSearch(formFields);
 
 	const updateHandler = (fieldName: SearchFields, value: any) => {
 		setFormFields({
@@ -19,13 +21,18 @@ export default function SearchPage() {
 
 	const submitHandler = (event: React.FormEvent) => {
 		event.preventDefault();
+		if (searchResponse?.isLoading) {
+			return;
+		}
+
+		searchResponse.refetch();
 		console.log(formFields);
 	};
 
 	return (
 		<>
 			<h1>Search Collection</h1>
-			<form onSubmit={submitHandler} className={styles.searchForm}>
+			<form onSubmit={submitHandler} className={styles.searchForm} data-testid="searchForm">
 				<div className="form-section">
 					<CardName
 						fieldData={{
