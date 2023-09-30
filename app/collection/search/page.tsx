@@ -4,6 +4,9 @@ import { SearchFields } from "@/types/search";
 import { useState } from "react";
 import styles from "@/styles/collectionSearchResults.module.scss";
 import { useCollectionCardSearch } from "@/hooks/useCollectionCardSearch";
+import { CollectionSearchResults } from "@/components/search/CollectionSearchResults";
+import { QueryResultData } from "@/types/queryResult";
+import { QueryResult } from "@/components/utils/QueryResult";
 
 export default function SearchPage() {
 	const initialFormFields = {
@@ -44,6 +47,9 @@ export default function SearchPage() {
 				</div>
 				<hr />
 			</form>
+			<QueryResult queryResult={searchResponse as QueryResultData}>
+				<CollectionSearchResults cardData={searchResponse.data} />
+			</QueryResult>
 		</>
 	);
 }
