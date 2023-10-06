@@ -1,8 +1,9 @@
-import { CollectionCard } from "@/types/collection";
-import { CollectionCardList } from "../cards/CollectionCardList";
+import { CollectionCard as CollectionCardType } from "@/types/collection";
+import { CollectionCard } from "../cards/CollectionCard";
+import { CardList } from "../cards/CardList";
 
 type SearchResultsProps = {
-	cardData: CollectionCard[] | undefined;
+	cardData: CollectionCardType[] | undefined;
 };
 export function CollectionSearchResults({ cardData }: SearchResultsProps) {
 	if (!cardData?.length) {
@@ -15,7 +16,10 @@ export function CollectionSearchResults({ cardData }: SearchResultsProps) {
 			<p data-testid="search-matched">
 				{cardData.length} {cardText} matched your search.
 			</p>
-			<CollectionCardList cardData={cardData} />
+			<CardList
+				cardData={cardData}
+				renderCard={(card) => <CollectionCard data={card as CollectionCardType} />}
+			/>
 		</>
 	);
 }

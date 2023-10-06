@@ -1,10 +1,11 @@
 import { elvishMysticCollectionCard } from "@/tests/mocks/collectionCard.mock";
 import { CollectionSearchResults } from "./CollectionSearchResults";
 import { render, screen } from "@testing-library/react";
-import * as CollectionCardListComponent from "../cards/CollectionCardList";
+import * as CardsListComponent from "@/components/cards/CardList";
+import * as CollectionCardComponent from "@/components/cards/CollectionCard";
 
-jest.mock("@/components/cards/CollectionCardList", () => {
-	const originalModule = jest.requireActual("@/components/cards/CollectionCardList");
+jest.mock("@/components/cards/CardList", () => {
+	const originalModule = jest.requireActual("@/components/cards/CardList");
 
 	return {
 		__esModule: true,
@@ -12,7 +13,17 @@ jest.mock("@/components/cards/CollectionCardList", () => {
 	};
 });
 
-const collectionCardListSpy = jest.spyOn(CollectionCardListComponent, "CollectionCardList");
+jest.mock("@/components/cards/CollectionCard", () => {
+	const originalModule = jest.requireActual("@/components/cards/CollectionCard");
+
+	return {
+		__esModule: true,
+		...originalModule,
+	};
+});
+
+const cardListSpy = jest.spyOn(CardsListComponent, "CardList");
+const collectionCardListSpy = jest.spyOn(CollectionCardComponent, "CollectionCard");
 const elvishMysticSearchResults = [elvishMysticCollectionCard];
 
 describe("CollectionSearchResults", () => {
@@ -33,6 +44,7 @@ describe("CollectionSearchResults", () => {
 
 	it("should display collection card list", () => {
 		render(<CollectionSearchResults cardData={elvishMysticSearchResults} />);
+		expect(cardListSpy).toHaveBeenCalled();
 		expect(collectionCardListSpy).toHaveBeenCalled();
 	});
 });
