@@ -74,3 +74,8 @@ export enum CardCollectionMenuStatus {
 	UPDATED,
 	ERROR,
 }
+
+export enum CardCollectionVersion {
+	PROMO,
+	NO_PROMO,
+}

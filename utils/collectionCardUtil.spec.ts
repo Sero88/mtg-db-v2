@@ -3,12 +3,13 @@ import { CollectionCardUtil } from "./collectionCardUtil";
 import { cardsWithRegularAndFoilQuantities } from "@/tests/mocks/collectionQuantity.mock";
 import {
 	elvishMysticCollectionCard,
+	elvishMysticCollectionCardWithVersions,
 	elvishMysticCollectionVersion,
 	nissaVastwoodSeerCollectionCard,
 	nissaVastwoodSeerCollectionVersion,
 } from "@/tests/mocks/collectionCard.mock";
 import { ScryfallCardFace } from "@/types/scryfall";
-import { CollectionCardQuantityTypeEnum } from "@/types/collection";
+import { CardCollectionVersion, CollectionCardQuantityTypeEnum } from "@/types/collection";
 
 describe("CollectionCardUtil", () => {
 	describe("mapIdWithQuantities", () => {
@@ -173,6 +174,29 @@ describe("CollectionCardUtil", () => {
 			const textQuery = CollectionCardUtil.constructTextQuery("+2 Mace");
 			const expectedRegex = new RegExp(`\\+2\\ Mace`, "i");
 			expect(textQuery).toEqual(expectedRegex);
+		});
+	});
+	describe("getVersionCardImage", () => {
+		it("should get promo version image", () => {
+			const image = CollectionCardUtil.getVersionCardImage(
+				elvishMysticCollectionCardWithVersions,
+				CardCollectionVersion.PROMO
+			);
+
+			expect(image).toEqual(
+				elvishMysticCollectionCardWithVersions.versions[0].images[0].imageUri
+			);
+		});
+
+		it("should get non-promo version image, the first one", () => {
+			const image = CollectionCardUtil.getVersionCardImage(
+				elvishMysticCollectionCardWithVersions,
+				CardCollectionVersion.NO_PROMO
+			);
+
+			expect(image).toEqual(
+				elvishMysticCollectionCardWithVersions.versions[1].images[0].imageUri
+			);
 		});
 	});
 });

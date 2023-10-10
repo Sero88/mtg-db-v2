@@ -1,15 +1,15 @@
 import Image from "next/image";
 import styles from "@/styles/card.module.scss";
-import { ScryfallResultsTypeEnum } from "@/types/scryfall";
+import { CardType } from "@/types/card";
 
 type CardImageProps = {
 	imageUri: string;
 	name: string;
-	type: ScryfallResultsTypeEnum;
+	type: CardType;
 };
 
 export function CardImage({ imageUri, name, type }: CardImageProps) {
-	const imageClass = type == ScryfallResultsTypeEnum.PRINT ? " " + styles.imagePrint : "";
+	const imageClass = type == CardType.SCRYFALL_PRINT ? " " + styles.imagePrint : "";
 
 	return (
 		<div className={styles.cardWrapper}>

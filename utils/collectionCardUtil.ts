@@ -1,11 +1,11 @@
 import {
-	CollectionCardQuantity,
 	CollectionCard,
 	CollectionCardFace,
 	QuantityCardCollection,
 	VersionQuery,
 	CollectionCardQuantityTypeEnum,
 	Version,
+	CardCollectionVersion,
 } from "@/types/collection";
 import { ScryfallCard, ScryfallCardFace } from "@/types/scryfall";
 import { ScryfallUtil } from "./scryfallUtil";
@@ -250,5 +250,37 @@ export const CollectionCardUtil = {
 		const escapedText = textToSearch.replace(nonAlphaNumeric, subs);
 
 		return new RegExp(`${escapedText}`, "i");
+	},
+
+	getVersionCardImage(
+		card: CollectionCard,
+		versionType: CardCollectionVersion = CardCollectionVersion.NO_PROMO
+	) {
+		let image = "";
+		let scryfallId = "";
+		const versions = card.versions ? card.versions : [];
+
+		if (versionType == CardCollectionVersion.NO_PROMO) {
+			for (const version of versions) {
+				if (!version.isPromo && version.images[0].imageUri) {
+					image = version.images[0].imageUri;
+					scryfallId = version.scryfallId;
+					break;
+				}
+			}
+		}
+
+		//get default image - the first one
+		if (!image) {
+			for (const version of versions) {
+				if (version.images[0].imageUri) {
+					image = version.images[0].imageUri;
+					scryfallId = version.scryfallId;
+					break;
+				}
+			}
+		}
+
+		return image;
 	},
 };

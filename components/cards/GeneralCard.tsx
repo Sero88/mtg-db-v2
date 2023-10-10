@@ -1,7 +1,8 @@
 import styles from "@/styles/card.module.scss";
-import { ScryfallResultsTypeEnum, ScryfallCard } from "@/types/scryfall";
+import { ScryfallCard } from "@/types/scryfall";
 import { CardImage } from "./CardImage";
 import { GeneralCardDetails } from "./GeneralCardDetails";
+import { CardType } from "@/types/card";
 
 type GeneralCardProps = {
 	data: ScryfallCard;
@@ -19,7 +20,7 @@ export function GeneralCard({ data, clickHandler }: GeneralCardProps) {
 				<CardImage
 					imageUri={cardImageUrl ?? ""}
 					name={data.name}
-					type={ScryfallResultsTypeEnum.GENERAL}
+					type={CardType.SCRYFALL_GENERAL}
 				/>
 			</div>
 			<GeneralCardDetails data={data} clickHandler={clickHandler} />

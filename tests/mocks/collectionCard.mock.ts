@@ -19,6 +19,46 @@ export const elvishMysticCollectionCard = {
 	],
 };
 
+export const elvishMysticCollectionCardWithVersions = {
+	...elvishMysticCollectionCard,
+	versions: [
+		{
+			scryfallId: "1234",
+			oracleId: "3f3b2c10-21f8-4e13-be83-4ef3fa36e123",
+			isPromo: true,
+			collectionNumber: "1",
+			rarity: "rare",
+			prices: { regular: 1, foil: 2 },
+			set: "m14",
+			images: [
+				{
+					artist: "test artist",
+					imageUri: "http:localhost:3000",
+				},
+			],
+			promoTypes: ["the list"],
+			quantity: { regular: 2, foil: 1 },
+		},
+
+		{
+			scryfallId: "1234",
+			oracleId: "3f3b2c10-21f8-4e13-be83-4ef3fa36e123",
+			isPromo: false,
+			collectionNumber: "1",
+			rarity: "rare",
+			prices: { regular: 1, foil: 2 },
+			set: "m14",
+			images: [
+				{
+					artist: "test artist",
+					imageUri: "http:localhost:3000/no-promo",
+				},
+			],
+			quantity: { regular: 2, foil: 1 },
+		},
+	],
+};
+
 export const elvishMysticCollectionVersion = {
 	set: "m14",
 	scryfallId: "60d0e6a6-629a-45a7-bfcb-25ba7156788b",

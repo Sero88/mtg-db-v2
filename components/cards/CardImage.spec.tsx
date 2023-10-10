@@ -1,4 +1,4 @@
-import { ScryfallResultsTypeEnum } from "@/types/scryfall";
+import { CardType } from "@/types/card";
 import { CardImage } from "./CardImage";
 import { render } from "@testing-library/react";
 import Image from "next/image";
@@ -18,9 +18,7 @@ jest.mock("next/image", () => {
 
 describe("CardImage component", () => {
 	it("should have correct src", () => {
-		render(
-			<CardImage imageUri={imageUri} name={name} type={ScryfallResultsTypeEnum.GENERAL} />
-		);
+		render(<CardImage imageUri={imageUri} name={name} type={CardType.SCRYFALL_GENERAL} />);
 
 		expect(Image).toHaveBeenCalledWith(
 			expect.objectContaining({ src: imageUri }),
@@ -29,7 +27,7 @@ describe("CardImage component", () => {
 	});
 
 	it("should have correct class for PRINT type", () => {
-		render(<CardImage imageUri={imageUri} name={name} type={ScryfallResultsTypeEnum.PRINT} />);
+		render(<CardImage imageUri={imageUri} name={name} type={CardType.SCRYFALL_PRINT} />);
 
 		expect(Image).toHaveBeenCalledWith(
 			expect.objectContaining({ className: "cardImage imagePrint" }),
@@ -38,9 +36,7 @@ describe("CardImage component", () => {
 	});
 
 	it("should have correct class for GENERAL type", () => {
-		render(
-			<CardImage imageUri={imageUri} name={name} type={ScryfallResultsTypeEnum.GENERAL} />
-		);
+		render(<CardImage imageUri={imageUri} name={name} type={CardType.SCRYFALL_GENERAL} />);
 
 		expect(Image).toHaveBeenCalledWith(
 			expect.objectContaining({ className: "cardImage" }),
