@@ -1,8 +1,12 @@
-import { elvishMysticCollectionCard } from "@/tests/mocks/collectionCard.mock";
+import {
+	elvishMysticCollectionCard,
+	elvishMysticCollectionCardWithVersions,
+} from "@/tests/mocks/collectionCard.mock";
 import { CollectionSearchResults } from "./CollectionSearchResults";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import * as CardsListComponent from "@/components/cards/CardList";
 import * as CollectionCardComponent from "@/components/cards/CollectionCard";
+import * as CollectionCardModal from "@/components/cards/CollectionCardModal";
 
 jest.mock("@/components/cards/CardList", () => {
 	const originalModule = jest.requireActual("@/components/cards/CardList");
@@ -22,9 +26,19 @@ jest.mock("@/components/cards/CollectionCard", () => {
 	};
 });
 
+jest.mock("@/components/cards/CollectionCardModal", () => {
+	const originalModule = jest.requireActual("@/components/cards/CollectionCardModal");
+
+	return {
+		__esModule: true,
+		...originalModule,
+	};
+});
+
 const cardListSpy = jest.spyOn(CardsListComponent, "CardList");
 const collectionCardListSpy = jest.spyOn(CollectionCardComponent, "CollectionCard");
-const elvishMysticSearchResults = [elvishMysticCollectionCard];
+const elvishMysticSearchResults = [elvishMysticCollectionCardWithVersions];
+const collectionCardModalSpy = jest.spyOn(CollectionCardModal, "CollectionCardModal");
 
 describe("CollectionSearchResults", () => {
 	it("should display no results message when there are no results", () => {
@@ -46,5 +60,21 @@ describe("CollectionSearchResults", () => {
 		render(<CollectionSearchResults cardData={elvishMysticSearchResults} />);
 		expect(cardListSpy).toHaveBeenCalled();
 		expect(collectionCardListSpy).toHaveBeenCalled();
+	});
+
+	it("should display modal when a card is clicked", () => {
+		render(<CollectionSearchResults cardData={elvishMysticSearchResults} />);
+
+		const card = screen.getByText(elvishMysticSearchResults[0].name);
+		fireEvent.click(card);
+
+		expect(collectionCardModalSpy).toHaveBeenCalledWith(
+			{
+				card: elvishMysticSearchResults[0],
+				showModal: true,
+				closeModalCallback: expect.anything(),
+			},
+			{}
+		);
 	});
 });
