@@ -1,16 +1,17 @@
 import { CollectionCard } from "@/types/collection";
 import styles from "@/styles/collectionCardModal.module.scss";
 import { Helpers } from "@/utils/helpers";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClose } from "@fortawesome/free-solid-svg-icons";
+import { CollectionCardImages } from "./CollectionCardImages";
 
 type CardModalProps = {
-	card: CollectionCard | undefined;
+	card: CollectionCard;
 	showModal: boolean;
 	closeModalCallback: () => void;
 };
 
 export function CollectionCardModal({ showModal, closeModalCallback, card }: CardModalProps) {
-	const images = <p>images placeholder</p>;
-
 	const clickHandlerCloseModal = (event: React.MouseEvent<Element, MouseEvent>) => {
 		let target =
 			event.target == event.currentTarget ||
@@ -48,12 +49,12 @@ export function CollectionCardModal({ showModal, closeModalCallback, card }: Car
 						data-close={true}
 						data-testid="closeIcon"
 					>
-						icon goes here
+						<FontAwesomeIcon icon={faClose} />
 					</div>
 				</header>
 
 				<div className={styles.cardModalMain}>
-					<div className={styles.cardImages}>{images}</div>
+					<CollectionCardImages card={card} />
 					<p>Rows go here</p>
 				</div>
 			</div>

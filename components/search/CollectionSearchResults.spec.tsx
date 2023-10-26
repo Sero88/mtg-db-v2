@@ -1,7 +1,4 @@
-import {
-	elvishMysticCollectionCard,
-	elvishMysticCollectionCardWithVersions,
-} from "@/tests/mocks/collectionCard.mock";
+import { elvishMysticCollectionCardWithVersions } from "@/tests/mocks/collectionCard.mock";
 import { CollectionSearchResults } from "./CollectionSearchResults";
 import { fireEvent, render, screen } from "@testing-library/react";
 import * as CardsListComponent from "@/components/cards/CardList";
@@ -41,12 +38,15 @@ const elvishMysticSearchResults = [elvishMysticCollectionCardWithVersions];
 const collectionCardModalSpy = jest.spyOn(CollectionCardModal, "CollectionCardModal");
 
 describe("CollectionSearchResults", () => {
+	beforeEach(() => {
+		collectionCardModalSpy.mockReset();
+	});
 	it("should display no results message when there are no results", () => {
 		render(<CollectionSearchResults cardData={[]} />);
 		expect(screen.queryByTestId("no-search-match")).not.toBeNull();
 	});
 
-	it("should display no results message when there are no results", () => {
+	it("should display section title", () => {
 		render(<CollectionSearchResults cardData={elvishMysticSearchResults} />);
 		expect(screen.queryByRole("heading", { level: 2 })).not.toBeNull();
 	});
@@ -76,5 +76,10 @@ describe("CollectionSearchResults", () => {
 			},
 			{}
 		);
+	});
+
+	it("should not display modal before card is clicked", () => {
+		render(<CollectionSearchResults cardData={elvishMysticSearchResults} />);
+		expect(collectionCardModalSpy).not.toHaveBeenCalled();
 	});
 });

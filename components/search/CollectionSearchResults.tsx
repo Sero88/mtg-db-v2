@@ -3,7 +3,6 @@ import { CollectionCard } from "../cards/CollectionCard";
 import { CardList } from "../cards/CardList";
 import { CollectionCardModal } from "../cards/CollectionCardModal";
 import { useState } from "react";
-import { Helpers } from "@/utils/helpers";
 
 type SearchResultsProps = {
 	cardData: CollectionCardType[] | undefined;
@@ -40,11 +39,13 @@ export function CollectionSearchResults({ cardData }: SearchResultsProps) {
 				)}
 			/>
 
-			<CollectionCardModal
-				card={selectedCard}
-				showModal={showModal}
-				closeModalCallback={modalCloseClickHandler}
-			/>
+			{selectedCard && (
+				<CollectionCardModal
+					card={selectedCard}
+					showModal={showModal}
+					closeModalCallback={modalCloseClickHandler}
+				/>
+			)}
 		</>
 	);
 }

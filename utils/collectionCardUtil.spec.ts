@@ -3,8 +3,8 @@ import { CollectionCardUtil } from "./collectionCardUtil";
 import { cardsWithRegularAndFoilQuantities } from "@/tests/mocks/collectionQuantity.mock";
 import {
 	elvishMysticCollectionCard,
-	elvishMysticCollectionCardWithVersions,
 	elvishMysticCollectionVersion,
+	elvishMysticCollectionCardWithVersions,
 	nissaVastwoodSeerCollectionCard,
 	nissaVastwoodSeerCollectionVersion,
 } from "@/tests/mocks/collectionCard.mock";
@@ -176,27 +176,44 @@ describe("CollectionCardUtil", () => {
 			expect(textQuery).toEqual(expectedRegex);
 		});
 	});
-	describe("getVersionCardImage", () => {
-		it("should get promo version image", () => {
-			const image = CollectionCardUtil.getVersionCardImage(
-				elvishMysticCollectionCardWithVersions,
-				CardCollectionVersion.PROMO
-			);
 
-			expect(image).toEqual(
-				elvishMysticCollectionCardWithVersions.versions[0].images[0].imageUri
-			);
-		});
-
-		it("should get non-promo version image, the first one", () => {
-			const image = CollectionCardUtil.getVersionCardImage(
+	describe("getVersionsByType", () => {
+		it("should only return versions from card that match type", () => {
+			const versions = CollectionCardUtil.getVersionsByType(
 				elvishMysticCollectionCardWithVersions,
 				CardCollectionVersion.NO_PROMO
 			);
 
-			expect(image).toEqual(
-				elvishMysticCollectionCardWithVersions.versions[1].images[0].imageUri
+			versions.forEach((version) => {
+				expect(version.isPromo).toEqual(false);
+			});
+		});
+	});
+
+	describe("getVersionCardImages", () => {
+		it("should return correct amount of images", () => {
+			const images = CollectionCardUtil.getVersionCardImages(
+				nissaVastwoodSeerCollectionCard,
+				nissaVastwoodSeerCollectionVersion
 			);
+			expect(images.length).toEqual(nissaVastwoodSeerCollectionVersion.images.length);
+		});
+	});
+
+	describe("getDefaultSearchCardImage", () => {
+		it("should return no promo version images if available", () => {
+			const images = CollectionCardUtil.getDefaultSearchCardImages(
+				elvishMysticCollectionCardWithVersions
+			);
+			expect(images).toEqual(expect.arrayContaining(["http:localhost:3000/no-promo"]));
+		});
+
+		it("should return promo image when no-promo is not available", () => {
+			const images = CollectionCardUtil.getDefaultSearchCardImages({
+				...elvishMysticCollectionCardWithVersions,
+				versions: [elvishMysticCollectionCardWithVersions.versions[0]],
+			});
+			expect(images).toEqual(expect.arrayContaining(["http:localhost:3000/promo"]));
 		});
 	});
 });

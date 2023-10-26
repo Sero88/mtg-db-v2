@@ -252,35 +252,29 @@ export const CollectionCardUtil = {
 		return new RegExp(`${escapedText}`, "i");
 	},
 
-	getVersionCardImage(
-		card: CollectionCard,
-		versionType: CardCollectionVersion = CardCollectionVersion.NO_PROMO
-	) {
-		let image = "";
-		let scryfallId = "";
+	getVersionsByType(card: CollectionCard, versionType: CardCollectionVersion) {
 		const versions = card.versions ? card.versions : [];
-
-		if (versionType == CardCollectionVersion.NO_PROMO) {
-			for (const version of versions) {
-				if (!version.isPromo && version.images[0].imageUri) {
-					image = version.images[0].imageUri;
-					scryfallId = version.scryfallId;
-					break;
-				}
+		const selectedVersions = versions.filter((version) => {
+			if (versionType === CardCollectionVersion.PROMO && version?.isPromo) {
+				return true;
+			} else if (versionType === CardCollectionVersion.NO_PROMO && !version.isPromo) {
+				return true;
 			}
-		}
+		});
 
-		//get default image - the first one
-		if (!image) {
-			for (const version of versions) {
-				if (version.images[0].imageUri) {
-					image = version.images[0].imageUri;
-					scryfallId = version.scryfallId;
-					break;
-				}
-			}
-		}
+		return selectedVersions;
+	},
 
-		return image;
+	getVersionCardImages(card: CollectionCard, version: Version) {
+		//for each card face get the correspondent image, some faces have no images
+		return card.cardFaces?.map((cardFace, index) => version.images?.[index]?.imageUri ?? null);
+	},
+
+	getDefaultSearchCardImages(card: CollectionCard) {
+		const noPromoVersions = this.getVersionsByType(card, CardCollectionVersion.NO_PROMO);
+		const imageVersion = noPromoVersions.length
+			? noPromoVersions
+			: this.getVersionsByType(card, CardCollectionVersion.PROMO);
+		return imageVersion.length ? this.getVersionCardImages(card, imageVersion[0]) : [];
 	},
 };

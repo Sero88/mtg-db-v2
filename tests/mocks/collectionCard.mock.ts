@@ -33,7 +33,7 @@ export const elvishMysticCollectionCardWithVersions = {
 			images: [
 				{
 					artist: "test artist",
-					imageUri: "http:localhost:3000",
+					imageUri: "http:localhost:3000/promo",
 				},
 			],
 			promoTypes: ["the list"],

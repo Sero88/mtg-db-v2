@@ -1,4 +1,4 @@
-import { CardCollectionVersion, CollectionCard as CollectionCardType } from "@/types/collection";
+import { CollectionCard as CollectionCardType } from "@/types/collection";
 import { CollectionCardUtil } from "@/utils/collectionCardUtil";
 import styles from "@/styles/card.module.scss";
 import { CardImage } from "./CardImage";
@@ -11,12 +11,16 @@ type CollectionCardProps = {
 };
 
 export function CollectionCard({ data, clickHandler }: CollectionCardProps) {
-	const imageUri = CollectionCardUtil.getVersionCardImage(data, CardCollectionVersion.NO_PROMO);
+	const images = CollectionCardUtil.getDefaultSearchCardImages(data);
 
 	return (
 		<div className={styles.card}>
 			<div className={styles.imageCollectionWrapper} onClick={() => clickHandler(data)}>
-				<CardImage imageUri={imageUri ?? ""} name={data.name} type={CardType.COLLECTION} />
+				<CardImage
+					imageUri={images?.[0] || "/images/not-available.png"}
+					name={data.name}
+					type={CardType.COLLECTION}
+				/>
 			</div>
 			<div className={stylesCard.cardDetails}>
 				<p>

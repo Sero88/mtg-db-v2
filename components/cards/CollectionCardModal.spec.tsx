@@ -1,8 +1,24 @@
-import { elvishMysticCollectionCardWithVersions } from "@/tests/mocks/collectionCard.mock";
+import {
+	elvishMysticCollectionCardWithVersions,
+	nissaVastwoodSeerCollectionCard,
+	nissaVastwoodSeerCollectionVersion,
+} from "@/tests/mocks/collectionCard.mock";
 import { CollectionCardModal } from "./CollectionCardModal";
 import { fireEvent, render, screen } from "@testing-library/react";
+import * as CardImageComponent from "./CollectionCardImages";
 
 const closeModalMock = jest.fn();
+
+jest.mock("./CollectionCardImages", () => {
+	const originalModule = jest.requireActual("./CollectionCardImages");
+	return {
+		__esModule: true,
+		...originalModule,
+	};
+});
+
+const cardImageSpy = jest.spyOn(CardImageComponent, "CollectionCardImages");
+
 describe("CollectionCardModal component", () => {
 	beforeEach(() => {
 		closeModalMock.mockClear();
@@ -74,5 +90,20 @@ describe("CollectionCardModal component", () => {
 		fireEvent.click(closeIcon);
 
 		expect(closeModalMock).toHaveBeenCalled();
+	});
+
+	it("should display images", () => {
+		render(
+			<CollectionCardModal
+				showModal={true}
+				card={{
+					...nissaVastwoodSeerCollectionCard,
+					versions: [nissaVastwoodSeerCollectionVersion],
+				}}
+				closeModalCallback={closeModalMock}
+			/>
+		);
+
+		expect(cardImageSpy).toHaveBeenCalled();
 	});
 });
