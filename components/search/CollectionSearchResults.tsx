@@ -41,6 +41,7 @@ export function CollectionSearchResults({ cardData }: SearchResultsProps) {
 
 			{selectedCard && (
 				<CollectionCardModal
+					key={selectedCard?.oracleId}
 					card={selectedCard}
 					showModal={showModal}
 					closeModalCallback={modalCloseClickHandler}
