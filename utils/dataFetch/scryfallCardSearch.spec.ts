@@ -1,4 +1,8 @@
-import { makeGeneralSearch, makePrintSearch } from "@/utils/dataFetch/scryfallCardSearch";
+import {
+	getSetParameter,
+	makeGeneralSearch,
+	makePrintSearch,
+} from "@/utils/dataFetch/scryfallCardSearch";
 import axios from "axios";
 import { generalSearchMock as cardSearchResults } from "@/tests/mocks/cardSearch.mock";
 import { ScryfallSearchCardData } from "@/types/scryfall";
@@ -45,6 +49,19 @@ describe("cardSearch util", () => {
 		it("should include unique print param", async () => {
 			await makePrintSearch(searchCardData);
 			expect(axiosSpy).toHaveBeenCalledWith(expect.stringContaining("unique=prints"));
+		});
+	});
+
+	describe("getSetParameter", () => {
+		const testSet = "tst";
+		it("should add complete set parameter", () => {
+			const setParam = getSetParameter(testSet);
+			expect(setParam).toEqual(` set:${testSet},s${testSet},p${testSet}`);
+		});
+
+		it("should return empty string when setCode is empty", () => {
+			const setParam = getSetParameter("");
+			expect(setParam).toEqual("");
 		});
 	});
 });

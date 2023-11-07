@@ -30,6 +30,6 @@ export async function makePrintSearch(searchCardData: ScryfallSearchCardData) {
 	return response?.data?.data as ScryfallResultsList;
 }
 
-function getSetParameter(setCode: string) {
+export function getSetParameter(setCode: string) {
 	return setCode ? ` set:${setCode},s${setCode},p${setCode}` : "";
 }
