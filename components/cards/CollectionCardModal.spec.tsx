@@ -6,6 +6,7 @@ import {
 import { CollectionCardModal } from "./CollectionCardModal";
 import { fireEvent, render, screen } from "@testing-library/react";
 import * as CardImageComponent from "./CollectionCardImages";
+import * as CollectionVersionsListComponent from "./CollectionCardVersionsList";
 
 const closeModalMock = jest.fn();
 
@@ -17,7 +18,16 @@ jest.mock("./CollectionCardImages", () => {
 	};
 });
 
+jest.mock("./CollectionCardVersionsList", () => {
+	const originalModule = jest.requireActual("./CollectionCardVersionsList");
+	return {
+		__esModule: true,
+		...originalModule,
+	};
+});
+
 const cardImageSpy = jest.spyOn(CardImageComponent, "CollectionCardImages");
+const cardVersionList = jest.spyOn(CollectionVersionsListComponent, "CollectionCardVersionsList");
 
 describe("CollectionCardModal component", () => {
 	beforeEach(() => {
@@ -93,17 +103,46 @@ describe("CollectionCardModal component", () => {
 	});
 
 	it("should display images", () => {
+		const nissaCard = {
+			...nissaVastwoodSeerCollectionCard,
+			versions: [nissaVastwoodSeerCollectionVersion],
+		};
 		render(
 			<CollectionCardModal
 				showModal={true}
-				card={{
-					...nissaVastwoodSeerCollectionCard,
-					versions: [nissaVastwoodSeerCollectionVersion],
-				}}
+				card={nissaCard}
 				closeModalCallback={closeModalMock}
 			/>
 		);
 
-		expect(cardImageSpy).toHaveBeenCalled();
+		expect(cardImageSpy).toHaveBeenCalledWith(
+			{
+				version: nissaVastwoodSeerCollectionVersion,
+				cardName: nissaVastwoodSeerCollectionCard.name,
+			},
+			{}
+		);
+	});
+
+	it("should display list of versions", () => {
+		const nissaCard = {
+			...nissaVastwoodSeerCollectionCard,
+			versions: [nissaVastwoodSeerCollectionVersion],
+		};
+		render(
+			<CollectionCardModal
+				showModal={true}
+				card={nissaCard}
+				closeModalCallback={closeModalMock}
+			/>
+		);
+		expect(cardVersionList).toHaveBeenCalledWith(
+			{
+				versions: [nissaVastwoodSeerCollectionVersion],
+				selectionHandler: expect.anything(),
+				selectedVersion: nissaVastwoodSeerCollectionVersion,
+			},
+			{}
+		);
 	});
 });

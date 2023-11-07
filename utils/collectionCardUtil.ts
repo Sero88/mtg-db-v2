@@ -265,9 +265,8 @@ export const CollectionCardUtil = {
 		return selectedVersions;
 	},
 
-	getVersionCardImages(card: CollectionCard, version: Version) {
-		//for each card face get the correspondent image, some faces have no images
-		return card.cardFaces?.map((cardFace, index) => version.images?.[index]?.imageUri ?? null);
+	getVersionCardImages(version: Version) {
+		return version.images?.map((image, index) => image?.imageUri ?? null);
 	},
 
 	getDefaultSearchCardImages(card: CollectionCard) {
@@ -275,6 +274,13 @@ export const CollectionCardUtil = {
 		const imageVersion = noPromoVersions.length
 			? noPromoVersions
 			: this.getVersionsByType(card, CardCollectionVersion.PROMO);
-		return imageVersion.length ? this.getVersionCardImages(card, imageVersion[0]) : [];
+		return imageVersion.length ? this.getVersionCardImages(imageVersion[0]) : [];
+	},
+
+	getDefaultSearchVersion(card: CollectionCard) {
+		const noPromoVersions = this.getVersionsByType(card, CardCollectionVersion.NO_PROMO);
+		return noPromoVersions.length
+			? noPromoVersions[0]
+			: this.getVersionsByType(card, CardCollectionVersion.PROMO)[0];
 	},
 };

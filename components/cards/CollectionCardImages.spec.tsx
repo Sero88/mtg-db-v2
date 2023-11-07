@@ -5,6 +5,7 @@ import {
 import { CollectionCardImages } from "./CollectionCardImages";
 import { render } from "@testing-library/react";
 import * as CardImageComponent from "./CardImage";
+import { CardType } from "@/types/card";
 
 jest.mock("./CardImage", () => {
 	const originalModule = jest.requireActual("./CardImage");
@@ -16,18 +17,25 @@ jest.mock("./CardImage", () => {
 
 const cardImageSpy = jest.spyOn(CardImageComponent, "CardImage");
 describe("CollectionCardImages component", () => {
-	it("should display images", () => {
+	const cardName = "Nissa";
+
+	it("should call CardImage with correct attributes", () => {
 		render(
 			<CollectionCardImages
-				card={{
-					...nissaVastwoodSeerCollectionCard,
-					versions: [nissaVastwoodSeerCollectionVersion],
-				}}
+				version={nissaVastwoodSeerCollectionVersion}
+				cardName={cardName}
 			/>
 		);
 
-		expect(cardImageSpy.mock?.calls?.length).toBeGreaterThanOrEqual(
-			nissaVastwoodSeerCollectionVersion.images.length
-		);
+		nissaVastwoodSeerCollectionVersion.images.forEach((image, index) => {
+			expect(cardImageSpy).toHaveBeenCalledWith(
+				{
+					imageUri: nissaVastwoodSeerCollectionVersion.images[index].imageUri,
+					name: cardName,
+					type: CardType.COLLECTION,
+				},
+				{}
+			);
+		});
 	});
 });

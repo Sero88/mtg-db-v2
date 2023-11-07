@@ -1,9 +1,12 @@
-import { CollectionCard } from "@/types/collection";
+import { CollectionCard, Version } from "@/types/collection";
 import styles from "@/styles/collectionCardModal.module.scss";
 import { Helpers } from "@/utils/helpers";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { CollectionCardImages } from "./CollectionCardImages";
+import { CollectionCardVersionsList } from "./CollectionCardVersionsList";
+import { useState } from "react";
+import { CollectionCardUtil } from "@/utils/collectionCardUtil";
 
 type CardModalProps = {
 	card: CollectionCard;
@@ -12,6 +15,14 @@ type CardModalProps = {
 };
 
 export function CollectionCardModal({ showModal, closeModalCallback, card }: CardModalProps) {
+	const [selectedVersion, setSelectedVersion] = useState<Version>(
+		CollectionCardUtil.getDefaultSearchVersion(card)
+	);
+
+	const selectionHandler = (newSelectedVersion: Version) => {
+		setSelectedVersion(newSelectedVersion);
+	};
+
 	const clickHandlerCloseModal = (event: React.MouseEvent<Element, MouseEvent>) => {
 		let target =
 			event.target == event.currentTarget ||
@@ -54,8 +65,12 @@ export function CollectionCardModal({ showModal, closeModalCallback, card }: Car
 				</header>
 
 				<div className={styles.cardModalMain}>
-					<CollectionCardImages card={card} />
-					<p>Rows go here</p>
+					<CollectionCardImages cardName={card.name} version={selectedVersion} />
+					<CollectionCardVersionsList
+						versions={card.versions!}
+						selectionHandler={selectionHandler}
+						selectedVersion={selectedVersion}
+					/>
 				</div>
 			</div>
 		</div>

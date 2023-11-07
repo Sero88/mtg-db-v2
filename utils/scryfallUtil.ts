@@ -1,4 +1,4 @@
-import { ScryfallCard } from "@/types/scryfall";
+import { ScryfallCard, ScryfallSet } from "@/types/scryfall";
 
 export const ScryfallUtil = {
 	getPromoString(scryfallCard: ScryfallCard) {
@@ -79,5 +79,13 @@ export const ScryfallUtil = {
 
 	isMultiface: function (scryfallCard: ScryfallCard): boolean {
 		return !!scryfallCard?.card_faces;
+	},
+
+	getImageFromSet(apiSets: ScryfallSet[], set: string) {
+		for (let apiSet of apiSets) {
+			if (apiSet.code == set) {
+				return apiSet.icon_svg_uri;
+			}
+		}
 	},
 };

@@ -191,9 +191,17 @@ describe("CollectionCardUtil", () => {
 	});
 
 	describe("getVersionCardImages", () => {
+		it("should return correct images", () => {
+			const images = CollectionCardUtil.getVersionCardImages(
+				nissaVastwoodSeerCollectionVersion
+			);
+			expect(images).toEqual([
+				nissaVastwoodSeerCollectionVersion.images[0].imageUri,
+				nissaVastwoodSeerCollectionVersion.images[1].imageUri,
+			]);
+		});
 		it("should return correct amount of images", () => {
 			const images = CollectionCardUtil.getVersionCardImages(
-				nissaVastwoodSeerCollectionCard,
 				nissaVastwoodSeerCollectionVersion
 			);
 			expect(images.length).toEqual(nissaVastwoodSeerCollectionVersion.images.length);
@@ -214,6 +222,23 @@ describe("CollectionCardUtil", () => {
 				versions: [elvishMysticCollectionCardWithVersions.versions[0]],
 			});
 			expect(images).toEqual(expect.arrayContaining(["http:localhost:3000/promo"]));
+		});
+	});
+
+	describe("getDefaultSearchVersion", () => {
+		it("should return no promo version if avaialable", () => {
+			const version = CollectionCardUtil.getDefaultSearchVersion(
+				elvishMysticCollectionCardWithVersions
+			);
+			expect(version).toEqual(elvishMysticCollectionCardWithVersions.versions[1]);
+		});
+
+		it("should return promo version if no promo is unavailable", () => {
+			const version = CollectionCardUtil.getDefaultSearchVersion({
+				...elvishMysticCollectionCardWithVersions,
+				versions: [elvishMysticCollectionCardWithVersions.versions[0]],
+			});
+			expect(version).toEqual(elvishMysticCollectionCardWithVersions.versions[0]);
 		});
 	});
 });

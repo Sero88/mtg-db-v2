@@ -1,5 +1,6 @@
 Doing:
 
+//add tests to collectionCardUtil.ts for new code we added. Figure if we need to refactor a little
 LEARN:
 
 -   I changed pagination to Pagination. This didn't update in the imports. When I was trying to update component, it would not update. Browser kept using old version. This is because the imports still tried to get pagination with lowercase P. After changing this it fixed it.
