@@ -19,6 +19,22 @@ process.env.DATABASE_URL = "test";
 
 describe("API route: /api/scryfall/cards", () => {
 	describe("GET", () => {
+		it("should return error if no cardIds were passed", async () => {
+			const reqNoIds = new Request(
+				"http://localhost:3000/api/collection/search/quantity-by-id?action=searchIds",
+				{
+					method: "GET",
+				}
+			);
+
+			const response = await GET(reqNoIds);
+			const cardResults = await response.json();
+
+			expect(response.status).toEqual(400);
+			expect(cardResults.success).toEqual(false);
+			expect(cardResults.data).toEqual(null);
+		});
+
 		it("should return error if unable to connect to db", async () => {
 			dbConnectSpy.mockResolvedValue(false);
 			const response = await GET(req);
