@@ -21,6 +21,7 @@ const refetchMock = jest.fn();
 
 describe("/collection/search page", () => {
 	beforeEach(() => {
+		jest.resetAllMocks();
 		useCollectionCardSearchMock.mockReturnValue({
 			isLoading: false,
 			error: false,
@@ -46,4 +47,21 @@ describe("/collection/search page", () => {
 		fireEvent.submit(form);
 		expect(refetchMock).toHaveBeenCalled();
 	});
+
+	it("should not allow another submission when first submission is not complete", () => {
+		useCollectionCardSearchMock.mockReturnValue({
+			isLoading: true,
+			error: false,
+			data: undefined,
+			refetch: refetchMock,
+			isSuccess: false,
+		});
+
+		render(<SearchPage />);
+		const form = screen.getByTestId("searchForm");
+		fireEvent.submit(form);
+		expect(refetchMock).not.toHaveBeenCalled();
+	});
+
+	// TODO: once I add more fields, I should prove that updating one field, shouldn't reset another
 });

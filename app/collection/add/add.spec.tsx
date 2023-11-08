@@ -262,4 +262,28 @@ describe("/collection/add page", () => {
 			expect(screen.queryByText(hookMockedData.resultsList.data[1].name)).not.toBeNull();
 		});
 	});
+
+	it("should search for cards when form is submitted", async () => {
+		//@ts-ignore
+		useScryfallCardSearchMock.mockReturnValue({
+			isLoading: false,
+			error: false,
+			data: undefined,
+		});
+
+		render(<AddPage />);
+
+		//@ts-ignore
+		useScryfallCardSearchMock.mockReturnValue({
+			isLoading: false,
+			error: false,
+			data: hookMockedData,
+		});
+
+		const searchButton = await screen.findByRole("button", { name: "Search" });
+
+		fireEvent.click(searchButton);
+
+		expect(scryfallSearchResultsSpy).toHaveBeenCalled();
+	});
 });

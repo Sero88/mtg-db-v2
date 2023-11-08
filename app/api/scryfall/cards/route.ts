@@ -18,7 +18,6 @@ export async function GET(request: Request) {
 	const pageQuery = page ? `&page=${page}` : "&page=1";
 
 	const fullQuery = `${apiUrl}/cards/search/?q=${apiQuery}${orderQuery}${uniquePrintsQuery}${pageQuery}`;
-	// console.log(fullQuery);
 
 	try {
 		const results = await axios.get(fullQuery);
