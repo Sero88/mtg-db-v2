@@ -30,9 +30,11 @@ const quantityFoil = {
 };
 
 const newQuantity = 4;
+const inputs = ["regular-input", "foil-input"];
 
 describe("CollectionCardMenu", () => {
 	beforeEach(() => {
+		jest.resetAllMocks();
 		//@ts-ignore
 		updateHookSpy.mockImplementation(() => ({
 			mutate: mutateMock,
@@ -190,5 +192,41 @@ describe("CollectionCardMenu", () => {
 		await waitFor(() => {
 			expect(screen.queryByTestId("updateSuccess")).not.toBeNull();
 		});
+	});
+
+	it("should set field to empty string input is not a number ", async () => {
+		render(<CollectionCardMenu cardData={elvishMystic} quantity={quantity} />);
+
+		const regularInput = screen.getByTestId("regular-input");
+		fireEvent.change(regularInput, { target: { value: "test" } });
+
+		await waitFor(() => {
+			const input = screen.getByTestId("regular-input") as HTMLInputElement;
+			expect(input.value).toEqual("");
+		});
+	});
+
+	it("should not run update when input is not a number ", async () => {
+		render(<CollectionCardMenu cardData={elvishMystic} quantity={quantity} />);
+
+		const regularInput = screen.getByTestId("regular-input");
+		fireEvent.change(regularInput, { target: { value: "test" } });
+
+		await waitFor(() => {
+			const input = screen.getByTestId("regular-input") as HTMLInputElement;
+			expect(input.value).toEqual("");
+		});
+
+		expect(mutateMock).not.toHaveBeenCalled();
+	});
+
+	test.each(inputs)("%p should select text when user clicks on it", (inputType) => {
+		render(<CollectionCardMenu cardData={elvishMystic} quantity={quantity} />);
+		const input = screen.getByTestId(inputType);
+		const mockSelect = jest.fn();
+		input.onselect = mockSelect;
+		fireEvent.click(input);
+
+		expect(mockSelect).toHaveBeenCalled();
 	});
 });

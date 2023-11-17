@@ -4,7 +4,7 @@ import {
 	nissaVastwoodSeerCollectionVersion,
 } from "@/tests/mocks/collectionCard.mock";
 import { CollectionCardModal } from "./CollectionCardModal";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import * as CardImageComponent from "./CollectionCardImages";
 import * as CollectionVersionsListComponent from "./CollectionCardVersionsList";
 
@@ -141,6 +141,27 @@ describe("CollectionCardModal component", () => {
 				versions: [nissaVastwoodSeerCollectionVersion],
 				selectionHandler: expect.anything(),
 				selectedVersion: nissaVastwoodSeerCollectionVersion,
+			},
+			{}
+		);
+	});
+
+	it("should set selected version when a version item is clicked", async () => {
+		render(
+			<CollectionCardModal
+				showModal={true}
+				card={elvishMysticCollectionCardWithVersions}
+				closeModalCallback={closeModalMock}
+			/>
+		);
+		const versionRows = screen.getAllByRole("row");
+
+		fireEvent.click(versionRows[1]);
+
+		expect(cardImageSpy).toHaveBeenCalledWith(
+			{
+				version: elvishMysticCollectionCardWithVersions.versions[1],
+				cardName: elvishMysticCollectionCardWithVersions.name,
 			},
 			{}
 		);

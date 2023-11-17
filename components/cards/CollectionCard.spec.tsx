@@ -2,6 +2,7 @@ import { CollectionCard } from "./CollectionCard";
 import * as CardImageComponent from "./CardImage";
 import { elvishMysticCollectionCardWithVersions } from "@/tests/mocks/collectionCard.mock";
 import { fireEvent, render, screen } from "@testing-library/react";
+import { CardType } from "@/types/card";
 
 jest.mock("./CardImage", () => {
 	const originalModule = jest.requireActual("./CardImage");
@@ -18,17 +19,39 @@ describe("CollectionCard component", () => {
 	it("should display CardImage component", () => {
 		render(
 			<CollectionCard
-				data={elvishMysticCollectionCardWithVersions}
+				card={elvishMysticCollectionCardWithVersions}
 				clickHandler={clickHandlerMock}
 			/>
 		);
-		expect(cardImageSpy).toHaveBeenCalled();
+		expect(cardImageSpy).toHaveBeenCalledWith(
+			{
+				imageUri: elvishMysticCollectionCardWithVersions.versions[1].images[0].imageUri,
+				name: elvishMysticCollectionCardWithVersions.name,
+				type: CardType.COLLECTION,
+			},
+			{}
+		);
 	});
 
+	it("should pass default image to CardImage when no image is available for the card", () => {
+		const cardWithNoImage = {
+			...elvishMysticCollectionCardWithVersions,
+			versions: [{ ...elvishMysticCollectionCardWithVersions.versions[0], images: [] }],
+		};
+		render(<CollectionCard card={cardWithNoImage} clickHandler={clickHandlerMock} />);
+		expect(cardImageSpy).toHaveBeenCalledWith(
+			{
+				imageUri: "/images/not-available.png",
+				name: elvishMysticCollectionCardWithVersions.name,
+				type: CardType.COLLECTION,
+			},
+			{}
+		);
+	});
 	it("should display card name", () => {
 		render(
 			<CollectionCard
-				data={elvishMysticCollectionCardWithVersions}
+				card={elvishMysticCollectionCardWithVersions}
 				clickHandler={clickHandlerMock}
 			/>
 		);
@@ -38,7 +61,7 @@ describe("CollectionCard component", () => {
 	it("should call clickHandler when image is clicked", () => {
 		render(
 			<CollectionCard
-				data={elvishMysticCollectionCardWithVersions}
+				card={elvishMysticCollectionCardWithVersions}
 				clickHandler={clickHandlerMock}
 			/>
 		);

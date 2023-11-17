@@ -1,7 +1,4 @@
-import {
-	nissaVastwoodSeerCollectionCard,
-	nissaVastwoodSeerCollectionVersion,
-} from "@/tests/mocks/collectionCard.mock";
+import { nissaVastwoodSeerCollectionVersion } from "@/tests/mocks/collectionCard.mock";
 import { CollectionCardImages } from "./CollectionCardImages";
 import { render } from "@testing-library/react";
 import * as CardImageComponent from "./CardImage";
@@ -31,6 +28,25 @@ describe("CollectionCardImages component", () => {
 			expect(cardImageSpy).toHaveBeenCalledWith(
 				{
 					imageUri: nissaVastwoodSeerCollectionVersion.images[index].imageUri,
+					name: cardName,
+					type: CardType.COLLECTION,
+				},
+				{}
+			);
+		});
+	});
+
+	it("should call CardImage with default image when image is not available", () => {
+		const versionWithNoImage = {
+			...nissaVastwoodSeerCollectionVersion,
+			images: [{ artist: "test", imageUri: null }],
+		};
+		render(<CollectionCardImages version={versionWithNoImage} cardName={cardName} />);
+
+		nissaVastwoodSeerCollectionVersion.images.forEach(() => {
+			expect(cardImageSpy).toHaveBeenCalledWith(
+				{
+					imageUri: "/images/not-available.png",
 					name: cardName,
 					type: CardType.COLLECTION,
 				},

@@ -33,7 +33,7 @@ export function CollectionSearchResults({ cardData }: SearchResultsProps) {
 				cardData={cardData}
 				renderCard={(card) => (
 					<CollectionCard
-						data={card as CollectionCardType}
+						card={card as CollectionCardType}
 						clickHandler={cardClickHandler}
 					/>
 				)}
