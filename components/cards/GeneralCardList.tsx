@@ -16,7 +16,7 @@ export function GeneralCardList({ cardData, clickHandler }: GeneralCardListProps
 					return (
 						<li id={cardId} className={styles.cardWrapper} key={index}>
 							<GeneralCard
-								data={card}
+								card={card}
 								clickHandler={() => clickHandler(card.name, cardId)}
 							/>
 						</li>

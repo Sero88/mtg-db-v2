@@ -3,7 +3,7 @@ import styles from "@/styles/card.module.scss";
 import { CardType } from "@/types/card";
 
 type CardImageProps = {
-	imageUri: string;
+	imageUri: string | undefined | null;
 	name: string;
 	type: CardType;
 };
@@ -14,7 +14,7 @@ export function CardImage({ imageUri, name, type }: CardImageProps) {
 	return (
 		<div className={styles.cardWrapper}>
 			<Image
-				src={imageUri}
+				src={imageUri || "/images/not-available.png"}
 				width={196}
 				height={273}
 				data-name={name}

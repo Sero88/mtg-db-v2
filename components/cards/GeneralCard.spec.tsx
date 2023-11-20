@@ -24,18 +24,18 @@ const generalCardDetailsSpy = jest.spyOn(GeneralCardDetailsComponent, "GeneralCa
 
 describe("GeneralCard component", () => {
 	it("should display CardImage component", () => {
-		render(<GeneralCard data={generalSearchMock.data[0]} clickHandler={jest.fn()} />);
+		render(<GeneralCard card={generalSearchMock.data[0]} clickHandler={jest.fn()} />);
 		expect(cardImageSpy).toHaveBeenCalled();
 	});
 
 	it("should display GeneralCardDetails", () => {
-		render(<GeneralCard data={generalSearchMock.data[0]} clickHandler={jest.fn()} />);
+		render(<GeneralCard card={generalSearchMock.data[0]} clickHandler={jest.fn()} />);
 		expect(generalCardDetailsSpy).toHaveBeenCalled();
 	});
 
 	it("should call clickHandler when image is clicked", () => {
 		const clickHandler = jest.fn();
-		render(<GeneralCard data={generalSearchMock.data[0]} clickHandler={clickHandler} />);
+		render(<GeneralCard card={generalSearchMock.data[0]} clickHandler={clickHandler} />);
 		const image = screen.getByRole("img");
 		fireEvent.click(image);
 

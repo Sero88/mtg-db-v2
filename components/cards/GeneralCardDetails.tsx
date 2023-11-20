@@ -2,15 +2,15 @@ import { ScryfallCard } from "@/types/scryfall";
 import styles from "@/styles/card.module.scss";
 
 type CardDetailsProps = {
-	data: ScryfallCard;
+	card: ScryfallCard;
 	clickHandler: Function;
 };
-export function GeneralCardDetails({ data, clickHandler }: CardDetailsProps) {
+export function GeneralCardDetails({ card, clickHandler }: CardDetailsProps) {
 	return (
 		<div className={styles.cardDetails}>
 			<p>
-				<strong className={styles.cardNameLink} onClick={() => clickHandler(data.name)}>
-					{data.name}
+				<strong className={styles.cardNameLink} onClick={() => clickHandler(card.name)}>
+					{card.name}
 				</strong>
 			</p>
 		</div>

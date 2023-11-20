@@ -17,7 +17,7 @@ export function CollectionCardImages({ version, cardName }: CollectionCardImages
 			{images?.map((image, index) => (
 				<CardImage
 					key={`${version?.scryfallId}-${index}`}
-					imageUri={image || "/images/not-available.png"}
+					imageUri={image}
 					name={cardName}
 					type={CardType.COLLECTION}
 				/>

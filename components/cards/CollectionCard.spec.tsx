@@ -33,21 +33,6 @@ describe("CollectionCard component", () => {
 		);
 	});
 
-	it("should pass default image to CardImage when no image is available for the card", () => {
-		const cardWithNoImage = {
-			...elvishMysticCollectionCardWithVersions,
-			versions: [{ ...elvishMysticCollectionCardWithVersions.versions[0], images: [] }],
-		};
-		render(<CollectionCard card={cardWithNoImage} clickHandler={clickHandlerMock} />);
-		expect(cardImageSpy).toHaveBeenCalledWith(
-			{
-				imageUri: "/images/not-available.png",
-				name: elvishMysticCollectionCardWithVersions.name,
-				type: CardType.COLLECTION,
-			},
-			{}
-		);
-	});
 	it("should display card name", () => {
 		render(
 			<CollectionCard

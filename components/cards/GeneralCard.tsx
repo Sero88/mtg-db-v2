@@ -5,25 +5,25 @@ import { GeneralCardDetails } from "./GeneralCardDetails";
 import { CardType } from "@/types/card";
 
 type GeneralCardProps = {
-	data: ScryfallCard;
+	card: ScryfallCard;
 	clickHandler: Function;
 };
 
-export function GeneralCard({ data, clickHandler }: GeneralCardProps) {
-	const cardImageUrl = data.image_uris?.normal
-		? data.image_uris?.normal
-		: data.card_faces?.[0].image_uris?.normal;
+export function GeneralCard({ card, clickHandler }: GeneralCardProps) {
+	const cardImageUrl = card.image_uris?.normal
+		? card.image_uris?.normal
+		: card.card_faces?.[0].image_uris?.normal;
 
 	return (
 		<div className={styles.card}>
-			<div className={styles.imageCollectionWrapper} onClick={() => clickHandler(data.name)}>
+			<div className={styles.imageCollectionWrapper} onClick={() => clickHandler(card.name)}>
 				<CardImage
-					imageUri={cardImageUrl ?? ""}
-					name={data.name}
+					imageUri={cardImageUrl}
+					name={card.name}
 					type={CardType.SCRYFALL_GENERAL}
 				/>
 			</div>
-			<GeneralCardDetails data={data} clickHandler={clickHandler} />
+			<GeneralCardDetails card={card} clickHandler={clickHandler} />
 		</div>
 	);
 }

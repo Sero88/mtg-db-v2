@@ -35,23 +35,4 @@ describe("CollectionCardImages component", () => {
 			);
 		});
 	});
-
-	it("should call CardImage with default image when image is not available", () => {
-		const versionWithNoImage = {
-			...nissaVastwoodSeerCollectionVersion,
-			images: [{ artist: "test", imageUri: null }],
-		};
-		render(<CollectionCardImages version={versionWithNoImage} cardName={cardName} />);
-
-		nissaVastwoodSeerCollectionVersion.images.forEach(() => {
-			expect(cardImageSpy).toHaveBeenCalledWith(
-				{
-					imageUri: "/images/not-available.png",
-					name: cardName,
-					type: CardType.COLLECTION,
-				},
-				{}
-			);
-		});
-	});
 });

@@ -43,4 +43,13 @@ describe("CardImage component", () => {
 			{} //children should be empty
 		);
 	});
+
+	it('should display generic "image not available" image when no uri is passed', () => {
+		render(<CardImage imageUri={""} name={name} type={CardType.SCRYFALL_GENERAL} />);
+
+		expect(Image).toHaveBeenCalledWith(
+			expect.objectContaining({ src: "/images/not-available.png" }),
+			{} //children should be empty
+		);
+	});
 });
