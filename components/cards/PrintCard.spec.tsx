@@ -5,6 +5,8 @@ import { generalSearchMock } from "@/tests/mocks/cardSearch.mock";
 import * as PrintCardDetailsComponent from "./PrintCardDetails";
 import * as CollectionCardMenuComponent from "./CollectionCardMenu";
 import { collectionQuantityMock } from "@/tests/mocks/collectionQuantity.mock";
+import { nissaVastwoodSeer } from "@/tests/mocks/scryfallCard.mock";
+import { CardType } from "@/types/card";
 
 jest.mock("@/hooks/useUpdateCollectionCardQuantity");
 
@@ -44,6 +46,18 @@ describe("PrintCard component", () => {
 			/>
 		);
 		expect(cardImageSpy).toHaveBeenCalled();
+	});
+
+	it("should display CardImage using cardface", () => {
+		render(<PrintCard data={nissaVastwoodSeer} collectionQuantity={collectionQuantityMock} />);
+		expect(cardImageSpy).toHaveBeenCalledWith(
+			{
+				imageUri: nissaVastwoodSeer.card_faces?.[0]?.image_uris.normal,
+				name: nissaVastwoodSeer.name,
+				type: CardType.SCRYFALL_PRINT,
+			},
+			{}
+		);
 	});
 
 	it("should display PrintCardDetails", () => {

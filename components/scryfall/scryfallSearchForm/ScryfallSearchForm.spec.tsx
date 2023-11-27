@@ -1,7 +1,9 @@
 import { ScryfallSearchForm } from "./ScryfallSearchForm";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import * as NameSearchComponent from "./NameSearch";
-import { SetSearch } from "./SetSearch";
+import * as SetSearchComponent from "./SetSearch";
+import { ScryfallSetDataContext } from "@/contexts/ScryfallSetDataContext";
+import { setsList } from "@/tests/mocks/setsList.mock";
 
 jest.mock("./NameSearch", () => {
 	const originalModule = jest.requireActual("./NameSearch");
@@ -16,11 +18,11 @@ jest.mock("./SetSearch", () => {
 	return {
 		__esModule: true,
 		...originalModule,
-		SetSearch: jest.fn().mockImplementation(() => "Card Set"),
 	};
 });
 
 const nameSearchSpy = jest.spyOn(NameSearchComponent, "NameSearch");
+const setSearchSpy = jest.spyOn(SetSearchComponent, "SetSearch");
 
 describe("ScryfallSearchForm", () => {
 	it("should display NameSearch component", () => {
@@ -30,7 +32,7 @@ describe("ScryfallSearchForm", () => {
 
 	it("should display SetSearch component", () => {
 		render(<ScryfallSearchForm onSubmitSearch={jest.fn()} disabled={false} />);
-		expect(SetSearch).toHaveBeenCalled();
+		expect(setSearchSpy).toHaveBeenCalled();
 	});
 
 	it("should disable search button", () => {
@@ -47,5 +49,40 @@ describe("ScryfallSearchForm", () => {
 		fireEvent.submit(addSearchForm as HTMLElement);
 
 		expect(submitMock).not.toHaveBeenCalled();
+	});
+
+	it("should set value update new selection is made", async () => {
+		render(
+			<ScryfallSetDataContext.Provider value={setsList}>
+				<ScryfallSearchForm onSubmitSearch={jest.fn()} disabled={false} />
+			</ScryfallSetDataContext.Provider>
+		);
+		const addSetSelector = screen.getByRole("combobox");
+		fireEvent.change(addSetSelector, { target: { value: "t2t" } });
+
+		await waitFor(() => {
+			expect(setSearchSpy).toHaveBeenCalledWith(
+				expect.objectContaining({ selectedSet: "t2t" }),
+				{}
+			);
+		});
+	});
+
+	it("should update card name value when card name is changed", async () => {
+		const cardName = "test card name";
+		render(
+			<ScryfallSetDataContext.Provider value={setsList}>
+				<ScryfallSearchForm onSubmitSearch={jest.fn()} disabled={false} />
+			</ScryfallSetDataContext.Provider>
+		);
+		const nameField = screen.getByRole("textbox", { name: "Card Name:" });
+		fireEvent.change(nameField, { target: { value: cardName } });
+
+		await waitFor(() => {
+			expect(nameSearchSpy).toHaveBeenCalledWith(
+				expect.objectContaining({ cardName: cardName }),
+				{}
+			);
+		});
 	});
 });

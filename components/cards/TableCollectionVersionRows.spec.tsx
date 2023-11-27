@@ -4,7 +4,6 @@ import {
 } from "@/tests/mocks/collectionCard.mock";
 import { render, screen } from "@testing-library/react";
 import { TableCollectionVersionRows } from "./TableCollectionVersionRows";
-import * as SetContext from "@/contexts/ScryfallSetDataContext";
 import { setsList } from "@/tests/mocks/setsList.mock";
 import * as IconImageComponent from "@/components/cards/IconImage";
 import React from "react";
@@ -88,5 +87,32 @@ describe("TableCollectionVersionRows", () => {
 		);
 
 		expect(iconImageSpy).toHaveBeenCalled();
+	});
+
+	it("should display N/A and zero when card type is not in collection", () => {
+		const expectedCells = ["M14 1 promo", "0", "0", "N/A | N/A"];
+		const modifiedSelectedVersion = {
+			...selectedVersion,
+			quantity: {},
+			prices: { regular: null, foil: null },
+		};
+
+		render(
+			<table>
+				<tbody>
+					<TableCollectionVersionRows
+						versions={[modifiedSelectedVersion]}
+						selectedVersion={modifiedSelectedVersion}
+						selectionHandler={selectionHandler}
+					/>
+				</tbody>
+			</table>
+		);
+
+		const cells = screen.getAllByRole("cell");
+
+		cells.forEach((cell, index) => {
+			expect(cell.textContent).toEqual(expectedCells[index]);
+		});
 	});
 });
