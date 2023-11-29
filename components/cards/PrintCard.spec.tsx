@@ -41,7 +41,7 @@ describe("PrintCard component", () => {
 	it("should display CardImage component", () => {
 		render(
 			<PrintCard
-				data={generalSearchMock.data[0]}
+				data={{ ...generalSearchMock.data[0], image_uris: { normal: "", small: "" } }}
 				collectionQuantity={collectionQuantityMock}
 			/>
 		);

@@ -14,12 +14,15 @@ import {
 	elvishMysticCollectionCard,
 	nissaVastwoodSeerCollectionVersion,
 	elvishMysticCollectionVersion,
-	plusTwoMaceCollectionVersion,
 } from "@/tests/mocks/collectionCard.mock";
 import { CollectionCardQuantityTypeEnum } from "@/types/collection";
 const mockIds = cardsWithRegularAndFoilQuantities.map((card) => {
 	return card.scryfallId;
 });
+
+const noDbConnectionResult = { data: {}, status: DbModelResponseEnum.ERROR };
+
+const cardCollectionNoConnection = new CardCollection();
 
 describe("CardCollection Model", () => {
 	const cardCollection = new CardCollection();
@@ -60,6 +63,11 @@ describe("CardCollection Model", () => {
 				);
 			});
 		});
+
+		it("should return empty and error response when there's no connection", async () => {
+			const results = await cardCollectionNoConnection.getQuantitiesByIds(mockIds);
+			expect(results).toEqual(noDbConnectionResult);
+		});
 	});
 
 	describe("upsertCard", () => {
@@ -69,19 +77,29 @@ describe("CardCollection Model", () => {
 
 			expect(results).toEqual(elvishMysticCollectionCard);
 		});
+
+		it("should return empty and error response when there's no connection", async () => {
+			const results = await cardCollectionNoConnection.upsertCard(elvishMystic);
+			expect(results).toEqual(noDbConnectionResult);
+		});
 	});
 
 	describe("upsertVersion", () => {
-		it("should upsert card version", async () => {
-			const cardVersion = CollectionCardUtil.buildVersionQueryObject(
-				nissaVastwoodSeer,
-				1,
-				CollectionCardQuantityTypeEnum.FOIL
-			);
+		const cardVersion = CollectionCardUtil.buildVersionQueryObject(
+			nissaVastwoodSeer,
+			1,
+			CollectionCardQuantityTypeEnum.FOIL
+		);
 
+		it("should upsert card version", async () => {
 			const result = await cardCollection.upsertVersion(cardVersion);
 
 			expect(result).toEqual(nissaVastwoodSeerCollectionVersion);
+		});
+
+		it("should return empty and error response when there's no connection", async () => {
+			const results = await cardCollectionNoConnection.upsertVersion(cardVersion);
+			expect(results).toEqual(noDbConnectionResult);
 		});
 	});
 
@@ -136,23 +154,32 @@ describe("CardCollection Model", () => {
 
 			expect(result).toEqual(true);
 		});
+
+		it("should return empty and error response when there's no connection", async () => {
+			const results = await cardCollectionNoConnection.removeCardObject(elvishMystic);
+			expect(results).toEqual(noDbConnectionResult);
+		});
 	});
 
 	describe("removeVersion", () => {
+		const cardVersion = CollectionCardUtil.buildVersionQueryObject(
+			nissaVastwoodSeer,
+			{
+				[CollectionCardQuantityTypeEnum.FOIL]: 1,
+			},
+			CollectionCardQuantityTypeEnum.FOIL
+		);
 		it("should remove card version", async () => {
 			const result = await cardCollection.removeCardVersion(nissaVastwoodSeer);
-
-			const cardVersion = CollectionCardUtil.buildVersionQueryObject(
-				nissaVastwoodSeer,
-				{
-					[CollectionCardQuantityTypeEnum.FOIL]: 1,
-				},
-				CollectionCardQuantityTypeEnum.FOIL
-			);
 
 			await cardCollection.upsertVersion(cardVersion);
 
 			expect(result).toEqual(true);
+		});
+
+		it("should return empty and error response when there's no connection", async () => {
+			const results = await cardCollectionNoConnection.removeCardVersion(cardVersion);
+			expect(results).toEqual(noDbConnectionResult);
 		});
 	});
 
@@ -170,6 +197,14 @@ describe("CardCollection Model", () => {
 			});
 
 			expect(isBeingUsed).toEqual(false);
+		});
+
+		it("should return empty and error response when there's no connection", async () => {
+			const results = await cardCollectionNoConnection.isCardObjectUsedByOtherVersions({
+				...elvishMystic,
+				oracle_id: "fakeOracleId",
+			});
+			expect(results).toEqual(noDbConnectionResult);
 		});
 	});
 
