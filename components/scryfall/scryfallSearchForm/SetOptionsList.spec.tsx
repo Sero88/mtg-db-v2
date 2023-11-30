@@ -13,4 +13,9 @@ describe("SetOptionsList", () => {
 		render(<SetOptionsList setsData={setsList} />);
 		expect(screen.queryAllByText(/^Set Name [0-9]?/).length).toEqual(2);
 	});
+
+	it("should return null if sets data is empty", () => {
+		render(<SetOptionsList setsData={[]} />);
+		expect(screen.queryAllByText(/^Set Name [0-9]?/).length).toEqual(0);
+	});
 });

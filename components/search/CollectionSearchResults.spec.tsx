@@ -1,6 +1,6 @@
 import { elvishMysticCollectionCardWithVersions } from "@/tests/mocks/collectionCard.mock";
 import { CollectionSearchResults } from "./CollectionSearchResults";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, getByTestId, render, screen } from "@testing-library/react";
 import * as CardsListComponent from "@/components/cards/CardList";
 import * as CollectionCardComponent from "@/components/cards/CollectionCard";
 import * as CollectionCardModal from "@/components/cards/CollectionCardModal";
@@ -76,6 +76,18 @@ describe("CollectionSearchResults", () => {
 			},
 			{}
 		);
+	});
+
+	it("should close modal when a card is clicked", () => {
+		render(<CollectionSearchResults cardData={elvishMysticSearchResults} />);
+
+		const card = screen.getByText(elvishMysticSearchResults[0].name);
+		fireEvent.click(card);
+
+		const closeIcon = screen.getByTestId("closeIcon");
+		fireEvent.click(closeIcon);
+
+		expect(screen.queryByTestId("modalContainer")).toBeNull();
 	});
 
 	it("should not display modal before card is clicked", () => {

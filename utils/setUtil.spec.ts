@@ -13,4 +13,16 @@ describe("SetUtil", () => {
 			expect(isAllowed).toEqual(false);
 		});
 	});
+
+	describe("getCardSet", () => {
+		it("should trim the set name if it is longer thatn the official set char limit (3)", () => {
+			const cardSet = SetUtil.getCardSet("pTST");
+			expect(cardSet).toEqual("TST");
+		});
+
+		it("should return the same set name if it not longer than limit", () => {
+			const cardSet = SetUtil.getCardSet("TST");
+			expect(cardSet).toEqual("TST");
+		});
+	});
 });

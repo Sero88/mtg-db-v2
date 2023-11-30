@@ -18,10 +18,6 @@ export function CollectionSearchResults({ cardData }: SearchResultsProps) {
 		setShowModal(true);
 	};
 
-	const modalCloseClickHandler = () => {
-		setShowModal(false);
-	};
-
 	const cardText = cardData.length > 1 ? "cards" : "card";
 	return (
 		<>
@@ -44,7 +40,7 @@ export function CollectionSearchResults({ cardData }: SearchResultsProps) {
 					key={selectedCard?.oracleId}
 					card={selectedCard}
 					showModal={showModal}
-					closeModalCallback={modalCloseClickHandler}
+					closeModalCallback={() => setShowModal(false)}
 				/>
 			)}
 		</>
