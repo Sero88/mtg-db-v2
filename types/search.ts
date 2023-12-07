@@ -1,5 +1,6 @@
 export enum SearchFields {
 	NAME = "cardName",
+	TEXT = "cardText",
 }
 
 export enum ColorConditionals {
