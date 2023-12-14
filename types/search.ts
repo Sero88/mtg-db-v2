@@ -3,12 +3,6 @@ export enum SearchFields {
 	TEXT = "cardText",
 }
 
-export enum ColorConditionals {
-	exact,
-	include,
-	atLeast,
-}
-
 export enum StatConditionalEnums {
 	eq,
 	ne,
@@ -40,12 +34,6 @@ export type ColorsSelectorType = {
 
 export type RaritySelectorType = {
 	selected: string[];
-};
-
-export type DisplayListItem = {
-	name: string;
-	uri?: string;
-	value: string;
 };
 
 export type CardStatsType = {

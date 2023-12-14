@@ -1,0 +1,69 @@
+@import "./variables.scss";
+
+.searchList {
+	p {
+		margin: 0;
+	}
+
+	.itemRemove,
+	.itemIs {
+		padding: 0.75rem 0.25rem;
+		line-height: 0;
+		margin-right: 0.25rem;
+		background-color: $gray;
+		font-size: 1.2rem;
+		display: inline-block;
+		cursor: pointer;
+		transition: background-color 0.25s ease-in-out;
+	}
+
+	.clearButton {
+		background-color: transparent;
+		color: $dark-gray;
+		font-size: 1.25rem;
+		border: none;
+		padding: 0;
+		font-family: inherit;
+		cursor: pointer;
+
+		&:hover {
+			color: $dark-blue;
+		}
+	}
+
+	.clearButton::before {
+		font-family: "fontawesome";
+	}
+
+	input {
+		border: none;
+		border-bottom: 1px solid $dark-gray;
+		margin-right: 0.25rem;
+	}
+
+	ul {
+		list-style-type: none;
+		border: 2px solid $gray;
+		padding: 1rem;
+		height: 10rem;
+		overflow: auto;
+
+		li {
+			cursor: pointer;
+			margin-bottom: 0.25rem;
+			display: flex;
+			align-items: center;
+			gap: 0.2rem;
+
+			&:hover {
+				color: $dark-green;
+				font-weight: bold;
+			}
+		}
+	}
+
+	.noResults {
+		height: 17.5rem;
+		margin: 1rem 0;
+	}
+}
