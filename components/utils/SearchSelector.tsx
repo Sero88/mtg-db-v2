@@ -12,6 +12,11 @@ type SearchSelectorProps = {
 export function SearchSelector({ items, clickHandler }: SearchSelectorProps) {
 	const [searchText, setSearchText] = useState("");
 
+	const filteredData = items.filter((item) => {
+		const regex = new RegExp(`${searchText}`, "i");
+		return regex.exec(item.value);
+	});
+
 	return (
 		<div className={styles.searchList}>
 			<input
@@ -23,7 +28,7 @@ export function SearchSelector({ items, clickHandler }: SearchSelectorProps) {
 				<FontAwesomeIcon icon={faXmark} />
 			</button>
 			<ul>
-				{items.map((item, index) => (
+				{filteredData.map((item, index) => (
 					<li onClick={() => clickHandler(item.value)} key={`${item.value}-${index}`}>
 						{item.display}
 					</li>

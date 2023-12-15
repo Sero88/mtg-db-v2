@@ -19,12 +19,6 @@ export enum CollectionCardQuantityTypeEnum {
 	FOIL = "foil",
 }
 
-export type DisplayListItem = {
-	name: string;
-	uri?: string;
-	value: string;
-};
-
 type ImageObject = {
 	artist: string | null;
 	imageUri: string | null;

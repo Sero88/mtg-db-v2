@@ -2,8 +2,8 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { SearchSelector } from "./SearchSelector";
 
 const itemsMock = [
-	{ display: "test", value: "testValue" },
-	{ display: "test2", value: "testValue2" },
+	{ display: "test", value: "test" },
+	{ display: "test2", value: "test2" },
 ];
 
 const clickHandler = jest.fn();
@@ -41,5 +41,14 @@ describe("SearchSelector", () => {
 		fireEvent.click(item1);
 
 		expect(clickHandler).toHaveBeenCalledWith(itemsMock[0].value);
+	});
+
+	it("should only show matching list items from search", () => {
+		render(<SearchSelector items={itemsMock} clickHandler={clickHandler} />);
+		const input = screen.getByRole("textbox") as HTMLInputElement;
+
+		fireEvent.change(input, { target: { value: "test2" } });
+
+		expect(screen.queryAllByText(/^test[0-9]?/).length).toEqual(1);
 	});
 });
