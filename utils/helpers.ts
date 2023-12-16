@@ -1,6 +1,4 @@
 export const Helpers = {
-	collectionLimit: 4, //limit of each card in collection
-
 	apiResponse: function (success: boolean, data: unknown = undefined) {
 		return {
 			success,
