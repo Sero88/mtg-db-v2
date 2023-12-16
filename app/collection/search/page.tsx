@@ -7,10 +7,12 @@ import { useCollectionCardSearch } from "@/hooks/useCollectionCardSearch";
 import { CollectionSearchResults } from "@/components/search/CollectionSearchResults";
 import { QueryResultData } from "@/types/queryResult";
 import { QueryResult } from "@/components/utils/QueryResult";
+import { CardText } from "@/components/search/fields/CardText";
 
 export default function SearchPage() {
 	const initialFormFields = {
 		[SearchFields.NAME]: "",
+		[SearchFields.TEXT]: "",
 	};
 	const [formFields, setFormFields] = useState(initialFormFields);
 	const searchResponse = useCollectionCardSearch(formFields);
@@ -46,6 +48,15 @@ export default function SearchPage() {
 					/>
 				</div>
 				<hr />
+				<div className="form-section">
+					<CardText
+						fieldData={{
+							name: SearchFields.TEXT,
+							value: formFields[SearchFields.TEXT],
+						}}
+						changeHandler={updateHandler}
+					/>
+				</div>
 			</form>
 			<QueryResult queryResult={searchResponse as QueryResultData}>
 				<CollectionSearchResults cardData={searchResponse.data} />

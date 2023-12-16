@@ -1,6 +1,7 @@
 import SearchPage from "./page";
-import { screen, render, fireEvent } from "@testing-library/react";
+import { screen, render, fireEvent, waitFor } from "@testing-library/react";
 import * as CardNameComponent from "@/components/search/fields/CardName";
+import * as CardTextComponent from "@/components/search/fields/CardText";
 import { useCollectionCardSearch } from "@/hooks/useCollectionCardSearch";
 
 jest.mock("@/components/search/fields/CardName", () => {
@@ -12,7 +13,17 @@ jest.mock("@/components/search/fields/CardName", () => {
 	};
 });
 
+jest.mock("@/components/search/fields/CardText", () => {
+	const originalModule = jest.requireActual("@/components/search/fields/CardText");
+
+	return {
+		__esModule: true,
+		...originalModule,
+	};
+});
+
 const cardNameSpy = jest.spyOn(CardNameComponent, "CardName");
+const cardTextSpy = jest.spyOn(CardTextComponent, "CardText");
 
 jest.mock("@/hooks/useCollectionCardSearch");
 const useCollectionCardSearchMock = jest.mocked(useCollectionCardSearch);
@@ -39,6 +50,21 @@ describe("/collection/search page", () => {
 	it("should display CardName component", () => {
 		render(<SearchPage />);
 		expect(cardNameSpy).toHaveBeenCalled();
+	});
+
+	it("should update field value", async () => {
+		const expectedUpdatedValue = "testUpdatedValue";
+		render(<SearchPage />);
+		const inputs = screen.getAllByRole("textbox");
+		fireEvent.change(inputs[0], { target: { value: expectedUpdatedValue } });
+		waitFor(() => {
+			expect(screen.queryByText(expectedUpdatedValue)).not.toBeNull();
+		});
+	});
+
+	it("should display CardText component", () => {
+		render(<SearchPage />);
+		expect(cardTextSpy).toHaveBeenCalled();
 	});
 
 	it("should fetch data when form is submitted", () => {
