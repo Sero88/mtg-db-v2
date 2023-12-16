@@ -1,4 +1,4 @@
-import { GeneralUtil } from "@/utils/generalUtil";
+import { Helpers } from "@/utils/helpers";
 import { NextResponse } from "next/server";
 import { CardCollection } from "@/models/cardCollection";
 import { DbModelResponseEnum } from "@/types/utils";
@@ -18,9 +18,9 @@ export async function PATCH(request: Request) {
 	const updateResults = await cardCollection.setQuantity(card, type, newQuantity);
 
 	if (updateResults.status == DbModelResponseEnum.SUCCESS) {
-		return NextResponse.json(GeneralUtil.apiResponse(true, updateResults?.data));
+		return NextResponse.json(Helpers.apiResponse(true, updateResults?.data));
 	} else {
-		return NextResponse.json(GeneralUtil.apiResponse(false, updateResults?.data), {
+		return NextResponse.json(Helpers.apiResponse(false, updateResults?.data), {
 			status: 400,
 		});
 	}

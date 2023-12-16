@@ -1,6 +1,6 @@
 import { ScryfallCard } from "@/types/scryfall";
 import styles from "@/styles/results.module.scss";
-import { GeneralUtil } from "@/utils/generalUtil";
+import { Helpers } from "@/utils/helpers";
 import { PrintCard } from "./PrintCard";
 import { useGetCollectionCardQuantityById } from "@/hooks/useGetCollectionCardQuantityById";
 import { useMemo } from "react";
@@ -29,7 +29,7 @@ export function PrintCardList({ cardData }: PrintCardListProps) {
 					const cardQuantities = mappedCardQuantities.get(card.id);
 					return (
 						<li
-							id={GeneralUtil.convertNameToHtmlId(card.name)}
+							id={Helpers.convertNameToHtmlId(card.name)}
 							className={styles.cardWrapper}
 							key={index}
 						>

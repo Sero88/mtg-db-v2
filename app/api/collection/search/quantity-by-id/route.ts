@@ -1,4 +1,4 @@
-import { GeneralUtil } from "@/utils/generalUtil";
+import { Helpers } from "@/utils/helpers";
 import { NextResponse } from "next/server";
 import { CardCollection } from "@/models/cardCollection";
 import { DbModelResponseEnum } from "@/types/utils";
@@ -10,7 +10,7 @@ export async function GET(request: Request) {
 	const cardIds = jsonCardIds ? JSON.parse(jsonCardIds) : [];
 
 	if (!cardIds.length) {
-		return NextResponse.json(GeneralUtil.apiResponse(false, null), { status: 400 });
+		return NextResponse.json(Helpers.apiResponse(false, null), { status: 400 });
 	}
 
 	const cardCollection = new CardCollection();
@@ -23,8 +23,8 @@ export async function GET(request: Request) {
 	const searchResults = await cardCollection.getQuantitiesByIds(cardIds);
 
 	if (searchResults.status == DbModelResponseEnum.SUCCESS) {
-		return NextResponse.json(GeneralUtil.apiResponse(true, searchResults?.data));
+		return NextResponse.json(Helpers.apiResponse(true, searchResults?.data));
 	} else {
-		return NextResponse.json(GeneralUtil.apiResponse(false, null), { status: 400 });
+		return NextResponse.json(Helpers.apiResponse(false, null), { status: 400 });
 	}
 }

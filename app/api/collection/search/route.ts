@@ -1,4 +1,4 @@
-import { GeneralUtil } from "@/utils/generalUtil";
+import { Helpers } from "@/utils/helpers";
 import { NextResponse } from "next/server";
 import { CardCollection } from "@/models/cardCollection";
 import { DbModelResponseEnum } from "@/types/utils";
@@ -16,9 +16,9 @@ export async function POST(request: Request) {
 	const results = await cardCollection.getCards(data);
 
 	if (results.status == DbModelResponseEnum.SUCCESS) {
-		return NextResponse.json(GeneralUtil.apiResponse(true, results?.data));
+		return NextResponse.json(Helpers.apiResponse(true, results?.data));
 	} else {
-		return NextResponse.json(GeneralUtil.apiResponse(false, results?.data), {
+		return NextResponse.json(Helpers.apiResponse(false, results?.data), {
 			status: 400,
 		});
 	}
