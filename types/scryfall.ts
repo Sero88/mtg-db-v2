@@ -82,3 +82,13 @@ export type ScryfallApiError = {
 	type?: string;
 	details: string;
 };
+
+export type ScryfallSymbol = {
+	symbol: string;
+	english: string;
+	svg_uri: string;
+	represents_mana: boolean;
+	colors: string[];
+	loose_variant?: boolean;
+	cmc: number;
+};
