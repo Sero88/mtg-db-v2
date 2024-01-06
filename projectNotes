@@ -519,3 +519,12 @@ Start creating todo outline and planning
 
 -   get familiar with authentication
 -   get familiar with authorization - how to know when user is logged in.
+
+===== code snippet
+searchText: (haystack: string, needle: string) => {
+const nonAlphaNumeric = /([^a-zA-Z0-9])/gim;
+const subs = "\\$1";
+		const escapedSearchText = haystack.replace(nonAlphaNumeric, subs);
+		const regex = new RegExp(`${escapedSearchText}`, "i");
+return !!regex.exec(needle);
+},

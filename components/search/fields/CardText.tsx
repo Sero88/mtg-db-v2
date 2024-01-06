@@ -1,4 +1,8 @@
 import { SearchFields } from "@/types/search";
+import { SearchSelector } from "../../utils/SearchSelector";
+import { useContext, useMemo } from "react";
+import { ScryfallSymbolDataContext } from "@/contexts/ScryfallSymbolDataContext";
+import { createSymbolsMapAndArray } from "@/components/utils/CardText";
 
 type CardTextProps = {
 	fieldData: {
@@ -9,6 +13,13 @@ type CardTextProps = {
 };
 
 export function CardText({ changeHandler, fieldData }: CardTextProps) {
+	const symbols = useContext(ScryfallSymbolDataContext);
+
+	const { symbolsMap, symbolsArray } = useMemo(
+		() => createSymbolsMapAndArray(symbols),
+		[symbols.length]
+	);
+
 	return (
 		<>
 			<label>
@@ -20,6 +31,11 @@ export function CardText({ changeHandler, fieldData }: CardTextProps) {
 				<br />
 				Text
 			</label>
+
+			<SearchSelector
+				items={symbolsArray}
+				clickHandler={(value) => console.log(symbolsMap.get(value)?.symbol)}
+			/>
 		</>
 	);
 }

@@ -12,8 +12,8 @@ export default async function SearchLayout({ children }: { children: React.React
 	const sets = await getScryfallSetData();
 	const symbols = await getScryfallSymbolData();
 
-	return sets?.data ? (
-		<ScryfallSymbolDataProvider symbols={symbols}>
+	return sets?.data && sets?.data ? (
+		<ScryfallSymbolDataProvider symbols={symbols.data}>
 			<ScryfallSetDataProvider sets={sets.data}>{children}</ScryfallSetDataProvider>
 		</ScryfallSymbolDataProvider>
 	) : (

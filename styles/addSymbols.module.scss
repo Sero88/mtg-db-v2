@@ -1,0 +1,17 @@
+.cardListItem {
+	margin-bottom: 0.5rem;
+	cursor: pointer;
+	display: flex;
+	gap: 0.25rem;
+	align-items: center;
+
+	.symbolImage {
+		display: flex;
+		align-items: center;
+
+		img {
+			display: inline-flex;
+			width: 1.25rem;
+		}
+	}
+}

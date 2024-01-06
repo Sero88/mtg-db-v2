@@ -3,7 +3,7 @@ import { SearchSelector } from "./SearchSelector";
 
 const itemsMock = [
 	{ display: "test", value: "test" },
-	{ display: "test2", value: "test2" },
+	{ display: "test2", value: "+test2+" },
 ];
 
 const clickHandler = jest.fn();
@@ -48,6 +48,15 @@ describe("SearchSelector", () => {
 		const input = screen.getByRole("textbox") as HTMLInputElement;
 
 		fireEvent.change(input, { target: { value: "test2" } });
+
+		expect(screen.queryAllByText(/^test[0-9]?/).length).toEqual(1);
+	});
+
+	it("should escape items correctly", () => {
+		render(<SearchSelector items={itemsMock} clickHandler={clickHandler} />);
+		const input = screen.getByRole("textbox") as HTMLInputElement;
+
+		fireEvent.change(input, { target: { value: "+test2" } });
 
 		expect(screen.queryAllByText(/^test[0-9]?/).length).toEqual(1);
 	});
