@@ -3,7 +3,7 @@ import { createSymbolsMapAndArray } from "./CardText";
 
 describe("CardText Utils", () => {
 	describe("createSymbolsMapAndArray", () => {
-		it("should all items from array to Map and Array props", () => {
+		it("should list all items from array to Map and Array props", () => {
 			const symbolsMapAndArray = createSymbolsMapAndArray(symbolsList);
 
 			symbolsMapAndArray.symbolsMap.forEach((symbol) => {

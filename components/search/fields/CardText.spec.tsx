@@ -24,8 +24,8 @@ const changeHandler = jest.fn();
 const searchSelectorSpy = jest.spyOn(SearchSelectorComponent, "SearchSelector");
 
 const symbolsArray = [
-	{ symbol: "−", svg_uri: "", english: "− planeswalker minus ability" },
-	{ symbol: "+", svg_uri: "", english: "+ planeswalker plus ability" },
+	{ symbol: "{−}", svg_uri: "", english: "− planeswalker minus ability" },
+	{ symbol: "{+}", svg_uri: "", english: "+ planeswalker plus ability" },
 ];
 
 const symbolsMap = new Map([
@@ -34,9 +34,12 @@ const symbolsMap = new Map([
 ]);
 
 describe("CardText", () => {
+	beforeEach(() => {
+		jest.resetAllMocks();
+	});
 	it("should have label", () => {
 		render(<CardText fieldData={fieldData} changeHandler={changeHandler} />);
-		expect(screen.queryByLabelText("Text")).not.toBeNull();
+		expect(screen.queryByText("Text")).not.toBeNull();
 	});
 
 	it("should display passed value", () => {
@@ -68,5 +71,19 @@ describe("CardText", () => {
 		);
 
 		expect(searchSelectorSpy).toHaveBeenCalled();
+	});
+
+	it("should run changeHandler when you pick an item from the search selector", () => {
+		render(
+			<ScryfallSymbolDataProvider symbols={symbolsList}>
+				<CardText fieldData={fieldData} changeHandler={changeHandler} />
+			</ScryfallSymbolDataProvider>
+		);
+
+		const itemFromSelector = screen.getByText("six generic mana");
+
+		fireEvent.click(itemFromSelector);
+
+		expect(changeHandler).toHaveBeenCalledTimes(1);
 	});
 });
