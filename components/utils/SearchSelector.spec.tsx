@@ -4,6 +4,7 @@ import { SearchSelector } from "./SearchSelector";
 const itemsMock = [
 	{ display: "test", value: "test" },
 	{ display: "test2", value: "+test2+" },
+	{ display: "test3", value: "test3", searchValue: "{t3}:test3" },
 ];
 
 const clickHandler = jest.fn();
@@ -59,5 +60,14 @@ describe("SearchSelector", () => {
 		fireEvent.change(input, { target: { value: "+test2" } });
 
 		expect(screen.queryAllByText(/^test[0-9]?/).length).toEqual(1);
+	});
+
+	it("should use searchValue when passed", () => {
+		render(<SearchSelector items={itemsMock} clickHandler={clickHandler} />);
+		const input = screen.getByRole("textbox") as HTMLInputElement;
+
+		fireEvent.change(input, { target: { value: itemsMock[2].searchValue } });
+
+		expect(screen.queryAllByText(itemsMock[2].display).length).toEqual(1);
 	});
 });

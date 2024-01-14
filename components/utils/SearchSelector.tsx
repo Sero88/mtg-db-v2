@@ -13,7 +13,9 @@ type SearchSelectorProps = {
 export function SearchSelector({ items, clickHandler }: SearchSelectorProps) {
 	const [searchText, setSearchText] = useState("");
 
-	const filteredData = items.filter((item) => item.value.includes(searchText));
+	const filteredData = items.filter((item) =>
+		item?.searchValue ? item.searchValue.includes(searchText) : item.value.includes(searchText)
+	);
 
 	return (
 		<div className={styles.searchList}>
