@@ -1,8 +1,9 @@
 import { SearchFields } from "@/types/search";
 import { SearchSelector } from "../../utils/SearchSelector";
-import { useContext, useMemo, useState } from "react";
+import { useContext, useMemo } from "react";
 import { ScryfallSymbolDataContext } from "@/contexts/ScryfallSymbolDataContext";
 import { createSymbolsMapAndArray } from "@/components/utils/CardText";
+import { TranslatedCardText } from "./TranslatedCardText";
 
 type CardTextProps = {
 	fieldData: {
@@ -14,10 +15,6 @@ type CardTextProps = {
 
 export function CardText({ changeHandler, fieldData }: CardTextProps) {
 	const symbols = useContext(ScryfallSymbolDataContext);
-
-	//todo remove after testing 👇
-	console.log("symbols", symbols);
-	//todo remove after testing 👆
 
 	const { symbolsMap, symbolsArray } = useMemo(
 		() => createSymbolsMapAndArray(symbols),
@@ -31,8 +28,8 @@ export function CardText({ changeHandler, fieldData }: CardTextProps) {
 
 	return (
 		<>
+			<TranslatedCardText textToTranslate={fieldData?.value} symbols={symbolsMap} />
 			<label>
-				<p>{fieldData?.value}</p>
 				<textarea
 					name={fieldData?.name}
 					onChange={(event) => changeHandler(fieldData?.name, event?.target?.value)}

@@ -34,3 +34,9 @@ export const symbolsList: ScryfallSymbol[] = [
 		colors: ["r", "b"],
 	},
 ];
+const mapFromArray = new Map();
+
+symbolsList.forEach((symbol) => {
+	mapFromArray.set(symbol.symbol, symbol);
+});
+export const symbolsMap = mapFromArray;

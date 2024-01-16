@@ -1,9 +1,20 @@
 import { SearchFields } from "@/types/search";
 import { CardText } from "./CardText";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import * as SearchSelectorComponent from "@/components/utils/SearchSelector";
 import { symbolsList } from "@/tests/mocks/symbolList.mock";
 import { ScryfallSymbolDataProvider } from "@/providers/ScryfallCardTextProvider";
+import * as TranslatedCardTextComponent from "@/components/search/fields/TranslatedCardText";
+import { ScryfallSymbol } from "@/types/scryfall";
+
+jest.mock("@/components/search/fields/TranslatedCardText", () => {
+	const originalModule = jest.requireActual("@/components/search/fields/TranslatedCardText");
+
+	return {
+		__esModule: true,
+		...originalModule,
+	};
+});
 
 const fieldData = {
 	name: SearchFields.TEXT,
@@ -29,9 +40,11 @@ const symbolsArray = [
 ];
 
 const symbolsMap = new Map([
-	[symbolsArray[0].english, symbolsArray[0]],
-	[symbolsArray[1].english, symbolsArray[1]],
+	[symbolsArray[0].symbol, symbolsArray[0]],
+	[symbolsArray[1].symbol, symbolsArray[1]],
 ]);
+
+const translatedCardTextSpy = jest.spyOn(TranslatedCardTextComponent, "TranslatedCardText");
 
 describe("CardText", () => {
 	beforeEach(() => {
@@ -85,5 +98,21 @@ describe("CardText", () => {
 		fireEvent.click(itemFromSelector);
 
 		expect(changeHandler).toHaveBeenCalledTimes(1);
+	});
+
+	it("should run render TranslatedCardText", () => {
+		render(
+			<ScryfallSymbolDataProvider symbols={symbolsArray as ScryfallSymbol[]}>
+				<CardText fieldData={fieldData} changeHandler={changeHandler} />
+			</ScryfallSymbolDataProvider>
+		);
+
+		expect(translatedCardTextSpy).toHaveBeenCalledWith(
+			{
+				textToTranslate: fieldData.value,
+				symbols: symbolsMap,
+			},
+			{}
+		);
 	});
 });
