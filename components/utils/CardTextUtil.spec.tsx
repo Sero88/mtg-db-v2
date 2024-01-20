@@ -1,5 +1,5 @@
 import { symbolsList } from "@/tests/mocks/symbolList.mock";
-import { createSymbolsMapAndArray, symbolTranslation } from "./CardText";
+import { createSymbolsMapAndArray, isSymbolOptionsNeeded, symbolTranslation } from "./CardTextUtil";
 import Image from "next/image";
 
 describe("CardText Utils", () => {
@@ -36,6 +36,18 @@ describe("CardText Utils", () => {
 		it("should return span component when svg_uri is  empty", () => {
 			const translation = symbolTranslation(symbolWithNoSvg);
 			expect(translation).toEqual(<span>{symbolWithNoSvg?.english}</span>);
+		});
+	});
+
+	describe("isSymbolOptionsNeeded", () => {
+		const shouldBeNeeded = "{test";
+		const shouldNotBeNeeded = "{test} and other text";
+		it("should return true when there are more '{' chars than '}' chars", () => {
+			expect(isSymbolOptionsNeeded(shouldBeNeeded)).toEqual(true);
+		});
+
+		it("should return false when curly braces are paired", () => {
+			expect(isSymbolOptionsNeeded(shouldNotBeNeeded)).toEqual(false);
 		});
 	});
 });
