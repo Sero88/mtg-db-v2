@@ -1,4 +1,4 @@
-import { symbolTranslation } from "@/components/utils/CardText";
+import { symbolTranslation } from "@/components/utils/CardTextUtil";
 import { ScryfallSymbol } from "@/types/scryfall";
 
 type TranslatedCardTextProps = {

@@ -1,11 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { SearchSelector } from "./SearchSelector";
-
-const itemsMock = [
-	{ display: "test", value: "test" },
-	{ display: "test2", value: "+test2+" },
-	{ display: "test3", value: "test3", searchValue: "{t3}:test3" },
-];
+import { itemsMock } from "@/tests/mocks/selectorListItem.mock";
 
 const clickHandler = jest.fn();
 
