@@ -1,9 +1,10 @@
 import { SearchFields } from "@/types/search";
 import { SearchSelector } from "../../utils/SearchSelector";
-import { useContext, useMemo } from "react";
+import { useContext, useMemo, useState } from "react";
 import { ScryfallSymbolDataContext } from "@/contexts/ScryfallSymbolDataContext";
-import { createSymbolsMapAndArray } from "@/components/utils/CardText";
+import { createSymbolsMapAndArray, isSymbolOptionsNeeded } from "@/components/utils/CardTextUtil";
 import { TranslatedCardText } from "./TranslatedCardText";
+import { SymbolOptions } from "./SymbolOptions";
 
 type CardTextProps = {
 	fieldData: {
@@ -15,6 +16,8 @@ type CardTextProps = {
 
 export function CardText({ changeHandler, fieldData }: CardTextProps) {
 	const symbols = useContext(ScryfallSymbolDataContext);
+	const [isFocused, setIsFocused] = useState(false);
+	const [dynamicOptionsEnabled, setDynamicOptionsEnabled] = useState(false);
 
 	const { symbolsMap, symbolsArray } = useMemo(
 		() => createSymbolsMapAndArray(symbols),
@@ -26,20 +29,29 @@ export function CardText({ changeHandler, fieldData }: CardTextProps) {
 		changeHandler(fieldData?.name, fieldData?.value + selectedSymbol?.symbol);
 	};
 
+	const textChangeHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+		setDynamicOptionsEnabled(isSymbolOptionsNeeded(event.target.value));
+		changeHandler(fieldData?.name, event?.target?.value);
+	};
+
+	const showInputOptions = isFocused && dynamicOptionsEnabled;
+
 	return (
-		<>
+		<div onFocus={() => setIsFocused(true)} onBlur={() => setIsFocused(false)}>
+			{showInputOptions && <SymbolOptions text={fieldData?.value} symbols={symbolsArray} />}
 			<TranslatedCardText textToTranslate={fieldData?.value} symbols={symbolsMap} />
 			<label>
 				<textarea
 					name={fieldData?.name}
-					onChange={(event) => changeHandler(fieldData?.name, event?.target?.value)}
+					onChange={textChangeHandler}
 					value={fieldData?.value}
+					data-testid="cardTextArea"
 				/>
 				<br />
 				Text
 			</label>
 
 			<SearchSelector items={symbolsArray} clickHandler={onSelectSearchItem} />
-		</>
+		</div>
 	);
 }

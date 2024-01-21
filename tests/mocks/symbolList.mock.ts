@@ -40,3 +40,44 @@ symbolsList.forEach((symbol) => {
 	mapFromArray.set(symbol.symbol, symbol);
 });
 export const symbolsMap = mapFromArray;
+
+export const symbolsMapAndArrayMock = {
+	symbolsMap: new Map([
+		[
+			"{−}",
+			{
+				symbol: "{−}",
+				svg_uri: "",
+				english: "− planeswalker minus ability",
+				represents_mana: false,
+				colors: [],
+				loose_variant: false,
+				cmc: 0,
+			},
+		],
+		[
+			"{+}",
+			{
+				symbol: "{+}",
+				svg_uri: "",
+				english: "+ planeswalker plus ability",
+				represents_mana: false,
+				colors: [],
+				loose_variant: false,
+				cmc: 0,
+			},
+		],
+	]),
+	symbolsArray: [
+		{
+			value: "{−}",
+			display: "test",
+			searchValue: "{−}::− planeswalker minus ability",
+		},
+		{
+			value: "{+}",
+			display: "test",
+			searchValue: "{+}::+ planeswalker plus ability",
+		},
+	],
+};

@@ -1,14 +1,25 @@
 import { SearchFields } from "@/types/search";
 import { CardText } from "./CardText";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import * as SearchSelectorComponent from "@/components/utils/SearchSelector";
-import { symbolsList } from "@/tests/mocks/symbolList.mock";
+import { symbolsList, symbolsMapAndArrayMock } from "@/tests/mocks/symbolList.mock";
 import { ScryfallSymbolDataProvider } from "@/providers/ScryfallCardTextProvider";
 import * as TranslatedCardTextComponent from "@/components/search/fields/TranslatedCardText";
+import * as SymbolOptionsComponent from "@/components/search/fields/SymbolOptions";
 import { ScryfallSymbol } from "@/types/scryfall";
+import * as CardTextUtils from "@/components/utils/CardTextUtil";
 
 jest.mock("@/components/search/fields/TranslatedCardText", () => {
 	const originalModule = jest.requireActual("@/components/search/fields/TranslatedCardText");
+
+	return {
+		__esModule: true,
+		...originalModule,
+	};
+});
+
+jest.mock("@/components/search/fields/SymbolOptions", () => {
+	const originalModule = jest.requireActual("@/components/search/fields/SymbolOptions");
 
 	return {
 		__esModule: true,
@@ -23,6 +34,15 @@ const fieldData = {
 
 jest.mock("@/components/utils/SearchSelector", () => {
 	const originalModule = jest.requireActual("@/components/utils/SearchSelector");
+
+	return {
+		__esModule: true,
+		...originalModule,
+	};
+});
+
+jest.mock("@/components/utils/CardTextUtil", () => {
+	const originalModule = jest.requireActual("@/components/utils/CardTextUtil");
 
 	return {
 		__esModule: true,
@@ -45,6 +65,8 @@ const symbolsMap = new Map([
 ]);
 
 const translatedCardTextSpy = jest.spyOn(TranslatedCardTextComponent, "TranslatedCardText");
+const symbolOptionsSpy = jest.spyOn(SymbolOptionsComponent, "SymbolOptions");
+const createSymbolsMapAndArraySpy = jest.spyOn(CardTextUtils, "createSymbolsMapAndArray");
 
 describe("CardText", () => {
 	beforeEach(() => {
@@ -86,14 +108,24 @@ describe("CardText", () => {
 		expect(searchSelectorSpy).toHaveBeenCalled();
 	});
 
-	it("should run changeHandler when you pick an item from the search selector", () => {
+	it("should convert Scryfall symbols to array and map", () => {
 		render(
 			<ScryfallSymbolDataProvider symbols={symbolsList}>
 				<CardText fieldData={fieldData} changeHandler={changeHandler} />
 			</ScryfallSymbolDataProvider>
 		);
 
-		const itemFromSelector = screen.getByText("six generic mana");
+		expect(createSymbolsMapAndArraySpy).toHaveBeenCalledWith(symbolsList);
+	});
+
+	it("should run changeHandler when you pick an item from the search selector", () => {
+		render(
+			<ScryfallSymbolDataProvider symbols={symbolsArray as ScryfallSymbol[]}>
+				<CardText fieldData={fieldData} changeHandler={changeHandler} />
+			</ScryfallSymbolDataProvider>
+		);
+
+		const itemFromSelector = screen.getByText("− planeswalker minus ability");
 
 		fireEvent.click(itemFromSelector);
 
@@ -114,5 +146,64 @@ describe("CardText", () => {
 			},
 			{}
 		);
+	});
+
+	it("should render symbol options when user has focus on field and opens a curly brace ({)", () => {
+		createSymbolsMapAndArraySpy.mockReturnValue(symbolsMapAndArrayMock);
+		const input = "test {";
+		render(
+			<ScryfallSymbolDataProvider symbols={symbolsArray as ScryfallSymbol[]}>
+				<CardText fieldData={fieldData} changeHandler={changeHandler} />
+			</ScryfallSymbolDataProvider>
+		);
+
+		const field = screen.getByTestId("cardTextArea");
+
+		fireEvent.focusIn(field);
+		fireEvent.change(field, { target: { value: input } });
+
+		expect(symbolOptionsSpy).toHaveBeenCalledWith(
+			{ symbols: symbolsMapAndArrayMock.symbolsArray, text: fieldData.value },
+			{}
+		);
+	});
+
+	it("should not render symbol options when user does not have focus on field", () => {
+		createSymbolsMapAndArraySpy.mockReturnValue(symbolsMapAndArrayMock);
+		const input = "test {";
+		render(
+			<ScryfallSymbolDataProvider symbols={symbolsArray as ScryfallSymbol[]}>
+				<CardText fieldData={fieldData} changeHandler={changeHandler} />
+			</ScryfallSymbolDataProvider>
+		);
+
+		const field = screen.getByTestId("cardTextArea");
+
+		fireEvent.change(field, { target: { value: input } });
+
+		expect(symbolOptionsSpy).not.toHaveBeenCalled();
+	});
+
+	it("should stop rendering options when user focuses out of field", () => {
+		createSymbolsMapAndArraySpy.mockReturnValue(symbolsMapAndArrayMock);
+		const input = "test {";
+		render(
+			<ScryfallSymbolDataProvider symbols={symbolsArray as ScryfallSymbol[]}>
+				<CardText fieldData={fieldData} changeHandler={changeHandler} />
+			</ScryfallSymbolDataProvider>
+		);
+
+		const field = screen.getByTestId("cardTextArea");
+
+		fireEvent.focusIn(field);
+		fireEvent.change(field, { target: { value: input } });
+
+		expect(symbolOptionsSpy).toHaveBeenCalledWith(
+			{ symbols: symbolsMapAndArrayMock.symbolsArray, text: fieldData.value },
+			{}
+		);
+
+		fireEvent.focusOut(field);
+		expect(screen.queryByTestId("symbolOptions")).toBeNull();
 	});
 });
