@@ -18,11 +18,15 @@ export function SearchSelector({ items, clickHandler }: SearchSelectorProps) {
 
 	return (
 		<div className={styles.searchList}>
-			<input
-				type="text"
-				value={searchText}
-				onChange={(event) => setSearchText(event.target.value)}
-			/>
+			<label>
+				<p>Search:</p>
+				<input
+					type="text"
+					value={searchText}
+					onChange={(event) => setSearchText(event.target.value)}
+				/>
+			</label>
+
 			<button type="button" className={styles.clearButton} onClick={() => setSearchText("")}>
 				<FontAwesomeIcon icon={faXmark} />
 			</button>

@@ -1,5 +1,6 @@
 import { symbolTranslation } from "@/components/utils/CardTextUtil";
 import { ScryfallSymbol } from "@/types/scryfall";
+import styles from "@/styles/translatedCardText.module.scss";
 
 type TranslatedCardTextProps = {
 	symbols: Map<String, ScryfallSymbol>;
@@ -22,5 +23,5 @@ export function TranslatedCardText({ symbols, textToTranslate }: TranslatedCardT
 		return symbolTranslation(textSymbol);
 	});
 
-	return <p>{translatedText}</p>;
+	return <p className={styles.translatedCardText}>{translatedText}</p>;
 }

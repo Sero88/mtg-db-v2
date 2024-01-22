@@ -1,0 +1,12 @@
+@import "./variables.scss";
+
+.cardText {
+	display: flex;
+	gap: 3rem;
+	align-items: start;
+
+	.cardTextArea {
+		width: 25rem;
+		height: 14rem;
+	}
+}

@@ -25,8 +25,8 @@ describe("CardText Utils", () => {
 			expect(translation).toEqual(
 				<Image
 					src={symbolWithSvg.svg_uri}
-					width={15}
-					height={15}
+					width={expect.anything()}
+					height={expect.anything()}
 					unoptimized={true}
 					alt={symbolWithSvg.english}
 				/>

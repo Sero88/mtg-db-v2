@@ -5,6 +5,7 @@ import { ScryfallSymbolDataContext } from "@/contexts/ScryfallSymbolDataContext"
 import { createSymbolsMapAndArray, isSymbolOptionsNeeded } from "@/components/utils/CardTextUtil";
 import { TranslatedCardText } from "./TranslatedCardText";
 import { SymbolOptions } from "./SymbolOptions";
+import styles from "@/styles/cardTextField.module.scss";
 
 type CardTextProps = {
 	fieldData: {
@@ -37,20 +38,28 @@ export function CardText({ changeHandler, fieldData }: CardTextProps) {
 	const showInputOptions = isFocused && dynamicOptionsEnabled;
 
 	return (
-		<div onFocus={() => setIsFocused(true)} onBlur={() => setIsFocused(false)}>
-			{showInputOptions && <SymbolOptions text={fieldData?.value} symbols={symbolsArray} />}
-			<TranslatedCardText textToTranslate={fieldData?.value} symbols={symbolsMap} />
-			<label>
-				<textarea
-					name={fieldData?.name}
-					onChange={textChangeHandler}
-					value={fieldData?.value}
-					data-testid="cardTextArea"
-				/>
-				<br />
-				Text
-			</label>
-
+		<div
+			onFocus={() => setIsFocused(true)}
+			onBlur={() => setIsFocused(false)}
+			className={styles.cardText}
+		>
+			<div>
+				{showInputOptions && (
+					<SymbolOptions text={fieldData?.value} symbols={symbolsArray} />
+				)}
+				<TranslatedCardText textToTranslate={fieldData?.value} symbols={symbolsMap} />
+				<label>
+					<textarea
+						name={fieldData?.name}
+						onChange={textChangeHandler}
+						value={fieldData?.value}
+						data-testid="cardTextArea"
+						className={styles.cardTextArea}
+					/>
+					<br />
+					Card Text
+				</label>
+			</div>
 			<SearchSelector items={symbolsArray} clickHandler={onSelectSearchItem} />
 		</div>
 	);

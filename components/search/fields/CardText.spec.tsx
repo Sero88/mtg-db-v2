@@ -74,7 +74,7 @@ describe("CardText", () => {
 	});
 	it("should have label", () => {
 		render(<CardText fieldData={fieldData} changeHandler={changeHandler} />);
-		expect(screen.queryByText("Text")).not.toBeNull();
+		expect(screen.queryByText("Card Text")).not.toBeNull();
 	});
 
 	it("should display passed value", () => {

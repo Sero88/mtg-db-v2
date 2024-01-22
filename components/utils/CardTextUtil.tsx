@@ -32,8 +32,8 @@ export function symbolTranslation(selectedSymbol: { svg_uri: string | null; engl
 	return selectedSymbol?.svg_uri ? (
 		<Image
 			src={selectedSymbol.svg_uri}
-			width={15}
-			height={15}
+			width={12}
+			height={12}
 			unoptimized={true}
 			alt={selectedSymbol.english}
 		/>
