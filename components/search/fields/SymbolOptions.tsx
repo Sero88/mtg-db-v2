@@ -5,7 +5,8 @@ type SymbolOptionsProps = {
 	symbols: SelectorListItem[];
 };
 
-export default function SymbolOptions({ text, symbols }: SymbolOptionsProps) {
+export function SymbolOptions({ text, symbols }: SymbolOptionsProps) {
+	return null;
 	if (!text) {
 		return null;
 	}
@@ -14,5 +15,5 @@ export default function SymbolOptions({ text, symbols }: SymbolOptionsProps) {
 		return <p>{symbol.display}</p>;
 	});
 
-	return <>{symbolsDisplay}</>;
+	return <div data-testid="symbolOptions">{symbolsDisplay}</div>;
 }
