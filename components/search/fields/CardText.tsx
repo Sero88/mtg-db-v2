@@ -44,9 +44,6 @@ export function CardText({ changeHandler, fieldData }: CardTextProps) {
 			className={styles.cardText}
 		>
 			<div>
-				{showInputOptions && (
-					<SymbolOptions text={fieldData?.value} symbols={symbolsArray} />
-				)}
 				<TranslatedCardText textToTranslate={fieldData?.value} symbols={symbolsMap} />
 				<label>
 					<textarea
@@ -59,6 +56,9 @@ export function CardText({ changeHandler, fieldData }: CardTextProps) {
 					<br />
 					Card Text
 				</label>
+				{showInputOptions && (
+					<SymbolOptions text={fieldData?.value} symbols={symbolsArray} />
+				)}
 			</div>
 			<SearchSelector items={symbolsArray} clickHandler={onSelectSearchItem} />
 		</div>

@@ -6,12 +6,17 @@ type SymbolOptionsProps = {
 };
 
 export function SymbolOptions({ text, symbols }: SymbolOptionsProps) {
-	return null;
 	if (!text) {
 		return null;
 	}
 
-	const symbolsDisplay = symbols.map((symbol) => {
+	const rawText = text.replace("{", "");
+
+	const filteredData = symbols.filter((symbol) =>
+		symbol?.searchValue ? symbol.searchValue.includes(rawText) : symbol.value.includes(rawText)
+	);
+
+	const symbolsDisplay = filteredData.map((symbol) => {
 		return <p>{symbol.display}</p>;
 	});
 
