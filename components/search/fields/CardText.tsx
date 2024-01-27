@@ -19,6 +19,9 @@ export function CardText({ changeHandler, fieldData }: CardTextProps) {
 	const symbols = useContext(ScryfallSymbolDataContext);
 	const [isFocused, setIsFocused] = useState(false);
 	const [dynamicOptionsEnabled, setDynamicOptionsEnabled] = useState(false);
+	const [highlightedOption, setHighlightedOption] = useState<number>(0);
+	const acceptKeyCodes = [13, 9];
+	const moveKeyCodes = [38, 40];
 
 	const { symbolsMap, symbolsArray } = useMemo(
 		() => createSymbolsMapAndArray(symbols),
@@ -34,6 +37,16 @@ export function CardText({ changeHandler, fieldData }: CardTextProps) {
 		setDynamicOptionsEnabled(isSymbolOptionsNeeded(event.target.value));
 		changeHandler(fieldData?.name, event?.target?.value);
 	};
+
+	const keyDownHandler = (event: React.KeyboardEvent) => {
+		console.log("event ==>", event);
+	};
+
+	const rawText = fieldData?.value.replace(/{|}/, "");
+
+	const filteredSymbols = symbolsArray.filter((symbol) =>
+		symbol?.searchValue ? symbol.searchValue.includes(rawText) : symbol.value.includes(rawText)
+	);
 
 	const showInputOptions = isFocused && dynamicOptionsEnabled;
 
@@ -52,12 +65,16 @@ export function CardText({ changeHandler, fieldData }: CardTextProps) {
 						value={fieldData?.value}
 						data-testid="cardTextArea"
 						className={styles.cardTextArea}
+						onKeyDown={keyDownHandler}
 					/>
 					<br />
 					Card Text
 				</label>
 				{showInputOptions && (
-					<SymbolOptions text={fieldData?.value} symbols={symbolsArray} />
+					<SymbolOptions
+						symbols={filteredSymbols}
+						highlightedOption={highlightedOption}
+					/>
 				)}
 			</div>
 			<SearchSelector items={symbolsArray} clickHandler={onSelectSearchItem} />

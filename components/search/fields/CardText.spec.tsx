@@ -29,7 +29,7 @@ jest.mock("@/components/search/fields/SymbolOptions", () => {
 
 const fieldData = {
 	name: SearchFields.TEXT,
-	value: "Card Value",
+	value: "ability",
 };
 
 jest.mock("@/components/utils/SearchSelector", () => {
@@ -150,7 +150,7 @@ describe("CardText", () => {
 
 	it("should render symbol options when user has focus on field and opens a curly brace ({)", () => {
 		createSymbolsMapAndArraySpy.mockReturnValue(symbolsMapAndArrayMock);
-		const input = "test {";
+		const input = "{";
 		render(
 			<ScryfallSymbolDataProvider symbols={symbolsArray as ScryfallSymbol[]}>
 				<CardText fieldData={fieldData} changeHandler={changeHandler} />
@@ -163,7 +163,7 @@ describe("CardText", () => {
 		fireEvent.change(field, { target: { value: input } });
 
 		expect(symbolOptionsSpy).toHaveBeenCalledWith(
-			{ symbols: symbolsMapAndArrayMock.symbolsArray, text: fieldData.value },
+			{ symbols: symbolsMapAndArrayMock.symbolsArray, highlightedOption: 0 },
 			{}
 		);
 	});
@@ -199,7 +199,7 @@ describe("CardText", () => {
 		fireEvent.change(field, { target: { value: input } });
 
 		expect(symbolOptionsSpy).toHaveBeenCalledWith(
-			{ symbols: symbolsMapAndArrayMock.symbolsArray, text: fieldData.value },
+			{ symbols: symbolsMapAndArrayMock.symbolsArray, highlightedOption: 0 },
 			{}
 		);
 

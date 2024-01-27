@@ -1,23 +1,25 @@
 import { SelectorListItem } from "@/types/searchSelector";
+import styles from "@/styles/symbolOptions.module.scss";
 
 type SymbolOptionsProps = {
-	text: string;
 	symbols: SelectorListItem[];
+	highlightedOption: number;
 };
 
-export function SymbolOptions({ text, symbols }: SymbolOptionsProps) {
-	if (!text) {
+export function SymbolOptions({ symbols, highlightedOption }: SymbolOptionsProps) {
+	if (!symbols.length) {
 		return null;
 	}
-
-	const rawText = text.replace("{", "");
-
-	const filteredData = symbols.filter((symbol) =>
-		symbol?.searchValue ? symbol.searchValue.includes(rawText) : symbol.value.includes(rawText)
-	);
-
-	const symbolsDisplay = filteredData.map((symbol) => {
-		return <p>{symbol.display}</p>;
+	const symbolsDisplay = symbols.map((symbol, index) => {
+		return (
+			<p
+				className={
+					highlightedOption === index ? styles.highlightedOption : styles.regularOption
+				}
+			>
+				{symbol.display}
+			</p>
+		);
 	});
 
 	return <div data-testid="symbolOptions">{symbolsDisplay}</div>;
