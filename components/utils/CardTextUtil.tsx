@@ -54,3 +54,8 @@ export function isSymbolOptionsNeeded(text: string) {
 	}
 	return openCount > closeCount ? true : false;
 }
+
+export function getSymbolsSearchString(text: string) {
+	const lastCurlyBraceIndex = text.lastIndexOf("{");
+	return lastCurlyBraceIndex !== -1 ? text.slice(lastCurlyBraceIndex + 1, text.length) : "";
+}

@@ -7,20 +7,15 @@ type SymbolOptionsProps = {
 };
 
 export function SymbolOptions({ symbols, highlightedOption }: SymbolOptionsProps) {
-	if (!symbols.length) {
-		return null;
-	}
 	const symbolsDisplay = symbols.map((symbol, index) => {
+		const isActiveOption = highlightedOption === index;
+
 		return (
-			<p
-				className={
-					highlightedOption === index ? styles.highlightedOption : styles.regularOption
-				}
-			>
-				{symbol.display}
-			</p>
+			<div className={isActiveOption ? styles.highlightedOption : styles.regularOption}>
+				{symbol.display} {isActiveOption && <span>(Press: Enter)</span>}
+			</div>
 		);
 	});
 
-	return <div data-testid="symbolOptions">{symbolsDisplay}</div>;
+	return symbolsDisplay?.length ? <div data-testid="symbolOptions">{symbolsDisplay}</div> : null;
 }

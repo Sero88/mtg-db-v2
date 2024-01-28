@@ -2,7 +2,11 @@ import { SearchFields } from "@/types/search";
 import { SearchSelector } from "../../utils/SearchSelector";
 import { useContext, useMemo, useState } from "react";
 import { ScryfallSymbolDataContext } from "@/contexts/ScryfallSymbolDataContext";
-import { createSymbolsMapAndArray, isSymbolOptionsNeeded } from "@/components/utils/CardTextUtil";
+import {
+	createSymbolsMapAndArray,
+	getSymbolsSearchString,
+	isSymbolOptionsNeeded,
+} from "@/components/utils/CardTextUtil";
 import { TranslatedCardText } from "./TranslatedCardText";
 import { SymbolOptions } from "./SymbolOptions";
 import styles from "@/styles/cardTextField.module.scss";
@@ -42,13 +46,18 @@ export function CardText({ changeHandler, fieldData }: CardTextProps) {
 		console.log("event ==>", event);
 	};
 
-	const rawText = fieldData?.value.replace(/{|}/, "");
-
-	const filteredSymbols = symbolsArray.filter((symbol) =>
-		symbol?.searchValue ? symbol.searchValue.includes(rawText) : symbol.value.includes(rawText)
-	);
-
 	const showInputOptions = isFocused && dynamicOptionsEnabled;
+
+	const symbolsSearchString = showInputOptions ? getSymbolsSearchString(fieldData?.value) : null;
+
+	const filteredSymbols =
+		symbolsSearchString !== null
+			? symbolsArray.filter((symbol) =>
+					symbol?.searchValue
+						? symbol.searchValue.includes(symbolsSearchString)
+						: symbol.value.includes(symbolsSearchString)
+			  )
+			: [];
 
 	return (
 		<div

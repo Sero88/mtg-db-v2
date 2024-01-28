@@ -1,5 +1,10 @@
 import { symbolsList } from "@/tests/mocks/symbolList.mock";
-import { createSymbolsMapAndArray, isSymbolOptionsNeeded, symbolTranslation } from "./CardTextUtil";
+import {
+	createSymbolsMapAndArray,
+	getSymbolsSearchString,
+	isSymbolOptionsNeeded,
+	symbolTranslation,
+} from "./CardTextUtil";
 import Image from "next/image";
 
 describe("CardText Utils", () => {
@@ -48,6 +53,20 @@ describe("CardText Utils", () => {
 
 		it("should return false when curly braces are paired", () => {
 			expect(isSymbolOptionsNeeded(shouldNotBeNeeded)).toEqual(false);
+		});
+	});
+
+	describe("getSymbolsSearchString", () => {
+		it("should return the string after the last opening curly brace", () => {
+			const searchText = "{This has a lot { of curly {braces opened";
+			const expectedResult = "braces opened";
+			expect(getSymbolsSearchString(searchText)).toEqual(expectedResult);
+		});
+
+		it("should return empty string when there are no curly braces opened", () => {
+			expect(getSymbolsSearchString("this is a test with no curly braces opened }")).toEqual(
+				""
+			);
 		});
 	});
 });
