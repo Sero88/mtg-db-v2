@@ -57,16 +57,28 @@ describe("CardText Utils", () => {
 	});
 
 	describe("getSymbolsSearchString", () => {
-		it("should return the string after the last opening curly brace", () => {
-			const searchText = "{This has a lot { of curly {braces opened";
-			const expectedResult = "braces opened";
-			expect(getSymbolsSearchString(searchText)).toEqual(expectedResult);
+		it("should return the string after the first opening curly brace", () => {
+			const searchText = "Test {This is is another unclosed brace";
+			expect(getSymbolsSearchString(searchText)).toEqual({
+				position: { start: 5, end: 39 },
+				searchText: "This is is another unclosed brace",
+			});
+		});
+
+		it("should return the string after the first opening curly brace until end of another opening brace", () => {
+			const searchText = "{This has a lot { of curly {braces opened} }";
+			expect(getSymbolsSearchString(searchText)).toEqual({
+				position: { start: 0, end: 16 },
+				searchText: "This has a lot ",
+			});
 		});
 
 		it("should return empty string when there are no curly braces opened", () => {
-			expect(getSymbolsSearchString("this is a test with no curly braces opened }")).toEqual(
-				""
-			);
+			const testString = "this is a test with no curly braces opened }";
+			expect(getSymbolsSearchString(testString)).toEqual({
+				position: { start: 0, end: testString.length },
+				searchText: "this is a test with no curly braces opened }",
+			});
 		});
 	});
 });

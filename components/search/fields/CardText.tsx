@@ -24,7 +24,7 @@ export function CardText({ changeHandler, fieldData }: CardTextProps) {
 	const [isFocused, setIsFocused] = useState(false);
 	const [dynamicOptionsEnabled, setDynamicOptionsEnabled] = useState(false);
 	const [highlightedOption, setHighlightedOption] = useState<number>(0);
-	const acceptKeyCodes = [13, 9];
+	const acceptKeyCodes = ["Enter", "Tab"];
 	const moveKeyCodes = [38, 40];
 
 	const { symbolsMap, symbolsArray } = useMemo(
@@ -38,17 +38,30 @@ export function CardText({ changeHandler, fieldData }: CardTextProps) {
 	};
 
 	const textChangeHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-		setDynamicOptionsEnabled(isSymbolOptionsNeeded(event.target.value));
-		changeHandler(fieldData?.name, event?.target?.value);
+		runChangeHandler(event.target.value);
+	};
+
+	const runChangeHandler = (newValue: string) => {
+		setDynamicOptionsEnabled(isSymbolOptionsNeeded(newValue));
+		changeHandler(fieldData?.name, newValue);
 	};
 
 	const keyDownHandler = (event: React.KeyboardEvent) => {
-		console.log("event ==>", event);
+		if (acceptKeyCodes.includes(event.code) && showInputOptions) {
+			event.preventDefault();
+			const newValue =
+				fieldData?.value?.slice(0, symbolSearchData.position.start) +
+				filteredSymbols[highlightedOption]?.value +
+				fieldData?.value?.slice(symbolSearchData.position.end);
+			runChangeHandler(newValue);
+		}
 	};
 
 	const showInputOptions = isFocused && dynamicOptionsEnabled;
-
-	const symbolsSearchString = showInputOptions ? getSymbolsSearchString(fieldData?.value) : null;
+	const symbolSearchData = getSymbolsSearchString(fieldData?.value);
+	const symbolsSearchString = showInputOptions
+		? symbolSearchData?.searchText.toLowerCase()
+		: null;
 
 	const filteredSymbols =
 		symbolsSearchString !== null

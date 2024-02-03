@@ -56,6 +56,31 @@ export function isSymbolOptionsNeeded(text: string) {
 }
 
 export function getSymbolsSearchString(text: string) {
-	const lastCurlyBraceIndex = text.lastIndexOf("{");
-	return lastCurlyBraceIndex !== -1 ? text.slice(lastCurlyBraceIndex + 1, text.length) : "";
+	const unclosedBraceIndexes: number[] = [];
+	const openBraces: number[] = [];
+
+	for (let i = 0; i < text.length; i++) {
+		if (text[i] == "{") {
+			unclosedBraceIndexes.push(i);
+			openBraces.push(i);
+		} else if (text[i] == "}" && unclosedBraceIndexes.length > 0) {
+			unclosedBraceIndexes.pop();
+		}
+	}
+
+	if (!unclosedBraceIndexes.length) {
+		return { searchText: text, position: { start: 0, end: text.length } };
+	}
+
+	const position = {
+		start: unclosedBraceIndexes[0],
+		//if there is another open brace stop there, otherwise until the end of the text
+		end:
+			openBraces[openBraces.findIndex((value) => value == unclosedBraceIndexes[0]) + 1] ??
+			text.length,
+	};
+
+	const searchText = text.slice(position.start >= 0 ? position.start + 1 : 0, position.end);
+
+	return { searchText, position };
 }

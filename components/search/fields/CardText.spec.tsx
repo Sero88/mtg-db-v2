@@ -168,6 +168,24 @@ describe("CardText", () => {
 		);
 	});
 
+	it("should replace search text with symbol when user hits enter to select option", () => {
+		createSymbolsMapAndArraySpy.mockReturnValue(symbolsMapAndArrayMock);
+		const input = "{minus";
+		render(
+			<ScryfallSymbolDataProvider symbols={symbolsArray as ScryfallSymbol[]}>
+				<CardText fieldData={fieldData} changeHandler={changeHandler} />
+			</ScryfallSymbolDataProvider>
+		);
+
+		const field = screen.getByTestId("cardTextArea");
+
+		fireEvent.focusIn(field);
+		fireEvent.change(field, { target: { value: input } });
+		fireEvent.keyDown(field, { key: "Enter", code: "Enter", charCode: 13 });
+
+		expect(changeHandler).toHaveBeenCalledWith("cardText", "{−}");
+	});
+
 	it("should not render symbol options when user does not have focus on field", () => {
 		createSymbolsMapAndArraySpy.mockReturnValue(symbolsMapAndArrayMock);
 		const input = "test {";

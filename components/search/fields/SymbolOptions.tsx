@@ -7,7 +7,7 @@ type SymbolOptionsProps = {
 };
 
 export function SymbolOptions({ symbols, highlightedOption }: SymbolOptionsProps) {
-	const symbolsDisplay = symbols.map((symbol, index) => {
+	const symbolsDisplay = symbols?.map((symbol, index) => {
 		const isActiveOption = highlightedOption === index;
 
 		return (
