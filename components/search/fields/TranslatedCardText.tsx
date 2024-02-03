@@ -14,13 +14,13 @@ export function TranslatedCardText({ symbols, textToTranslate }: TranslatedCardT
 
 	const splitText = textReplacedSymbols.split(separator).filter((text) => text);
 
-	const translatedText = splitText?.map((text) => {
+	const translatedText = splitText?.map((text, index) => {
 		const textSymbol = symbols.get(text) ?? {
 			english: text,
 			svg_uri: null,
 		};
 
-		return symbolTranslation(textSymbol);
+		return symbolTranslation(textSymbol, index);
 	});
 
 	return <p className={styles.translatedCardText}>{translatedText}</p>;

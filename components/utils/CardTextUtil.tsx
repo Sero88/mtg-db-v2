@@ -28,7 +28,10 @@ export function createSymbolsMapAndArray(symbols: ScryfallSymbol[]) {
 	return { symbolsMap, symbolsArray };
 }
 
-export function symbolTranslation(selectedSymbol: { svg_uri: string | null; english: string }) {
+export function symbolTranslation(
+	selectedSymbol: { svg_uri: string | null; english: string },
+	index: number
+) {
 	return selectedSymbol?.svg_uri ? (
 		<Image
 			src={selectedSymbol.svg_uri}
@@ -36,9 +39,10 @@ export function symbolTranslation(selectedSymbol: { svg_uri: string | null; engl
 			height={12}
 			unoptimized={true}
 			alt={selectedSymbol.english}
+			key={index + selectedSymbol.english}
 		/>
 	) : (
-		<span>{selectedSymbol?.english}</span>
+		<span key={index + selectedSymbol?.english}>{selectedSymbol?.english}</span>
 	);
 }
 

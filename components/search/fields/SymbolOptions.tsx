@@ -11,7 +11,10 @@ export function SymbolOptions({ symbols, highlightedOption }: SymbolOptionsProps
 		const isActiveOption = highlightedOption === index;
 
 		return (
-			<div className={isActiveOption ? styles.highlightedOption : styles.regularOption}>
+			<div
+				className={isActiveOption ? styles.highlightedOption : styles.regularOption}
+				key={index + symbol.value}
+			>
 				{symbol.display} {isActiveOption && <span>(Press: Enter)</span>}
 			</div>
 		);
