@@ -1,11 +1,13 @@
 import { symbolsList } from "@/tests/mocks/symbolList.mock";
 import {
 	createSymbolsMapAndArray,
+	getNewHightlightedItemBasedOnMovement,
 	getSymbolsSearchString,
 	isSymbolOptionsNeeded,
 	symbolTranslation,
 } from "./CardTextUtil";
 import Image from "next/image";
+import { MoveKeys } from "@/types/cardText";
 
 describe("CardText Utils", () => {
 	describe("createSymbolsMapAndArray", () => {
@@ -26,7 +28,7 @@ describe("CardText Utils", () => {
 		const symbolWithSvg = { svg_uri: "test/test", english: "test symbol" };
 		const symbolWithNoSvg = { svg_uri: null, english: "test symbol" };
 		it("should return Image component when svg_uri is not empty", () => {
-			const translation = symbolTranslation(symbolWithSvg);
+			const translation = symbolTranslation(symbolWithSvg, 0);
 			expect(translation).toEqual(
 				<Image
 					src={symbolWithSvg.svg_uri}
@@ -39,7 +41,7 @@ describe("CardText Utils", () => {
 		});
 
 		it("should return span component when svg_uri is  empty", () => {
-			const translation = symbolTranslation(symbolWithNoSvg);
+			const translation = symbolTranslation(symbolWithNoSvg, 0);
 			expect(translation).toEqual(<span>{symbolWithNoSvg?.english}</span>);
 		});
 	});
@@ -79,6 +81,28 @@ describe("CardText Utils", () => {
 				position: { start: 0, end: testString.length },
 				searchText: "this is a test with no curly braces opened }",
 			});
+		});
+	});
+
+	describe("getNewHighlightedItemsBasedOnMovement", () => {
+		it("should hightlight the next item in the list when key is down", () => {
+			const newHighlightIndex = getNewHightlightedItemBasedOnMovement(MoveKeys.DOWN, 0, 5);
+			expect(newHighlightIndex).toEqual(1);
+		});
+
+		it("should hightlight the last item in the list when key is up and first item is already highlighted", () => {
+			const newHighlightIndex = getNewHightlightedItemBasedOnMovement(MoveKeys.UP, 0, 5);
+			expect(newHighlightIndex).toEqual(4);
+		});
+
+		it("should hightlight the first item in the list when key is down and last item is already highlighted", () => {
+			const newHighlightIndex = getNewHightlightedItemBasedOnMovement(MoveKeys.DOWN, 4, 5);
+			expect(newHighlightIndex).toEqual(0);
+		});
+
+		it("should move up one when the key is up and there are more items before highlighted item", () => {
+			const newHighlightIndex = getNewHightlightedItemBasedOnMovement(MoveKeys.UP, 1, 5);
+			expect(newHighlightIndex).toEqual(0);
 		});
 	});
 });

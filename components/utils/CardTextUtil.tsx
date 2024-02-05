@@ -2,6 +2,7 @@ import { ScryfallSymbol } from "@/types/scryfall";
 import { CardTextListItem } from "../search/fields/CardTextListItem";
 import { SelectorListItem } from "@/types/searchSelector";
 import Image from "next/image";
+import { MoveKeys } from "@/types/cardText";
 
 export function createSymbolsMapAndArray(symbols: ScryfallSymbol[]) {
 	const symbolsMap = new Map<String, ScryfallSymbol>();
@@ -87,4 +88,18 @@ export function getSymbolsSearchString(text: string) {
 	const searchText = text.slice(position.start >= 0 ? position.start + 1 : 0, position.end);
 
 	return { searchText, position };
+}
+
+export function getNewHightlightedItemBasedOnMovement(
+	key: MoveKeys,
+	highlightedOptionIndex: number,
+	filteredSymbolsLength: number
+) {
+	if (key == MoveKeys.DOWN) {
+		return highlightedOptionIndex + 2 > filteredSymbolsLength ? 0 : highlightedOptionIndex + 1;
+	} else {
+		return highlightedOptionIndex - 1 < 0
+			? filteredSymbolsLength - 1
+			: highlightedOptionIndex - 1;
+	}
 }

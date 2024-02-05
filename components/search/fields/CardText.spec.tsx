@@ -8,6 +8,7 @@ import * as TranslatedCardTextComponent from "@/components/search/fields/Transla
 import * as SymbolOptionsComponent from "@/components/search/fields/SymbolOptions";
 import { ScryfallSymbol } from "@/types/scryfall";
 import * as CardTextUtils from "@/components/utils/CardTextUtil";
+import { MoveKeys } from "@/types/cardText";
 
 jest.mock("@/components/search/fields/TranslatedCardText", () => {
 	const originalModule = jest.requireActual("@/components/search/fields/TranslatedCardText");
@@ -67,6 +68,10 @@ const symbolsMap = new Map([
 const translatedCardTextSpy = jest.spyOn(TranslatedCardTextComponent, "TranslatedCardText");
 const symbolOptionsSpy = jest.spyOn(SymbolOptionsComponent, "SymbolOptions");
 const createSymbolsMapAndArraySpy = jest.spyOn(CardTextUtils, "createSymbolsMapAndArray");
+const getNewHightlightedItemBasedOnMovementSpy = jest.spyOn(
+	CardTextUtils,
+	"getNewHightlightedItemBasedOnMovement"
+);
 
 describe("CardText", () => {
 	beforeEach(() => {
@@ -184,6 +189,24 @@ describe("CardText", () => {
 		fireEvent.keyDown(field, { key: "Enter", code: "Enter", charCode: 13 });
 
 		expect(changeHandler).toHaveBeenCalledWith("cardText", "{−}");
+	});
+
+	it("should get the new highlighted index when user presses move key", () => {
+		createSymbolsMapAndArraySpy.mockReturnValue(symbolsMapAndArrayMock);
+		const input = "{";
+		render(
+			<ScryfallSymbolDataProvider symbols={symbolsArray as ScryfallSymbol[]}>
+				<CardText fieldData={fieldData} changeHandler={changeHandler} />
+			</ScryfallSymbolDataProvider>
+		);
+
+		const field = screen.getByTestId("cardTextArea");
+
+		fireEvent.focusIn(field);
+		fireEvent.change(field, { target: { value: input } });
+		fireEvent.keyDown(field, { key: "ArrowDown", code: "ArrowDown" });
+
+		expect(getNewHightlightedItemBasedOnMovementSpy).toHaveBeenCalledWith(MoveKeys.DOWN, 0, 2);
 	});
 
 	it("should not render symbol options when user does not have focus on field", () => {
