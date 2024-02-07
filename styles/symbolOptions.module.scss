@@ -1,8 +1,17 @@
 @import "./variables.scss";
 
-.highlightedOption {
-	background-color: $blue;
-	color: white;
-	display: flex;
-	gap: 0.5rem;
+.symbolOptions {
+	position: absolute;
+	background: white;
+	padding: 1rem 2rem;
+	box-shadow: 1px 1px 5px 2px #ccc;
+	margin-top: -25px;
+	width: 25rem;
+
+	.highlightedOption {
+		background-color: $blue;
+		color: white;
+		display: flex;
+		gap: 0.5rem;
+	}
 }
