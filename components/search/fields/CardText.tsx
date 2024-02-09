@@ -40,6 +40,7 @@ export function CardText({ changeHandler, fieldData }: CardTextProps) {
 	};
 
 	const textChangeHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+		setHighlightedOptionIndex(0);
 		runChangeHandler(event.target.value);
 	};
 

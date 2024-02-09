@@ -209,6 +209,29 @@ describe("CardText", () => {
 		expect(getNewHightlightedItemBasedOnMovementSpy).toHaveBeenCalledWith(MoveKeys.DOWN, 0, 2);
 	});
 
+	it("should always hightlight the first option when the symbol options list changes", () => {
+		createSymbolsMapAndArraySpy.mockReturnValue(symbolsMapAndArrayMock);
+		const input = "{";
+		render(
+			<ScryfallSymbolDataProvider symbols={symbolsArray as ScryfallSymbol[]}>
+				<CardText fieldData={fieldData} changeHandler={changeHandler} />
+			</ScryfallSymbolDataProvider>
+		);
+
+		const field = screen.getByTestId("cardTextArea");
+
+		fireEvent.focusIn(field);
+
+		fireEvent.change(field, { target: { value: input } });
+		expect(screen.queryByTestId("active-hightlight-0")).not.toBeNull();
+
+		fireEvent.keyDown(field, { key: "ArrowDown", code: "ArrowDown" });
+		expect(screen.queryByTestId("active-hightlight-1")).not.toBeNull();
+
+		fireEvent.change(field, { target: { value: "{minus" } });
+		expect(screen.queryByTestId("active-hightlight-0")).not.toBeNull();
+	});
+
 	it("should not render symbol options when user does not have focus on field", () => {
 		createSymbolsMapAndArraySpy.mockReturnValue(symbolsMapAndArrayMock);
 		const input = "test {";
