@@ -8,6 +8,8 @@ import {
 } from "./CardTextUtil";
 import Image from "next/image";
 import { MoveKeys } from "@/types/cardText";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 describe("CardText Utils", () => {
 	describe("createSymbolsMapAndArray", () => {
@@ -27,6 +29,7 @@ describe("CardText Utils", () => {
 	describe("symbolTranslation", () => {
 		const symbolWithSvg = { svg_uri: "test/test", english: "test symbol" };
 		const symbolWithNoSvg = { svg_uri: null, english: "test symbol" };
+		const symbolWithNoSvgAndIcon = { svg_uri: null, english: "test symbol", icon: faCheck };
 		it("should return Image component when svg_uri is not empty", () => {
 			const translation = symbolTranslation(symbolWithSvg, 0);
 			expect(translation).toEqual(
@@ -36,13 +39,25 @@ describe("CardText Utils", () => {
 					height={expect.anything()}
 					unoptimized={true}
 					alt={symbolWithSvg.english}
+					key={0 + symbolWithSvg.english}
 				/>
 			);
 		});
 
-		it("should return span component when svg_uri is  empty", () => {
+		it("should return span with icon when svg_uri is empty, but has icon", () => {
+			const translation = symbolTranslation(symbolWithNoSvgAndIcon, 0);
+			expect(translation).toEqual(
+				<span key={0 + symbolWithNoSvgAndIcon?.english}>
+					<FontAwesomeIcon icon={symbolWithNoSvgAndIcon?.icon} />
+				</span>
+			);
+		});
+
+		it("should return span component when svg_uri and icon are empty", () => {
 			const translation = symbolTranslation(symbolWithNoSvg, 0);
-			expect(translation).toEqual(<span>{symbolWithNoSvg?.english}</span>);
+			expect(translation).toEqual(
+				<span key={0 + symbolWithNoSvg?.english}>{symbolWithNoSvg?.english}</span>
+			);
 		});
 	});
 

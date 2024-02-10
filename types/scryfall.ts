@@ -1,3 +1,5 @@
+import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+
 export type ScryfallSet = {
 	code: string;
 	name: string;
@@ -91,4 +93,5 @@ export type ScryfallSymbol = {
 	colors: string[];
 	loose_variant?: boolean;
 	cmc: number;
+	icon?: IconDefinition;
 };

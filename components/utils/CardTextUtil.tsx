@@ -3,13 +3,15 @@ import { CardTextListItem } from "../search/fields/CardTextListItem";
 import { SelectorListItem } from "@/types/searchSelector";
 import Image from "next/image";
 import { MoveKeys } from "@/types/cardText";
+import { IconDefinition, faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export function createSymbolsMapAndArray(symbols: ScryfallSymbol[]) {
 	const symbolsMap = new Map<String, ScryfallSymbol>();
 
 	const customSymbols = [
-		{ symbol: "{−}", svg_uri: "", english: "− planeswalker minus ability" },
-		{ symbol: "{+}", svg_uri: "", english: "+ planeswalker plus ability" }, //todo how to filter plus sign regex
+		{ symbol: "{−}", svg_uri: "", english: "− planeswalker minus ability", icon: faMinus },
+		{ symbol: "{+}", svg_uri: "", english: "+ planeswalker plus ability", icon: faPlus },
 	] as ScryfallSymbol[];
 
 	const allSymbols = [...symbols, ...customSymbols];
@@ -30,7 +32,7 @@ export function createSymbolsMapAndArray(symbols: ScryfallSymbol[]) {
 }
 
 export function symbolTranslation(
-	selectedSymbol: { svg_uri: string | null; english: string },
+	selectedSymbol: { svg_uri: string | null; english: string; icon?: IconDefinition },
 	index: number
 ) {
 	return selectedSymbol?.svg_uri ? (
@@ -42,6 +44,10 @@ export function symbolTranslation(
 			alt={selectedSymbol.english}
 			key={index + selectedSymbol.english}
 		/>
+	) : selectedSymbol.icon ? (
+		<span key={index + selectedSymbol?.english}>
+			<FontAwesomeIcon icon={selectedSymbol?.icon} />
+		</span>
 	) : (
 		<span key={index + selectedSymbol?.english}>{selectedSymbol?.english}</span>
 	);
