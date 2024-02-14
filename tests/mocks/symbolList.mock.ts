@@ -46,7 +46,7 @@ export const symbolsMapAndArrayMock = {
 		[
 			"{−}",
 			{
-				symbol: "{−}",
+				symbol: "−",
 				svg_uri: "",
 				english: "− planeswalker minus ability",
 				represents_mana: false,
@@ -58,7 +58,7 @@ export const symbolsMapAndArrayMock = {
 		[
 			"{+}",
 			{
-				symbol: "{+}",
+				symbol: "+",
 				svg_uri: "",
 				english: "+ planeswalker plus ability",
 				represents_mana: false,
@@ -70,12 +70,12 @@ export const symbolsMapAndArrayMock = {
 	]),
 	symbolsArray: [
 		{
-			value: "{−}",
+			value: "−",
 			display: "test",
 			searchValue: "{−}::− planeswalker minus ability",
 		},
 		{
-			value: "{+}",
+			value: "+",
 			display: "test",
 			searchValue: "{+}::+ planeswalker plus ability",
 		},

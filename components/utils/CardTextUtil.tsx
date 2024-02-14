@@ -3,16 +3,14 @@ import { CardTextListItem } from "../search/fields/CardTextListItem";
 import { SelectorListItem } from "@/types/searchSelector";
 import Image from "next/image";
 import { MoveKeys } from "@/types/cardText";
-import { IconDefinition, faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Config } from "@/config/main";
 
 export function createSymbolsMapAndArray(symbols: ScryfallSymbol[]) {
 	const symbolsMap = new Map<String, ScryfallSymbol>();
 
-	const customSymbols = [
-		{ symbol: "{−}", svg_uri: "", english: "− planeswalker minus ability", icon: faMinus },
-		{ symbol: "{+}", svg_uri: "", english: "+ planeswalker plus ability", icon: faPlus },
-	] as ScryfallSymbol[];
+	const customSymbols = Config.customCardTextSymbols as ScryfallSymbol[];
 
 	const allSymbols = [...symbols, ...customSymbols];
 

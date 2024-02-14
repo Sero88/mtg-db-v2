@@ -9,6 +9,7 @@ import * as SymbolOptionsComponent from "@/components/search/fields/SymbolOption
 import { ScryfallSymbol } from "@/types/scryfall";
 import * as CardTextUtils from "@/components/utils/CardTextUtil";
 import { MoveKeys } from "@/types/cardText";
+import { Config } from "@/config/main";
 
 jest.mock("@/components/search/fields/TranslatedCardText", () => {
 	const originalModule = jest.requireActual("@/components/search/fields/TranslatedCardText");
@@ -55,10 +56,7 @@ const changeHandler = jest.fn();
 
 const searchSelectorSpy = jest.spyOn(SearchSelectorComponent, "SearchSelector");
 
-const symbolsArray = [
-	{ symbol: "{−}", svg_uri: "", english: "− planeswalker minus ability" },
-	{ symbol: "{+}", svg_uri: "", english: "+ planeswalker plus ability" },
-];
+const symbolsArray = Config.customCardTextSymbols as ScryfallSymbol[];
 
 const symbolsMap = new Map([
 	[symbolsArray[0].symbol, symbolsArray[0]],
@@ -75,7 +73,7 @@ const getNewHightlightedItemBasedOnMovementSpy = jest.spyOn(
 
 describe("CardText", () => {
 	beforeEach(() => {
-		jest.resetAllMocks();
+		jest.clearAllMocks();
 	});
 	it("should have label", () => {
 		render(<CardText fieldData={fieldData} changeHandler={changeHandler} />);
