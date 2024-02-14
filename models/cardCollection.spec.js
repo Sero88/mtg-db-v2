@@ -287,10 +287,18 @@ describe("CardCollection Model", () => {
 	});
 	describe("getCards", () => {
 		const cardName = "+2 Mace";
+		const cardText = "{T}: Add {G}";
 		it("should get search results by card name", async () => {
 			const results = await cardCollection.getCards({ cardName });
 
 			expect(results?.data[0]?.name).toEqual(cardName);
+			expect(results?.status).toEqual(DbModelResponseEnum.SUCCESS);
+		});
+
+		it("should get search results by card text", async () => {
+			const results = await cardCollection.getCards({ cardText });
+
+			expect(results?.data[0]?.cardFaces[0].oracleText).toMatch(cardText);
 			expect(results?.status).toEqual(DbModelResponseEnum.SUCCESS);
 		});
 	});

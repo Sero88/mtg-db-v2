@@ -264,11 +264,13 @@ export class CardCollection {
 			queryObject.name = CollectionCardUtil.constructTextQuery(searchFields.cardName);
 		}
 
-		/* if (searchFields.cardText) {
-			//todo: remove after completing searchFields functionality
-			//@ts-ignore
-			queryObject["cardFaces.oracleText"] = this.constructTextQuery(searchFields.cardText);
+		if (searchFields.cardText) {
+			queryObject["cardFaces.oracleText"] = CollectionCardUtil.constructTextQuery(
+				searchFields.cardText
+			);
 		}
+
+		/*
 
 		if (searchFields.cardTypes && searchFields.cardTypes.items.length > 0) {
 			//todo: remove after completing searchFields functionality

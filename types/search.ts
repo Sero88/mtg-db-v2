@@ -57,4 +57,5 @@ export type SearchQueryFields = {
 export type SearchQuery = {
 	$expr: { $eq: number[] };
 	name?: RegExp;
+	"cardFaces.oracleText"?: RegExp;
 };
