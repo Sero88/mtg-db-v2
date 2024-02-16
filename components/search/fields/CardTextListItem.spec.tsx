@@ -13,7 +13,7 @@ jest.mock("next/image", () => {
 
 describe("CardTextListItem", () => {
 	beforeEach(() => {
-		jest.resetAllMocks();
+		jest.clearAllMocks();
 	});
 	it("should display image if symbol has one", () => {
 		render(<CardTextListItem symbol={symbolsList[0]} />);

@@ -39,7 +39,7 @@ describe("CardCollection Model", () => {
 	});
 
 	beforeEach(() => {
-		jest.resetAllMocks();
+		jest.clearAllMocks();
 	});
 
 	describe("getQuantitiesByIds", () => {
@@ -130,10 +130,8 @@ describe("CardCollection Model", () => {
 
 			const version = CollectionCardUtil.buildVersionQueryObject(
 				nissaVastwoodSeer,
-				{
-					[CollectionCardQuantityTypeEnum.REGULAR]: 1,
-				},
-				CollectionCardQuantityTypeEnum.REGULAR
+				1,
+				CollectionCardQuantityTypeEnum.FOIL
 			);
 			await cardCollection.upsertVersion(version);
 
@@ -164,9 +162,7 @@ describe("CardCollection Model", () => {
 	describe("removeVersion", () => {
 		const cardVersion = CollectionCardUtil.buildVersionQueryObject(
 			nissaVastwoodSeer,
-			{
-				[CollectionCardQuantityTypeEnum.FOIL]: 1,
-			},
+			1,
 			CollectionCardQuantityTypeEnum.FOIL
 		);
 		it("should remove card version", async () => {
@@ -254,6 +250,7 @@ describe("CardCollection Model", () => {
 		});
 
 		it("should return error when unable to upsert version", async () => {
+			upsertCardSpy.mockResolvedValue(true);
 			upsertVersionSpy.mockResolvedValue(false);
 			const result = await cardCollection.setQuantity(
 				elvishMystic,
@@ -266,6 +263,9 @@ describe("CardCollection Model", () => {
 		});
 
 		it("should return success when quantity was set correctly", async () => {
+			//todo: avoid mocking responses for these spies in the first place?
+			upsertCardSpy.mockRestore();
+			upsertVersionSpy.mockRestore();
 			const result = await cardCollection.setQuantity(
 				nissaVastwoodSeer,
 				CollectionCardQuantityTypeEnum.FOIL,

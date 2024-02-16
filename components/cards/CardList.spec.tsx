@@ -9,7 +9,7 @@ const renderCardMock = jest.fn((elvishMysticCollectionCard) => (
 ));
 describe("CardList component", () => {
 	beforeEach(() => {
-		jest.resetAllMocks();
+		jest.clearAllMocks();
 	});
 
 	it("should display card list", () => {

@@ -1,6 +1,6 @@
 import { elvishMysticCollectionCardWithVersions } from "@/tests/mocks/collectionCard.mock";
 import { CollectionSearchResults } from "./CollectionSearchResults";
-import { fireEvent, getByTestId, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import * as CardsListComponent from "@/components/cards/CardList";
 import * as CollectionCardComponent from "@/components/cards/CollectionCard";
 import * as CollectionCardModal from "@/components/cards/CollectionCardModal";
@@ -39,7 +39,7 @@ const collectionCardModalSpy = jest.spyOn(CollectionCardModal, "CollectionCardMo
 
 describe("CollectionSearchResults", () => {
 	beforeEach(() => {
-		collectionCardModalSpy.mockReset();
+		collectionCardModalSpy.mockClear();
 	});
 	it("should display no results message when there are no results", () => {
 		render(<CollectionSearchResults cardData={[]} />);

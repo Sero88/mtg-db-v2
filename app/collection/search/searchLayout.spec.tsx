@@ -41,7 +41,7 @@ describe("Search Layout", () => {
 	beforeEach(() => {
 		getScryfallSetDataSpy.mockResolvedValue({ data: setsList });
 		getScryfallSymbolDataSpy.mockResolvedValue({ data: symbolsList });
-		// dataErrorSpy.mockReset();
+		// dataErrorSpy.mockClear();
 		// dataErrorSpy.mockImplementation(dataErrorElement);
 	});
 	it("should get scryfall set and symbol data", async () => {

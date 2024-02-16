@@ -32,7 +32,7 @@ const refetchMock = jest.fn();
 
 describe("/collection/search page", () => {
 	beforeEach(() => {
-		jest.resetAllMocks();
+		jest.clearAllMocks();
 		useCollectionCardSearchMock.mockReturnValue({
 			isLoading: false,
 			error: false,

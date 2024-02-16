@@ -31,7 +31,7 @@ jest.mock("@/hooks/useUpdateCollectionCardQuantity");
 
 describe("PrintCardList component", () => {
 	beforeEach(() => {
-		jest.resetAllMocks();
+		jest.clearAllMocks();
 		//@ts-ignore
 		collectionCardQuantityByIdSpy.mockImplementation(() => ({
 			isLoading: false,

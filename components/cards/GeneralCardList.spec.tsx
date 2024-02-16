@@ -14,7 +14,7 @@ const GeneralCardSpy = jest.spyOn(GeneralCardComponent, "GeneralCard");
 
 describe("GeneralCardList component", () => {
 	beforeEach(() => {
-		jest.resetAllMocks();
+		jest.clearAllMocks();
 	});
 
 	it("should display card list", () => {

@@ -34,7 +34,7 @@ const inputs = ["regular-input", "foil-input"];
 
 describe("CollectionCardMenu", () => {
 	beforeEach(() => {
-		jest.resetAllMocks();
+		jest.clearAllMocks();
 		//@ts-ignore
 		updateHookSpy.mockImplementation(() => ({
 			mutate: mutateMock,

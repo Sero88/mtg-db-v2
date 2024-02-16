@@ -186,7 +186,7 @@ describe("CardText", () => {
 		fireEvent.change(field, { target: { value: input } });
 		fireEvent.keyDown(field, { key: "Enter", code: "Enter", charCode: 13 });
 
-		expect(changeHandler).toHaveBeenCalledWith("cardText", "{−}");
+		expect(changeHandler).toHaveBeenCalledWith("cardText", "−");
 	});
 
 	it("should get the new highlighted index when user presses move key", () => {
