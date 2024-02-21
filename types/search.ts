@@ -1,6 +1,7 @@
 export enum SearchFields {
 	NAME = "cardName",
 	TEXT = "cardText",
+	TYPES = "cardTypes",
 }
 
 export enum StatConditionalEnums {

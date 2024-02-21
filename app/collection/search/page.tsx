@@ -1,6 +1,6 @@
 "use client";
 import { CardName } from "@/components/search/fields/CardName";
-import { SearchFields } from "@/types/search";
+import { SearchFields, SelectorListType } from "@/types/search";
 import { useState } from "react";
 import styles from "@/styles/collectionSearchResults.module.scss";
 import { useCollectionCardSearch } from "@/hooks/useCollectionCardSearch";
@@ -8,11 +8,13 @@ import { CollectionSearchResults } from "@/components/search/CollectionSearchRes
 import { QueryResultData } from "@/types/queryResult";
 import { QueryResult } from "@/components/utils/QueryResult";
 import { CardText } from "@/components/search/fields/CardText";
+import { CardTypes } from "@/components/search/fields/CardTypes";
 
 export default function SearchPage() {
 	const initialFormFields = {
 		[SearchFields.NAME]: "",
 		[SearchFields.TEXT]: "",
+		[SearchFields.TYPES]: {} as SelectorListType,
 	};
 	const [formFields, setFormFields] = useState(initialFormFields);
 	const searchResponse = useCollectionCardSearch(formFields);
@@ -55,6 +57,15 @@ export default function SearchPage() {
 							value: formFields[SearchFields.TEXT],
 						}}
 						changeHandler={updateHandler}
+					/>
+				</div>
+
+				<div className="form-section">
+					<CardTypes
+						fieldData={{
+							name: SearchFields.TYPES,
+							value: formFields[SearchFields.TYPES],
+						}}
 					/>
 				</div>
 			</form>
