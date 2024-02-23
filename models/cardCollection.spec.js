@@ -302,4 +302,17 @@ describe("CardCollection Model", () => {
 			expect(results?.status).toEqual(DbModelResponseEnum.SUCCESS);
 		});
 	});
+	describe("getTypes", () => {
+		it("should get types from collection", async () => {
+			const results = await cardCollection.getTypes();
+
+			expect(Array.isArray(results?.data)).toEqual(true);
+			expect(results?.data.includes("Elf")).toEqual(true);
+		});
+
+		it("should return empty and error response when there's no connection", async () => {
+			const results = await cardCollectionNoConnection.getTypes();
+			expect(results).toEqual(noDbConnectionResult);
+		});
+	});
 });

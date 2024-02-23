@@ -255,6 +255,16 @@ export class CardCollection {
 		return this.responseObject(DbModelResponseEnum.SUCCESS, upsertVersionResult);
 	}
 
+	async getTypes() {
+		if (!this.db) {
+			return this.noDbConnectionResponse();
+		}
+		const results = await this.db
+			.collection(process.env.DATABASE_TABLE_CARDS as string)
+			.distinct("types");
+		return this.responseObject(DbModelResponseEnum.SUCCESS, results);
+	}
+
 	async getCards(searchFields: SearchQueryFields) {
 		let queryObject: SearchQuery = { $expr: { $eq: [1, 1] } };
 		let setsQuery = { $expr: { $eq: [1, 1] } };
