@@ -13,7 +13,7 @@ export async function getCollectionTypes() {
 	const searchResults = await cardCollection.getTypes();
 
 	if (searchResults.status == DbModelResponseEnum.SUCCESS) {
-		return Helpers.apiResponse(true, searchResults?.data);
+		return Helpers.apiResponse(true, searchResults?.data as string[]);
 	} else {
 		return Helpers.apiResponse(false, null);
 	}
