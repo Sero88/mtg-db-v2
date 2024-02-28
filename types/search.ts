@@ -14,18 +14,13 @@ export enum StatConditionalEnums {
 }
 
 export type SelectorListType = {
-	queryKey: string; //same as object key, used to match the update
 	items: SelectorListTypeItem[];
-	conditionals: {
-		allowPartials?: boolean;
-	};
+	allowPartials: boolean;
 };
 
 export type SelectorListTypeItem = {
-	name: string;
 	is: boolean;
 	value: string;
-	uri?: string;
 };
 
 export type ColorsSelectorType = {

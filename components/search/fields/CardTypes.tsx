@@ -1,5 +1,8 @@
 import { SearchSelector } from "@/components/utils/SearchSelector";
+import { CollectionTypesContext } from "@/contexts/CollectionTypesContext";
 import { SearchFields, SelectorListType } from "@/types/search";
+import { SelectorListItem } from "@/types/searchSelector";
+import { useContext, useMemo } from "react";
 
 type CardTypesProps = {
 	fieldData: {
@@ -8,6 +11,17 @@ type CardTypesProps = {
 	};
 };
 export function CardTypes({ fieldData }: CardTypesProps) {
+	const types = useContext(CollectionTypesContext);
+	const typesSelectorList = useMemo(() => {
+		if (!types) {
+			return [] as SelectorListItem[];
+		}
+		return types?.map((type) => ({
+			display: type,
+			value: type,
+		}));
+	}, [types]);
+
 	return (
 		<>
 			<div>
@@ -17,7 +31,8 @@ export function CardTypes({ fieldData }: CardTypesProps) {
 					Card Types
 				</label>
 			</div>
-			<SearchSelector items={[]} clickHandler={() => {}} />
+
+			<SearchSelector items={typesSelectorList} clickHandler={() => {}} />
 		</>
 	);
 }
