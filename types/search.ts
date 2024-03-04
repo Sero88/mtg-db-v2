@@ -1,3 +1,5 @@
+import { IsNotSelectorItem } from "./isNotSelector";
+
 export enum SearchFields {
 	NAME = "cardName",
 	TEXT = "cardText",
@@ -14,13 +16,8 @@ export enum StatConditionalEnums {
 }
 
 export type SelectorListType = {
-	items: SelectorListTypeItem[];
+	items: IsNotSelectorItem[];
 	allowPartials: boolean;
-};
-
-export type SelectorListTypeItem = {
-	is: boolean;
-	value: string;
 };
 
 export type ColorsSelectorType = {

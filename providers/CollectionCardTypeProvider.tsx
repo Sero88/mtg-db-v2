@@ -3,7 +3,7 @@
 import { CollectionTypesContext } from "@/contexts/CollectionTypesContext";
 
 type CollectionTypesProviderProps = {
-	types: string[] | null;
+	types: string[];
 	children: React.ReactNode;
 };
 
