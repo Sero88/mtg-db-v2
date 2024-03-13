@@ -1,8 +1,8 @@
+import { IsNotSelector } from "@/components/utils/IsNotSelector";
 import { SearchSelector } from "@/components/utils/SearchSelector";
 import { CollectionTypesContext } from "@/contexts/CollectionTypesContext";
 import { IsNotSelectorItem } from "@/types/isNotSelector";
 import { SearchFields, SelectorListType } from "@/types/search";
-import { SelectorListItem } from "@/types/searchSelector";
 import { useContext, useMemo, useState } from "react";
 
 type CardTypesProps = {
@@ -24,13 +24,22 @@ export function CardTypes({ fieldData }: CardTypesProps) {
 	}, [types]);
 
 	const searchSelectorClickHandler = (selectedItem: string) => {
-		if (!selectedTypes.get(selectedItem)) {
-			selectedTypes.set(selectedItem, { is: true, value: selectedItem });
+		if (selectedTypes.get(selectedItem)) {
+			return;
 		}
+		const newSelectedTypes = new Map(selectedTypes);
+		newSelectedTypes.set(selectedItem, { is: true, value: selectedItem });
+
+		setSelectedTypes(newSelectedTypes);
+	};
+
+	const updateSelectedTypes = (newSelectedTypes: Map<String, IsNotSelectorItem>) => {
+		setSelectedTypes(newSelectedTypes);
 	};
 
 	return (
 		<>
+			<IsNotSelector items={selectedTypes} updateTypes={updateSelectedTypes} />
 			<SearchSelector items={typesSelectorList} clickHandler={searchSelectorClickHandler} />
 		</>
 	);

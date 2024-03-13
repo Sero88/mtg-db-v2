@@ -10,7 +10,7 @@ type IsNotSelectorProps = {
 export function IsNotSelector({ items }: IsNotSelectorProps) {
 	const isNotSelectorItems = Array.from(items.values()).map((item, index) => {
 		return (
-			<li key={`${item.value}-${index}`}>
+			<li key={`${item.value}-${index}`} data-testid={`${item.value}-isNotSelector`}>
 				<FontAwesomeIcon icon={faClose} />
 				{item.is ? <span>IS</span> : <span>NOT</span>}
 				<span>{item.value}</span>
