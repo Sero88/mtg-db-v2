@@ -4,6 +4,7 @@ import { CollectionTypesContext } from "@/contexts/CollectionTypesContext";
 import { IsNotSelectorItem } from "@/types/isNotSelector";
 import { SearchFields, SelectorListType } from "@/types/search";
 import { useContext, useMemo, useState } from "react";
+import styles from "@/styles/cardTypes.module.scss";
 
 type CardTypesProps = {
 	fieldData: {
@@ -38,9 +39,9 @@ export function CardTypes({ fieldData }: CardTypesProps) {
 	};
 
 	return (
-		<>
+		<div className={styles.cardTypes}>
 			<IsNotSelector items={selectedTypes} updateTypes={updateSelectedTypes} />
 			<SearchSelector items={typesSelectorList} clickHandler={searchSelectorClickHandler} />
-		</>
+		</div>
 	);
 }
