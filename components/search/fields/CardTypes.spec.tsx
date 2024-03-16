@@ -85,4 +85,20 @@ describe("CardTypes", () => {
 		const isNotSelectorItem = screen.queryAllByTestId("Elf-isNotSelector");
 		expect(isNotSelectorItem.length).toEqual(1);
 	});
+
+	it("should remove item when remove icon is clicked for selected item", () => {
+		render(
+			<CollectionTypesDataProvider types={typesMock}>
+				<CardTypes fieldData={fieldData} />
+			</CollectionTypesDataProvider>
+		);
+
+		const elfType = screen.getByText("Elf");
+		fireEvent.click(elfType);
+
+		const removeButton = screen.getByTestId("remove-Elf");
+		fireEvent.click(removeButton);
+
+		expect(screen.queryByTestId("Elf-isNotSelector")).toBeNull();
+	});
 });

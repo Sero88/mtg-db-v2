@@ -35,7 +35,7 @@ export function CardTypes({ fieldData }: CardTypesProps) {
 	};
 
 	const updateSelectedTypes = (newSelectedTypes: Map<String, IsNotSelectorItem>) => {
-		setSelectedTypes(newSelectedTypes);
+		setSelectedTypes(new Map(newSelectedTypes));
 	};
 
 	return (
