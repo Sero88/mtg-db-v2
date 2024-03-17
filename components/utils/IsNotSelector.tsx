@@ -14,7 +14,19 @@ export function IsNotSelector({ items, updateTypes }: IsNotSelectorProps) {
 		updateTypes(items);
 	};
 
+	const changeIsValue = (item: IsNotSelectorItem) => {
+		item.is = !item.is;
+		items.set(item.value, item);
+		updateTypes(items);
+	};
+
 	const isNotSelectorItems = Array.from(items.values()).map((item, index) => {
+		const itemIs = {
+			styles: item.is
+				? `${styles.itemIs} ${styles.itemIsTrue}`
+				: `${styles.itemIs} ${styles.itemIsFalse}`,
+			text: item.is ? "is" : "not",
+		};
 		return (
 			<li
 				key={`${item.value}-${index}`}
@@ -27,11 +39,13 @@ export function IsNotSelector({ items, updateTypes }: IsNotSelectorProps) {
 					onClick={() => removeItem(item)}
 					data-testid={`remove-${item.value}`}
 				/>
-				{item.is ? (
-					<span className={`${styles.itemIs} ${styles.itemIsTrue}`}>is</span>
-				) : (
-					<span className={`${styles.itemIs} ${styles.itemIsFalse}`}>not</span>
-				)}
+				<span
+					className={itemIs.styles}
+					onClick={() => changeIsValue(item)}
+					data-testid={`${item.value}-isNot`}
+				>
+					{itemIs.text}
+				</span>
 				<span className={styles.itemName}>{item.value}</span>
 			</li>
 		);

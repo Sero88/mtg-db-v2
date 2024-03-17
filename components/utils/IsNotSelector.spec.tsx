@@ -41,6 +41,16 @@ describe("isNotSelector component", () => {
 		expect(updateTypesMock).toHaveBeenCalled();
 	});
 
+	it("should change is value when is/not is clicked", () => {
+		const selectedTypesToChange = new Map(selectedTypesMapMock);
+		render(<IsNotSelector items={selectedTypesToChange} updateTypes={updateTypesMock} />);
+		const isNotButton = screen.getByTestId("elf-isNot");
+		fireEvent.click(isNotButton);
+
+		expect(selectedTypesToChange.get("elf")?.is).toEqual(false);
+		expect(updateTypesMock).toHaveBeenCalled();
+	});
+
 	it("should display item value", () => {
 		render(<IsNotSelector items={selectedTypesMapMock} updateTypes={updateTypesMock} />);
 		expect(screen.queryByText("elf")).not.toBeNull();
