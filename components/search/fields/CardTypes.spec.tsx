@@ -101,4 +101,20 @@ describe("CardTypes", () => {
 
 		expect(screen.queryByTestId("Elf-isNotSelector")).toBeNull();
 	});
+
+	it("should display exact types checkbox and should be clickable", () => {
+		render(
+			<CollectionTypesDataProvider types={typesMock}>
+				<CardTypes fieldData={fieldData} />
+			</CollectionTypesDataProvider>
+		);
+
+		const checkbox = screen.getByRole("checkbox", { name: "Exact types" }) as HTMLInputElement;
+
+		expect(checkbox.checked).toEqual(false);
+
+		fireEvent.click(checkbox);
+
+		expect(checkbox.checked).toEqual(true);
+	});
 });

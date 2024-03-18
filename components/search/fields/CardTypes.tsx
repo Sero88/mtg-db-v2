@@ -14,6 +14,7 @@ type CardTypesProps = {
 };
 export function CardTypes({ fieldData }: CardTypesProps) {
 	const [selectedTypes, setSelectedTypes] = useState(new Map<String, IsNotSelectorItem>());
+	const [allowPartials, setAllowPartials] = useState(false);
 
 	const types = useContext(CollectionTypesContext);
 
@@ -40,7 +41,17 @@ export function CardTypes({ fieldData }: CardTypesProps) {
 
 	return (
 		<div className={styles.cardTypes}>
-			<IsNotSelector items={selectedTypes} updateTypes={updateSelectedTypes} />
+			<div>
+				<IsNotSelector items={selectedTypes} updateTypes={updateSelectedTypes} />
+				<label>
+					<input
+						type="checkbox"
+						checked={allowPartials}
+						onChange={() => setAllowPartials(!allowPartials)}
+					/>
+					Exact types
+				</label>
+			</div>
 			<SearchSelector items={typesSelectorList} clickHandler={searchSelectorClickHandler} />
 		</div>
 	);
