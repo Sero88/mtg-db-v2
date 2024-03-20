@@ -33,12 +33,16 @@ const searchSelectorSpy = jest.spyOn(SearchSelectorComponent, "SearchSelector");
 const isNotSelectorSpy = jest.spyOn(IsNotSelectorComponent, "IsNotSelector");
 
 const typesMock = ["Elf", "Planeswalker"];
+const changeHandlerMock = jest.fn();
 
 describe("CardTypes", () => {
+	beforeEach(() => {
+		jest.clearAllMocks();
+	});
 	it("should display search selector", () => {
 		render(
 			<CollectionTypesDataProvider types={typesMock}>
-				<CardTypes fieldData={fieldData} />
+				<CardTypes fieldData={fieldData} changeHandler={changeHandlerMock} />
 			</CollectionTypesDataProvider>
 		);
 		expect(searchSelectorSpy).toHaveBeenCalled();
@@ -47,7 +51,7 @@ describe("CardTypes", () => {
 	it("should display IsNotSelector", () => {
 		render(
 			<CollectionTypesDataProvider types={typesMock}>
-				<CardTypes fieldData={fieldData} />
+				<CardTypes fieldData={fieldData} changeHandler={changeHandlerMock} />
 			</CollectionTypesDataProvider>
 		);
 
@@ -57,7 +61,7 @@ describe("CardTypes", () => {
 	it("should add type to IsNotSelector if clicked", () => {
 		render(
 			<CollectionTypesDataProvider types={typesMock}>
-				<CardTypes fieldData={fieldData} />
+				<CardTypes fieldData={fieldData} changeHandler={changeHandlerMock} />
 			</CollectionTypesDataProvider>
 		);
 
@@ -66,12 +70,13 @@ describe("CardTypes", () => {
 		fireEvent.click(elfType);
 
 		expect(screen.queryByTestId("Elf-isNotSelector")).not.toBeNull();
+		expect(changeHandlerMock).toHaveBeenCalled();
 	});
 
 	it("should not add item to IsNotSelector if it already has been added", () => {
 		render(
 			<CollectionTypesDataProvider types={typesMock}>
-				<CardTypes fieldData={fieldData} />
+				<CardTypes fieldData={fieldData} changeHandler={changeHandlerMock} />
 			</CollectionTypesDataProvider>
 		);
 
@@ -84,12 +89,13 @@ describe("CardTypes", () => {
 
 		const isNotSelectorItem = screen.queryAllByTestId("Elf-isNotSelector");
 		expect(isNotSelectorItem.length).toEqual(1);
+		expect(changeHandlerMock).toHaveBeenCalledTimes(1);
 	});
 
 	it("should remove item when remove icon is clicked for selected item", () => {
 		render(
 			<CollectionTypesDataProvider types={typesMock}>
-				<CardTypes fieldData={fieldData} />
+				<CardTypes fieldData={fieldData} changeHandler={changeHandlerMock} />
 			</CollectionTypesDataProvider>
 		);
 
@@ -100,12 +106,13 @@ describe("CardTypes", () => {
 		fireEvent.click(removeButton);
 
 		expect(screen.queryByTestId("Elf-isNotSelector")).toBeNull();
+		expect(changeHandlerMock).toHaveBeenCalled();
 	});
 
 	it("should display exact types checkbox and should be clickable", () => {
 		render(
 			<CollectionTypesDataProvider types={typesMock}>
-				<CardTypes fieldData={fieldData} />
+				<CardTypes fieldData={fieldData} changeHandler={changeHandlerMock} />
 			</CollectionTypesDataProvider>
 		);
 

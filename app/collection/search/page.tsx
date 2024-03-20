@@ -66,6 +66,7 @@ export default function SearchPage() {
 							name: SearchFields.TYPES,
 							value: formFields[SearchFields.TYPES],
 						}}
+						changeHandler={updateHandler}
 					/>
 				</div>
 			</form>

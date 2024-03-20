@@ -99,6 +99,7 @@ describe("/collection/search page", () => {
 		fireEvent.submit(form);
 		expect(refetchMock).not.toHaveBeenCalled();
 	});
+
 	it("should display CardTypes component", () => {
 		render(<SearchPage />);
 		expect(cardTypesSpy).toHaveBeenCalled();
