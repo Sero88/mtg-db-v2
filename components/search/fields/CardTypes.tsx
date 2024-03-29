@@ -48,16 +48,21 @@ export function CardTypes({ fieldData, changeHandler }: CardTypesProps) {
 		});
 	};
 
+	const updateAllowPartials = () => {
+		const newAllowPartials = !allowPartials;
+		setAllowPartials(newAllowPartials);
+		changeHandler(fieldData.name, {
+			items: Array.from(selectedTypes.values()),
+			allowPartials: newAllowPartials,
+		});
+	};
+
 	return (
 		<div className={styles.cardTypes}>
 			<div>
 				<IsNotSelector items={selectedTypes} updateTypes={updateSelectedTypes} />
 				<label>
-					<input
-						type="checkbox"
-						checked={allowPartials}
-						onChange={() => setAllowPartials(!allowPartials)}
-					/>
+					<input type="checkbox" checked={allowPartials} onChange={updateAllowPartials} />
 					Exact types
 				</label>
 			</div>
