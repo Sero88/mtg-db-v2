@@ -2,6 +2,10 @@
  * @jest-environment node
  */
 import { cardsWithRegularAndFoilQuantities } from "@/tests/mocks/collectionQuantity.mock";
+import {
+	selectorListTypeMockNoPartials,
+	selectorListTypeMock,
+} from "@/tests/mocks/selectorListType.mock";
 import { CardCollection } from "./cardCollection";
 import { DbModelResponseEnum } from "@/types/utils";
 import { CollectionCardUtil } from "@/utils/CollectionCardUtil";
@@ -288,6 +292,7 @@ describe("CardCollection Model", () => {
 	describe("getCards", () => {
 		const cardName = "+2 Mace";
 		const cardText = "{T}: Add {G}";
+
 		it("should get search results by card name", async () => {
 			const results = await cardCollection.getCards({ cardName });
 
@@ -299,6 +304,25 @@ describe("CardCollection Model", () => {
 			const results = await cardCollection.getCards({ cardText });
 
 			expect(results?.data[0]?.cardFaces[0].oracleText).toMatch(cardText);
+			expect(results?.status).toEqual(DbModelResponseEnum.SUCCESS);
+		});
+
+		it("should get search results by type not allowing partials", async () => {
+			const results = await cardCollection.getCards({
+				cardTypes: selectorListTypeMockNoPartials,
+			});
+
+			expect(results?.data[0]?.name).toMatch("Nissa, Vastwood Seer // Nissa, Sage Animist");
+			expect(results?.data.length).toEqual(1);
+			expect(results?.status).toEqual(DbModelResponseEnum.SUCCESS);
+		});
+
+		it("should get search results by type allowing partials", async () => {
+			const results = await cardCollection.getCards({
+				cardTypes: selectorListTypeMock,
+			});
+
+			expect(results?.data.length).toBeGreaterThan(1);
 			expect(results?.status).toEqual(DbModelResponseEnum.SUCCESS);
 		});
 	});

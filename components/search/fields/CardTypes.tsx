@@ -63,7 +63,7 @@ export function CardTypes({ fieldData, changeHandler }: CardTypesProps) {
 				<IsNotSelector items={selectedTypes} updateTypes={updateSelectedTypes} />
 				<label>
 					<input type="checkbox" checked={allowPartials} onChange={updateAllowPartials} />
-					Exact types
+					Allow partial types <span>(search will use OR instead of AND)</span>
 				</label>
 			</div>
 			<SearchSelector items={typesSelectorList} clickHandler={searchSelectorClickHandler} />

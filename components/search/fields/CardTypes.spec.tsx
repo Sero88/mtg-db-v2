@@ -116,7 +116,9 @@ describe("CardTypes", () => {
 			</CollectionTypesDataProvider>
 		);
 
-		const checkbox = screen.getByRole("checkbox", { name: "Exact types" }) as HTMLInputElement;
+		const checkbox = screen.getByRole("checkbox", {
+			name: "Allow partial types (search will use OR instead of AND)",
+		}) as HTMLInputElement;
 
 		expect(checkbox.checked).toEqual(false);
 

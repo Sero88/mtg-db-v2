@@ -5,7 +5,7 @@ import {
 	Version,
 } from "@/types/collection";
 import { ScryfallCard } from "@/types/scryfall";
-import { SearchQuery, SearchQueryFields } from "@/types/search";
+import { SearchQuery, SearchQueryFields, SelectorListType } from "@/types/search";
 import { DbModelResponseEnum } from "@/types/utils";
 import { CollectionCardUtil } from "@/utils/collectionCardUtil";
 import { connect } from "@/utils/mongodb";
@@ -157,6 +157,24 @@ export class CardCollection {
 		return result?.value ?? false;
 	}
 
+	private constructTypesQuery(cardTypes: SelectorListType) {
+		const { items, allowPartials } = cardTypes;
+		const isTypes: string[] = [];
+		const notTypes: string[] = [];
+		const query: { $all?: string[]; $in?: string[]; $nin?: string[] } = {};
+
+		const inclusionType = allowPartials ? "$in" : "$all";
+
+		items.forEach((type) => {
+			type.is ? isTypes.push(type.value) : notTypes.push(type.value);
+		});
+
+		isTypes.length > 0 ? (query[inclusionType] = isTypes) : false;
+		notTypes.length > 0 ? (query.$nin = notTypes) : false;
+
+		return query;
+	}
+
 	async dbConnect() {
 		try {
 			this.client = await connect();
@@ -280,17 +298,10 @@ export class CardCollection {
 			);
 		}
 
-		/*
-
 		if (searchFields.cardTypes && searchFields.cardTypes.items.length > 0) {
-			//todo: remove after completing searchFields functionality
-			//@ts-ignore
-			queryObject["types"] = this.constructTypesQuery(
-				searchFields.cardTypes.items,
-				searchFields.cardTypes.conditionals.allowPartials
-			);
+			queryObject["types"] = this.constructTypesQuery(searchFields.cardTypes);
 		}
-
+		/*
 		if (searchFields.cardColors && searchFields.cardColors.selected.length > 0) {
 			//todo: remove after completing searchFields functionality
 			//@ts-ignore

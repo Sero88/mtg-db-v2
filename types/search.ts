@@ -51,4 +51,5 @@ export type SearchQuery = {
 	$expr: { $eq: number[] };
 	name?: RegExp;
 	"cardFaces.oracleText"?: RegExp;
+	types?: { $all?: string[]; $in?: string[]; $nin?: string[] };
 };
