@@ -4,6 +4,7 @@ import * as CardNameComponent from "@/components/search/fields/CardName";
 import * as CardTextComponent from "@/components/search/fields/CardText";
 import * as CardTypesComponent from "@/components/search/fields/CardTypes";
 import { useCollectionCardSearch } from "@/hooks/useCollectionCardSearch";
+import { UseQueryResult } from "react-query";
 
 jest.mock("@/components/search/fields/CardName", () => {
 	const originalModule = jest.requireActual("@/components/search/fields/CardName");
@@ -39,8 +40,6 @@ const cardTypesSpy = jest.spyOn(CardTypesComponent, "CardTypes");
 jest.mock("@/hooks/useCollectionCardSearch");
 const useCollectionCardSearchMock = jest.mocked(useCollectionCardSearch);
 
-const refetchMock = jest.fn();
-
 describe("/collection/search page", () => {
 	beforeEach(() => {
 		jest.clearAllMocks();
@@ -48,9 +47,8 @@ describe("/collection/search page", () => {
 			isLoading: false,
 			error: false,
 			data: undefined,
-			refetch: refetchMock,
 			isSuccess: false,
-		});
+		} as unknown as UseQueryResult);
 	});
 
 	it("should display header", () => {
@@ -82,7 +80,9 @@ describe("/collection/search page", () => {
 		render(<SearchPage />);
 		const form = screen.getByTestId("searchForm");
 		fireEvent.submit(form);
-		expect(refetchMock).toHaveBeenCalled();
+		expect(useCollectionCardSearchMock).toHaveBeenLastCalledWith(
+			expect.objectContaining({ cardName: "" })
+		);
 	});
 
 	it("should not allow another submission when first submission is not complete", () => {
@@ -90,14 +90,15 @@ describe("/collection/search page", () => {
 			isLoading: true,
 			error: false,
 			data: undefined,
-			refetch: refetchMock,
 			isSuccess: false,
-		});
+		} as unknown as UseQueryResult);
 
 		render(<SearchPage />);
 		const form = screen.getByTestId("searchForm");
 		fireEvent.submit(form);
-		expect(refetchMock).not.toHaveBeenCalled();
+		expect(useCollectionCardSearchMock).not.toHaveBeenLastCalledWith(
+			expect.objectContaining({ cardName: "" })
+		);
 	});
 
 	it("should display CardTypes component", () => {

@@ -3,20 +3,12 @@ import axios from "axios";
 import { useQuery } from "react-query";
 
 export function useCollectionCardSearch(fields: SearchQueryFields) {
-	const fieldValues = Object.values(fields);
-	const { isLoading, refetch, data, error, isSuccess } = useQuery(
-		["collectionCardSearch", ...fieldValues],
-		async () => {
-			const searchEndpoint = "/api/collection/search";
+	return useQuery(["collectionCardSearch", ...Object.values(fields)], async () => {
+		if (!Object.values(fields)?.length) return null;
 
-			const response = await axios.post(searchEndpoint, fields);
+		const searchEndpoint = "/api/collection/search";
+		const response = await axios.post(searchEndpoint, fields);
 
-			return response?.data?.data;
-		},
-		{
-			enabled: false,
-		}
-	);
-
-	return { isLoading, refetch, data, error, isSuccess };
+		return response?.data?.data;
+	});
 }
