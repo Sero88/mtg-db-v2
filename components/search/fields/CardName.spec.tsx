@@ -1,9 +1,9 @@
-import { SearchFields } from "@/types/search";
+import { SearchFieldNames } from "@/types/search";
 import { CardName } from "./CardName";
 import { fireEvent, render, screen } from "@testing-library/react";
 
 const fieldData = {
-	name: SearchFields.NAME,
+	name: SearchFieldNames.NAME,
 	value: "Card Value",
 };
 const changeHandler = jest.fn();

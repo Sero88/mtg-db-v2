@@ -1,6 +1,11 @@
 import { IsNotSelectorItem } from "./isNotSelector";
 
-export enum SearchFields {
+export interface SearchFields {
+	[SearchFieldNames.NAME]: string;
+	[SearchFieldNames.TEXT]: string;
+	[SearchFieldNames.TYPES]: SelectorListType;
+}
+export enum SearchFieldNames {
 	NAME = "cardName",
 	TEXT = "cardText",
 	TYPES = "cardTypes",

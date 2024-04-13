@@ -1,4 +1,4 @@
-import { SearchFields } from "@/types/search";
+import { SearchFieldNames } from "@/types/search";
 import { CardText } from "./CardText";
 import { fireEvent, render, screen } from "@testing-library/react";
 import * as SearchSelectorComponent from "@/components/utils/SearchSelector";
@@ -30,7 +30,7 @@ jest.mock("@/components/search/fields/SymbolOptions", () => {
 });
 
 const fieldData = {
-	name: SearchFields.TEXT,
+	name: SearchFieldNames.TEXT,
 	value: "ability",
 };
 

@@ -1,4 +1,4 @@
-import { SearchFields } from "@/types/search";
+import { SearchFieldNames } from "@/types/search";
 import { SearchSelector } from "../../utils/SearchSelector";
 import { useContext, useMemo, useState } from "react";
 import { ScryfallSymbolDataContext } from "@/contexts/ScryfallSymbolDataContext";
@@ -15,10 +15,10 @@ import { AcceptKeys, MoveKeys } from "@/types/cardText";
 
 type CardTextProps = {
 	fieldData: {
-		name: SearchFields;
+		name: SearchFieldNames;
 		value: string;
 	};
-	changeHandler: (fieldName: SearchFields, value: any) => void;
+	changeHandler: (fieldName: SearchFieldNames, value: any) => void;
 };
 
 export function CardText({ changeHandler, fieldData }: CardTextProps) {

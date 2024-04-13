@@ -2,16 +2,16 @@ import { IsNotSelector } from "@/components/utils/IsNotSelector";
 import { SearchSelector } from "@/components/utils/SearchSelector";
 import { CollectionTypesContext } from "@/contexts/CollectionTypesContext";
 import { IsNotSelectorItem } from "@/types/isNotSelector";
-import { SearchFields, SelectorListType } from "@/types/search";
+import { SearchFieldNames, SelectorListType } from "@/types/search";
 import { useContext, useMemo, useState } from "react";
 import styles from "@/styles/cardTypes.module.scss";
 
 type CardTypesProps = {
 	fieldData: {
-		name: SearchFields;
+		name: SearchFieldNames;
 		value: SelectorListType;
 	};
-	changeHandler: (fieldName: SearchFields, value: SelectorListType) => void;
+	changeHandler: (fieldName: SearchFieldNames, value: SelectorListType) => void;
 };
 export function CardTypes({ fieldData, changeHandler }: CardTypesProps) {
 	const [selectedTypes, setSelectedTypes] = useState(new Map<String, IsNotSelectorItem>());

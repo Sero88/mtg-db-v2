@@ -1,7 +1,7 @@
 import * as SearchSelectorComponent from "@/components/utils/SearchSelector";
 import * as IsNotSelectorComponent from "@/components/utils/IsNotSelector";
 import { CardTypes } from "./CardTypes";
-import { SearchFields } from "@/types/search";
+import { SearchFieldNames } from "@/types/search";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { CollectionTypesDataProvider } from "@/providers/CollectionCardTypeProvider";
 
@@ -23,7 +23,7 @@ jest.mock("@/components/utils/IsNotSelector", () => {
 });
 
 const fieldData = {
-	name: SearchFields.TYPES,
+	name: SearchFieldNames.TYPES,
 	value: {
 		items: [],
 		allowPartials: false,
