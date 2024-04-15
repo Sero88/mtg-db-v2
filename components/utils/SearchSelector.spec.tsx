@@ -65,4 +65,13 @@ describe("SearchSelector", () => {
 
 		expect(screen.queryAllByText(itemsMock[2].display).length).toEqual(1);
 	});
+
+	it("search should not be case sensitive", () => {
+		render(<SearchSelector items={itemsMock} clickHandler={clickHandler} />);
+		const input = screen.getByRole("textbox") as HTMLInputElement;
+
+		fireEvent.change(input, { target: { value: "TEST2" } });
+
+		expect(screen.queryAllByText(/^test[0-9]?/).length).toEqual(1);
+	});
 });

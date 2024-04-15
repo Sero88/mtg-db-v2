@@ -12,9 +12,12 @@ type SearchSelectorProps = {
 export function SearchSelector({ items, clickHandler }: SearchSelectorProps) {
 	const [searchText, setSearchText] = useState("");
 
-	const filteredData = items.filter((item) =>
-		item?.searchValue ? item.searchValue.includes(searchText) : item.value.includes(searchText)
-	);
+	const filteredData = items.filter((item) => {
+		const lowercaseSearchValue = item.searchValue?.toLowerCase() || item.value?.toLowerCase();
+		const lowerCaseSearchTest = searchText?.toLowerCase();
+
+		return lowercaseSearchValue.includes(lowerCaseSearchTest);
+	});
 
 	return (
 		<div className={styles.searchList}>
