@@ -7,6 +7,7 @@ import { CollectionCardModal } from "./CollectionCardModal";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import * as CardImageComponent from "./CollectionCardImages";
 import * as CollectionVersionsListComponent from "./CollectionCardVersionsList";
+import { CardType } from "@/types/card";
 
 const closeModalMock = jest.fn();
 
@@ -119,6 +120,7 @@ describe("CollectionCardModal component", () => {
 			{
 				version: nissaVastwoodSeerCollectionVersion,
 				cardName: nissaVastwoodSeerCollectionCard.name,
+				cardType: CardType.COLLECTION_MODAL,
 			},
 			{}
 		);
@@ -162,6 +164,7 @@ describe("CollectionCardModal component", () => {
 			{
 				version: elvishMysticCollectionCardWithVersions.versions[1],
 				cardName: elvishMysticCollectionCardWithVersions.name,
+				cardType: CardType.COLLECTION_MODAL,
 			},
 			{}
 		);

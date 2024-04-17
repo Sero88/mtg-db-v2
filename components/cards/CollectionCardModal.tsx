@@ -7,6 +7,7 @@ import { CollectionCardImages } from "./CollectionCardImages";
 import { CollectionCardVersionsList } from "./CollectionCardVersionsList";
 import { useState } from "react";
 import { CollectionCardUtil } from "@/utils/collectionCardUtil";
+import { CardType } from "@/types/card";
 
 type CardModalProps = {
 	card: CollectionCard;
@@ -65,7 +66,11 @@ export function CollectionCardModal({ showModal, closeModalCallback, card }: Car
 				</header>
 
 				<div className={styles.cardModalMain}>
-					<CollectionCardImages cardName={card.name} version={selectedVersion} />
+					<CollectionCardImages
+						cardName={card.name}
+						version={selectedVersion}
+						cardType={CardType.COLLECTION_MODAL}
+					/>
 					<CollectionCardVersionsList
 						versions={card.versions!}
 						selectionHandler={selectionHandler}

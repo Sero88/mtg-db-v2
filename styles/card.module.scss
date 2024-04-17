@@ -12,10 +12,6 @@
 	flex-direction: column;
 }
 
-.imagePrint {
-	cursor: auto;
-}
-
 .cardDetails {
 	line-height: 1.7rem;
 	padding-right: 1.5rem;
@@ -32,10 +28,10 @@
 	cursor: pointer;
 }
 
-.imagePrint {
-	cursor: auto;
-}
-
 .collectorsData {
 	font-size: 1.25rem;
+}
+
+.imagePrint {
+	cursor: auto;
 }

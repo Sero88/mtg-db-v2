@@ -7,9 +7,14 @@ import { CardType } from "@/types/card";
 type CollectionCardImagesProps = {
 	cardName: string;
 	version: Version;
+	cardType?: CardType;
 };
 
-export function CollectionCardImages({ version, cardName }: CollectionCardImagesProps) {
+export function CollectionCardImages({
+	version,
+	cardName,
+	cardType = CardType.COLLECTION,
+}: CollectionCardImagesProps) {
 	const images = CollectionCardUtil.getVersionCardImages(version);
 
 	return (
@@ -19,7 +24,7 @@ export function CollectionCardImages({ version, cardName }: CollectionCardImages
 					key={`${version?.scryfallId}-${index}`}
 					imageUri={image}
 					name={cardName}
-					type={CardType.COLLECTION}
+					type={cardType}
 				/>
 			))}
 		</div>
