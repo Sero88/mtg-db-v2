@@ -73,3 +73,8 @@ export enum CardCollectionVersion {
 	PROMO,
 	NO_PROMO,
 }
+
+export type CardColorSymbol = {
+	uri: string;
+	value: string;
+};

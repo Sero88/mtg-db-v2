@@ -9,6 +9,7 @@ export enum SearchFieldNames {
 	NAME = "cardName",
 	TEXT = "cardText",
 	TYPES = "cardTypes",
+	COLORS = "cardColors",
 }
 
 export enum StatConditionalEnums {
