@@ -4,6 +4,7 @@ export interface SearchFields {
 	[SearchFieldNames.NAME]: string;
 	[SearchFieldNames.TEXT]: string;
 	[SearchFieldNames.TYPES]: SelectorListType;
+	[SearchFieldNames.COLORS]: ColorsSelectorType;
 }
 export enum SearchFieldNames {
 	NAME = "cardName",
@@ -28,7 +29,6 @@ export type SelectorListType = {
 
 export type ColorsSelectorType = {
 	selected: string[];
-	conditional: number;
 };
 
 export type RaritySelectorType = {

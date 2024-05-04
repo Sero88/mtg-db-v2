@@ -1,45 +1,61 @@
 import { ScryfallSymbolDataContext } from "@/contexts/ScryfallSymbolDataContext";
-import { CardColorSymbol } from "@/types/collection";
-import { ScryfallSymbol } from "@/types/scryfall";
-import { SearchFieldNames, SelectorListType } from "@/types/search";
-import { useContext, useMemo } from "react";
+import { ColorsSelectorType, SearchFieldNames } from "@/types/search";
+import { useContext, useMemo, useState } from "react";
+import Image from "next/image";
+import { ScryfallUtil } from "@/utils/scryfallUtil";
 
 type CardColorProps = {
 	fieldData: {
 		name: SearchFieldNames;
-		value: string[];
+		value: ColorsSelectorType;
 	};
-	changeHandler: (fieldName: SearchFieldNames, value: SelectorListType) => void;
+	changeHandler: (fieldName: SearchFieldNames, value: ColorsSelectorType) => void;
 };
 export function CardColors({ fieldData, changeHandler }: CardColorProps) {
+	const [selectedColors, setSelectedColors] = useState<string[]>([]);
 	const symbols = useContext(ScryfallSymbolDataContext);
 
-	const availableColors = useMemo(() => {
-		const colors: CardColorSymbol[] = [];
+	const updateColorSelection = (event: React.ChangeEvent<HTMLInputElement>) => {
+		let newSelectedColors = [...selectedColors];
+		const value = event.target.value ? event.target.value : "";
+		const checked = event.target?.checked ? event.target.checked : false;
 
-		symbols.forEach((symbol: ScryfallSymbol) => {
-			// is a mana symbol, has a loose variant (example G for green), is at least one color, or if it doesn't have a color the name is colorless
-			if (
-				(symbol.represents_mana &&
-					symbol.cmc == 1 &&
-					symbol?.loose_variant &&
-					symbol.colors.length == 1) ||
-				(symbol.colors.length == 0 && symbol.english.includes("colorless"))
-			) {
-				const value = symbol.colors.length > 0 ? symbol.colors[0] : "null";
-				colors.push({
-					uri: symbol.svg_uri,
-					value,
-				});
-			}
-		});
+		//if user chooses colorless remove the rest of the color selections or vise versa (cannot be color and colorless at the same time)
+		if (checked && value == "null") {
+			setSelectedColors(["null"]);
+			return;
+		} else {
+			const colorlessPos = newSelectedColors?.indexOf("null");
+			colorlessPos >= 0 ? newSelectedColors?.splice(colorlessPos, 1) : false;
+		}
 
-		return colors;
-	}, [symbols]);
+		//add or remove selected color
+		if (checked) {
+			newSelectedColors.push(value);
+		} else {
+			const valueToRemove = newSelectedColors.indexOf(value);
+			newSelectedColors.splice(valueToRemove, 1);
+		}
 
-	//todo remove after testing 👇
-	console.log("availableColrs", availableColors);
-	//todo remove after testing 👆
+		setSelectedColors(newSelectedColors);
+		//changeHandler(SearchFieldNames.COLORS, { selected: newSelectedColors, conditional: true });
+	};
 
-	return null;
+	const availableColors = useMemo(() => ScryfallUtil.extractColorSymbols(symbols), [symbols]);
+
+	return availableColors.map((color, index) => {
+		return (
+			<label key={`${color.value}-${index}`}>
+				<input
+					type="checkbox"
+					value={color.value}
+					name={fieldData.name}
+					onChange={updateColorSelection}
+					checked={selectedColors.includes(color.value)}
+					data-testid={`color-${color.value}`}
+				/>
+				<Image src={color.uri} width={25} height={25} alt={color.value} />
+			</label>
+		);
+	});
 }
