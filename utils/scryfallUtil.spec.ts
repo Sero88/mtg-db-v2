@@ -2,7 +2,7 @@ import { printSearchMockResults } from "@/tests/mocks/cardSearch.mock";
 import { elvishMystic, nissaVastwoodSeer, priestOfTitania } from "@/tests/mocks/scryfallCard.mock";
 import { ScryfallUtil } from "./scryfallUtil";
 import { setsList } from "@/tests/mocks/setsList.mock";
-import { CollectionCardUtil } from "./collectionCardUtil";
+import { symbolsList } from "@/tests/mocks/symbolList.mock";
 
 describe("util scryfall helpers", () => {
 	describe("getCollectorsData", () => {
@@ -123,6 +123,18 @@ describe("util scryfall helpers", () => {
 		it("should returns svg uri", () => {
 			const image = ScryfallUtil.getImageFromSet(setsList, "tst");
 			expect(image).toEqual(setsList[0].icon_svg_uri);
+		});
+	});
+
+	describe("extractColorSymbols", () => {
+		const expectedSymbols = [
+			{ uri: "https://svgs.scryfall.io/card-symbols/G.svg", value: "g" },
+			{ uri: "https://svgs.scryfall.io/card-symbols/G.svg", value: "null" },
+		];
+
+		test("it should return only color related symbols", () => {
+			const colorSymbols = ScryfallUtil.extractColorSymbols(symbolsList);
+			expect(colorSymbols).toEqual(expectedSymbols);
 		});
 	});
 });

@@ -33,6 +33,24 @@ export const symbolsList: ScryfallSymbol[] = [
 		cmc: 1,
 		colors: ["r", "b"],
 	},
+	{
+		symbol: "{G}",
+		svg_uri: "https://svgs.scryfall.io/card-symbols/G.svg",
+		english: "one green mana",
+		represents_mana: true,
+		cmc: 1,
+		colors: ["g"],
+		loose_variant: true,
+	},
+	{
+		symbol: "{C}",
+		svg_uri: "https://svgs.scryfall.io/card-symbols/G.svg",
+		english: "colorless",
+		represents_mana: true,
+		cmc: 1,
+		colors: [],
+		loose_variant: true,
+	},
 ];
 const mapFromArray = new Map();
 

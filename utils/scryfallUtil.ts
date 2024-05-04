@@ -1,4 +1,5 @@
-import { ScryfallCard, ScryfallSet } from "@/types/scryfall";
+import { CardColorSymbol } from "@/types/collection";
+import { ScryfallCard, ScryfallSet, ScryfallSymbol } from "@/types/scryfall";
 
 export const ScryfallUtil = {
 	getPromoString(scryfallCard: ScryfallCard) {
@@ -87,5 +88,28 @@ export const ScryfallUtil = {
 				return apiSet.icon_svg_uri;
 			}
 		}
+	},
+
+	extractColorSymbols(symbols: ScryfallSymbol[]) {
+		const colors: CardColorSymbol[] = [];
+
+		symbols.forEach((symbol: ScryfallSymbol) => {
+			// is a mana symbol, has a loose variant (example G for green), is at least one color, or if it doesn't have a color the name is colorless
+			if (
+				(symbol.represents_mana &&
+					symbol.cmc == 1 &&
+					symbol?.loose_variant &&
+					symbol.colors.length == 1) ||
+				(symbol.colors.length == 0 && symbol.english.includes("colorless"))
+			) {
+				const value = symbol.colors.length > 0 ? symbol.colors[0] : "null";
+				colors.push({
+					uri: symbol.svg_uri,
+					value,
+				});
+			}
+		});
+
+		return colors;
 	},
 };
