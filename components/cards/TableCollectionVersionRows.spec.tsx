@@ -1,23 +1,9 @@
-import {
-	elvishMysticCollectionCardWithVersions,
-	nissaVastwoodSeerCollectionVersion,
-} from "@/tests/mocks/collectionCard.mock";
+import { elvishMysticCollectionCardWithVersions } from "@/tests/mocks/collectionCard.mock";
 import { render, screen } from "@testing-library/react";
 import { TableCollectionVersionRows } from "./TableCollectionVersionRows";
 import { setsList } from "@/tests/mocks/setsList.mock";
 import * as IconImageComponent from "@/components/cards/IconImage";
 import React from "react";
-
-jest.mock("@/contexts/ScryfallSetDataContext", () => {
-	const originalModule = jest.requireActual("@/contexts/ScryfallSetDataContext");
-	return {
-		__esModule: true,
-		...originalModule,
-		ScryfallSetDataContext: jest.fn().mockImplementation(() => {
-			setsList;
-		}),
-	};
-});
 
 jest.mock("@/components/cards/IconImage", () => {
 	const originalModule = jest.requireActual("@/components/cards/IconImage");
