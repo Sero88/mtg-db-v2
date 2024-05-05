@@ -3,6 +3,7 @@ import { ColorsSelectorType, SearchFieldNames } from "@/types/search";
 import { useContext, useMemo, useState } from "react";
 import Image from "next/image";
 import { ScryfallUtil } from "@/utils/scryfallUtil";
+import styles from "@/styles/colorChoices.module.scss";
 
 type CardColorProps = {
 	fieldData: {
@@ -43,19 +44,23 @@ export function CardColors({ fieldData, changeHandler }: CardColorProps) {
 
 	const availableColors = useMemo(() => ScryfallUtil.extractColorSymbols(symbols), [symbols]);
 
-	return availableColors.map((color, index) => {
-		return (
-			<label key={`${color.value}-${index}`}>
-				<input
-					type="checkbox"
-					value={color.value}
-					name={fieldData.name}
-					onChange={updateColorSelection}
-					checked={selectedColors.includes(color.value)}
-					data-testid={`color-${color.value}`}
-				/>
-				<Image src={color.uri} width={25} height={25} alt={color.value} />
-			</label>
-		);
-	});
+	return (
+		<div className={styles.checkboxChoices}>
+			{availableColors.map((color, index) => {
+				return (
+					<label key={`${color.value}-${index}`}>
+						<input
+							type="checkbox"
+							value={color.value}
+							name={fieldData.name}
+							onChange={updateColorSelection}
+							checked={selectedColors.includes(color.value)}
+							data-testid={`color-${color.value}`}
+						/>
+						<Image src={color.uri} width={20} height={20} alt={color.value} />
+					</label>
+				);
+			})}
+		</div>
+	);
 }
