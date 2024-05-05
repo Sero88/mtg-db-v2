@@ -91,6 +91,7 @@ export function CardText({ changeHandler, fieldData }: CardTextProps) {
 			className={styles.cardText}
 		>
 			<div>
+				<h2>Card Text</h2>
 				<TranslatedCardText textToTranslate={fieldData?.value} symbols={symbolsMap} />
 				<label>
 					<textarea
@@ -102,7 +103,6 @@ export function CardText({ changeHandler, fieldData }: CardTextProps) {
 						onKeyDown={keyDownHandler}
 					/>
 					<br />
-					Card Text
 				</label>
 				{showInputOptions && (
 					<SymbolOptions

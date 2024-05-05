@@ -1,7 +1,12 @@
 import { CardText } from "@/components/search/fields/CardText";
 import { CardTypes } from "@/components/search/fields/CardTypes";
 import { CardName } from "@/components/search/fields/CardName";
-import { SearchFieldNames, SearchFields, SelectorListType } from "@/types/search";
+import {
+	ColorsSelectorType,
+	SearchFieldNames,
+	SearchFields,
+	SelectorListType,
+} from "@/types/search";
 import styles from "@/styles/collectionSearchResults.module.scss";
 import { useState } from "react";
 import { CardColors } from "./fields/CardColors";
@@ -15,7 +20,7 @@ export function CollectionSearchForm({ searchHandler }: SearchCollectionFormProp
 		[SearchFieldNames.NAME]: "",
 		[SearchFieldNames.TEXT]: "",
 		[SearchFieldNames.TYPES]: {} as SelectorListType,
-		[SearchFieldNames.COLORS]: [],
+		[SearchFieldNames.COLORS]: {} as ColorsSelectorType,
 	};
 	const [formFields, setFormFields] = useState(initialFormFields);
 
@@ -52,7 +57,7 @@ export function CollectionSearchForm({ searchHandler }: SearchCollectionFormProp
 					changeHandler={updateHandler}
 				/>
 			</div>
-
+			<hr />
 			<div className="form-section">
 				<CardTypes
 					fieldData={{
@@ -62,7 +67,7 @@ export function CollectionSearchForm({ searchHandler }: SearchCollectionFormProp
 					changeHandler={updateHandler}
 				/>
 			</div>
-
+			<hr />
 			<div className="form-section">
 				<CardColors
 					fieldData={{

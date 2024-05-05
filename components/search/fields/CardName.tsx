@@ -10,15 +10,17 @@ type SearchNameProps = {
 
 export function CardName({ changeHandler, fieldData }: SearchNameProps) {
 	return (
-		<label>
-			<input
-				name={fieldData?.name}
-				onChange={(event) => changeHandler(fieldData?.name, event.target.value)}
-				value={fieldData?.value}
-				autoComplete="off"
-			/>
-			<br />
-			Card name
-		</label>
+		<>
+			<h2>Card name</h2>
+			<label>
+				<input
+					name={fieldData?.name}
+					onChange={(event) => changeHandler(fieldData?.name, event.target.value)}
+					value={fieldData?.value}
+					autoComplete="off"
+				/>
+				<br />
+			</label>
+		</>
 	);
 }

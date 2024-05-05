@@ -45,22 +45,25 @@ export function CardColors({ fieldData, changeHandler }: CardColorProps) {
 	const availableColors = useMemo(() => ScryfallUtil.extractColorSymbols(symbols), [symbols]);
 
 	return (
-		<div className={styles.checkboxChoices}>
-			{availableColors.map((color, index) => {
-				return (
-					<label key={`${color.value}-${index}`}>
-						<input
-							type="checkbox"
-							value={color.value}
-							name={fieldData.name}
-							onChange={updateColorSelection}
-							checked={selectedColors.includes(color.value)}
-							data-testid={`color-${color.value}`}
-						/>
-						<Image src={color.uri} width={20} height={20} alt={color.value} />
-					</label>
-				);
-			})}
-		</div>
+		<>
+			<h2>Card Colors</h2>
+			<div className={styles.checkboxChoices}>
+				{availableColors.map((color, index) => {
+					return (
+						<label key={`${color.value}-${index}`}>
+							<input
+								type="checkbox"
+								value={color.value}
+								name={fieldData.name}
+								onChange={updateColorSelection}
+								checked={selectedColors.includes(color.value)}
+								data-testid={`color-${color.value}`}
+							/>
+							<Image src={color.uri} width={20} height={20} alt={color.value} />
+						</label>
+					);
+				})}
+			</div>
+		</>
 	);
 }
