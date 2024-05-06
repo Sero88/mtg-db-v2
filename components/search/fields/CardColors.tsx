@@ -1,5 +1,5 @@
 import { ScryfallSymbolDataContext } from "@/contexts/ScryfallSymbolDataContext";
-import { ColorsSelectorType, SearchFieldNames } from "@/types/search";
+import { ColorConditionals, ColorsSelectorType, SearchFieldNames } from "@/types/search";
 import { useContext, useMemo, useState } from "react";
 import Image from "next/image";
 import { ScryfallUtil } from "@/utils/scryfallUtil";
@@ -14,6 +14,7 @@ type CardColorProps = {
 };
 export function CardColors({ fieldData, changeHandler }: CardColorProps) {
 	const [selectedColors, setSelectedColors] = useState<string[]>([]);
+	const [selectedConditional, setSelectedConditional] = useState(0);
 	const symbols = useContext(ScryfallSymbolDataContext);
 
 	const updateColorSelection = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,23 +24,27 @@ export function CardColors({ fieldData, changeHandler }: CardColorProps) {
 
 		//if user chooses colorless remove the rest of the color selections or vise versa (cannot be color and colorless at the same time)
 		if (checked && value == "null") {
-			setSelectedColors(["null"]);
-			return;
-		} else {
+			newSelectedColors = ["null"];
+		}
+		//add selected color
+		else if (checked && value !== "null") {
 			const colorlessPos = newSelectedColors?.indexOf("null");
 			colorlessPos >= 0 ? newSelectedColors?.splice(colorlessPos, 1) : false;
-		}
-
-		//add or remove selected color
-		if (checked) {
 			newSelectedColors.push(value);
-		} else {
+		}
+		//remove selected color
+		else {
 			const valueToRemove = newSelectedColors.indexOf(value);
 			newSelectedColors.splice(valueToRemove, 1);
 		}
 
 		setSelectedColors(newSelectedColors);
 		//changeHandler(SearchFieldNames.COLORS, { selected: newSelectedColors, conditional: true });
+	};
+
+	const updateConditional = (e: React.ChangeEvent<HTMLSelectElement>) => {
+		const newConditional = setSelectedConditional(parseInt(e.target.value));
+		//changeHandler(SearchFieldNames.COLORS, { selected: selectedColors, conditional: newConditional });
 	};
 
 	const availableColors = useMemo(() => ScryfallUtil.extractColorSymbols(symbols), [symbols]);
@@ -63,6 +68,16 @@ export function CardColors({ fieldData, changeHandler }: CardColorProps) {
 						</label>
 					);
 				})}
+
+				<select
+					value={selectedConditional}
+					disabled={selectedColors.includes("null")}
+					onChange={updateConditional}
+				>
+					<option value={ColorConditionals.exact}>Exactly these colors</option>
+					<option value={ColorConditionals.include}>Including these colors</option>
+					<option value={ColorConditionals.atLeast}>At least one of these colors</option>
+				</select>
 			</div>
 		</>
 	);

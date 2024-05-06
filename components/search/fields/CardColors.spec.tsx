@@ -1,11 +1,5 @@
-import { CardText } from "./CardText";
 import { fireEvent, render, screen } from "@testing-library/react";
-import { symbolsList, symbolsMapAndArrayMock } from "@/tests/mocks/symbolList.mock";
-import { ScryfallSymbolDataProvider } from "@/providers/ScryfallCardTextProvider";
-import { ScryfallSymbol } from "@/types/scryfall";
-import * as CardTextUtils from "@/components/utils/CardTextUtil";
-import { MoveKeys } from "@/types/cardText";
-import { Config } from "@/config/main";
+import { symbolsList } from "@/tests/mocks/symbolList.mock";
 import React from "react";
 import { CardColors } from "./CardColors";
 import { SearchFieldNames } from "@/types/search";
@@ -63,5 +57,24 @@ describe("CardColors", () => {
 		render(<CardColors fieldData={fieldData} changeHandler={changeHandler} />);
 		const icons = screen.getAllByRole("img");
 		expect(icons.length).toEqual(colorSymbolsFromMock.length);
+	});
+
+	describe("conditional", () => {
+		it("should display all three color conditional options", () => {
+			render(<CardColors fieldData={fieldData} changeHandler={changeHandler} />);
+			const icons = screen.getAllByRole("option");
+			expect(icons.length).toEqual(3);
+		});
+
+		it("should disable conditional when user chooses colorless option", () => {
+			render(<CardColors fieldData={fieldData} changeHandler={changeHandler} />);
+			const colorlessCheckbox = screen.queryByTestId("color-null") as HTMLInputElement;
+			fireEvent.click(colorlessCheckbox);
+
+			const selectedOption = screen.getByRole("option", { selected: true });
+			const selectInput = selectedOption.parentNode as HTMLSelectElement;
+
+			expect(selectInput?.disabled).toEqual(true);
+		});
 	});
 });
