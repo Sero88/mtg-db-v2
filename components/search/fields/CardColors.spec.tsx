@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { symbolsList } from "@/tests/mocks/symbolList.mock";
 import React from "react";
 import { CardColors } from "./CardColors";
-import { SearchFieldNames } from "@/types/search";
+import { ColorConditionals, SearchFieldNames } from "@/types/search";
 import { ScryfallUtil } from "@/utils/scryfallUtil";
 
 const changeHandler = jest.fn();
@@ -10,7 +10,7 @@ React.useContext = jest.fn().mockReturnValue(symbolsList);
 
 const fieldData = {
 	name: SearchFieldNames.COLORS,
-	value: { selected: [] },
+	value: { selected: [], conditional: ColorConditionals.exact },
 };
 
 const colorSymbolsFromMock = ScryfallUtil.extractColorSymbols(symbolsList);

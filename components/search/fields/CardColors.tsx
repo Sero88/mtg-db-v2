@@ -14,7 +14,7 @@ type CardColorProps = {
 };
 export function CardColors({ fieldData, changeHandler }: CardColorProps) {
 	const [selectedColors, setSelectedColors] = useState<string[]>([]);
-	const [selectedConditional, setSelectedConditional] = useState(0);
+	const [selectedConditional, setSelectedConditional] = useState(ColorConditionals.exact);
 	const symbols = useContext(ScryfallSymbolDataContext);
 
 	const updateColorSelection = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,12 +39,19 @@ export function CardColors({ fieldData, changeHandler }: CardColorProps) {
 		}
 
 		setSelectedColors(newSelectedColors);
-		//changeHandler(SearchFieldNames.COLORS, { selected: newSelectedColors, conditional: true });
+		changeHandler(SearchFieldNames.COLORS, {
+			selected: newSelectedColors,
+			conditional: selectedConditional,
+		});
 	};
 
 	const updateConditional = (e: React.ChangeEvent<HTMLSelectElement>) => {
-		const newConditional = setSelectedConditional(parseInt(e.target.value));
-		//changeHandler(SearchFieldNames.COLORS, { selected: selectedColors, conditional: newConditional });
+		const newConditional = parseInt(e.target.value);
+		setSelectedConditional(newConditional);
+		changeHandler(SearchFieldNames.COLORS, {
+			selected: selectedColors,
+			conditional: newConditional,
+		});
 	};
 
 	const availableColors = useMemo(() => ScryfallUtil.extractColorSymbols(symbols), [symbols]);

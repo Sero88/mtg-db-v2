@@ -28,6 +28,7 @@ export type SelectorListType = {
 };
 
 export type ColorsSelectorType = {
+	conditional: ColorConditionals;
 	selected: string[];
 };
 
