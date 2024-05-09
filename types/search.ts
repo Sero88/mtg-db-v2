@@ -59,6 +59,7 @@ export type SearchQuery = {
 	name?: RegExp;
 	"cardFaces.oracleText"?: RegExp;
 	types?: { $all?: string[]; $in?: string[]; $nin?: string[] };
+	colorIdentity?: { $all?: string[]; $in?: string[]; $size?: number } | null;
 };
 
 export enum ColorConditionals {

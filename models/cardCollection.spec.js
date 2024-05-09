@@ -6,6 +6,11 @@ import {
 	selectorListTypeMockNoPartials,
 	selectorListTypeMock,
 } from "@/tests/mocks/selectorListType.mock";
+import {
+	colorsSelectorExactMock,
+	colorsSelectorIncludeMock,
+	colorsSelectorAtLeastMock,
+} from "@/tests/mocks/colorSelectorType.mock";
 import { CardCollection } from "./cardCollection";
 import { DbModelResponseEnum } from "@/types/utils";
 import { CollectionCardUtil } from "@/utils/CollectionCardUtil";
@@ -323,6 +328,33 @@ describe("CardCollection Model", () => {
 			});
 
 			expect(results?.data.length).toBeGreaterThan(1);
+			expect(results?.status).toEqual(DbModelResponseEnum.SUCCESS);
+		});
+
+		it("should get search results by card color with exact conditional", async () => {
+			const results = await cardCollection.getCards({
+				cardColors: colorsSelectorExactMock,
+			});
+
+			expect(results?.data.length).toEqual(2);
+			expect(results?.status).toEqual(DbModelResponseEnum.SUCCESS);
+		});
+
+		it("should get search results by card color with include conditional", async () => {
+			const results = await cardCollection.getCards({
+				cardColors: colorsSelectorIncludeMock,
+			});
+
+			expect(results?.data.length).toEqual(2);
+			expect(results?.status).toEqual(DbModelResponseEnum.SUCCESS);
+		});
+
+		it("should get search results by card color with at least conditional", async () => {
+			const results = await cardCollection.getCards({
+				cardColors: colorsSelectorAtLeastMock,
+			});
+
+			expect(results?.data.length).toEqual(4);
 			expect(results?.status).toEqual(DbModelResponseEnum.SUCCESS);
 		});
 	});

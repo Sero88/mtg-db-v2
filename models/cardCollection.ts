@@ -5,7 +5,13 @@ import {
 	Version,
 } from "@/types/collection";
 import { ScryfallCard } from "@/types/scryfall";
-import { SearchQuery, SearchQueryFields, SelectorListType } from "@/types/search";
+import {
+	ColorConditionals,
+	ColorsSelectorType,
+	SearchQuery,
+	SearchQueryFields,
+	SelectorListType,
+} from "@/types/search";
 import { DbModelResponseEnum } from "@/types/utils";
 import { CollectionCardUtil } from "@/utils/collectionCardUtil";
 import { connect } from "@/utils/mongodb";
@@ -175,6 +181,27 @@ export class CardCollection {
 		return query;
 	}
 
+	private constructColorsQuery(colorOptions: ColorsSelectorType) {
+		//colorless cards use null (no color)
+		if (colorOptions.selected.indexOf("null") >= 0) {
+			return null;
+		}
+
+		// example {colorIdentity: {$all:['B','R','U'], $size: 3}}
+		const query: { $all?: string[]; $in?: string[]; $size?: number } = {};
+		const inclusionType =
+			colorOptions.conditional == ColorConditionals.exact ||
+			colorOptions.conditional == ColorConditionals.include
+				? "$all"
+				: "$in";
+		const includeSize = colorOptions.conditional == ColorConditionals.exact ? true : false;
+
+		query[inclusionType] = colorOptions.selected;
+		includeSize ? (query.$size = colorOptions.selected.length) : false;
+
+		return query;
+	}
+
 	async dbConnect() {
 		try {
 			this.client = await connect();
@@ -298,16 +325,20 @@ export class CardCollection {
 			);
 		}
 
-		if (searchFields.cardTypes && searchFields.cardTypes.items.length > 0) {
+		if (searchFields.cardTypes && searchFields.cardTypes?.items?.length > 0) {
 			queryObject["types"] = this.constructTypesQuery(searchFields.cardTypes);
 		}
-		/*
-		if (searchFields.cardColors && searchFields.cardColors.selected.length > 0) {
-			//todo: remove after completing searchFields functionality
-			//@ts-ignore
+
+		if (searchFields.cardColors && searchFields.cardColors?.selected?.length > 0) {
 			queryObject["colorIdentity"] = this.constructColorsQuery(searchFields.cardColors);
 		}
 
+		//todo remove after testing 👇
+		console.log("query object ===>", queryObject);
+		//todo remove after testing 👆
+
+		/*
+		
 		if (searchFields.cardStats && Object.keys(searchFields.cardStats).length > 0) {
 			//todo: remove after completing searchFields functionality
 			//@ts-ignore
