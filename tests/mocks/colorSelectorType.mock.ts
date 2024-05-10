@@ -12,3 +12,8 @@ export const colorsSelectorAtLeastMock = {
 	selected: ["R", "U"],
 	conditional: 1,
 };
+
+export const colorsSelectorNoColor = {
+	selected: ["null"],
+	conditional: 0,
+};

@@ -357,6 +357,15 @@ describe("CardCollection Model", () => {
 			expect(results?.data.length).toEqual(4);
 			expect(results?.status).toEqual(DbModelResponseEnum.SUCCESS);
 		});
+
+		it("should get search results by card color with no color", async () => {
+			const results = await cardCollection.getCards({
+				cardColors: colorsSelectorAtLeastMock,
+			});
+
+			expect(results?.data.length).toEqual(4);
+			expect(results?.status).toEqual(DbModelResponseEnum.SUCCESS);
+		});
 	});
 	describe("getTypes", () => {
 		it("should get types from collection", async () => {
