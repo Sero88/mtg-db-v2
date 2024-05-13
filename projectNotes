@@ -1,3 +1,5 @@
+How to do a backup:
+`mongodump <DATABASE_URL>` for <DATABASE_URL> check .env.local file
 Doing:
 
 //add tests to collectionCardUtil.ts for new code we added. Figure if we need to refactor a little
