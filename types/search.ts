@@ -11,6 +11,7 @@ export enum SearchFieldNames {
 	TEXT = "cardText",
 	TYPES = "cardTypes",
 	COLORS = "cardColors",
+	STATS = "cardStats",
 }
 
 export enum StatConditionalEnums {
@@ -36,12 +37,10 @@ export type RaritySelectorType = {
 	selected: string[];
 };
 
-export type CardStatsType = {
-	[key: string]: {
-		type: string;
-		conditional: StatConditionalEnums;
-		value?: string;
-	};
+export type CardStatType = {
+	type: string;
+	conditional: StatConditionalEnums;
+	value?: string;
 };
 
 export type SearchQueryFields = {
@@ -49,7 +48,7 @@ export type SearchQueryFields = {
 	cardText?: string;
 	cardTypes?: SelectorListType;
 	cardColors?: ColorsSelectorType;
-	cardStats?: CardStatsType;
+	cardStats?: CardStatType;
 	cardSets?: SelectorListType;
 	cardRarity?: RaritySelectorType;
 };
