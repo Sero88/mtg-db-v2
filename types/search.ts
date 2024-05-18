@@ -38,7 +38,7 @@ export type RaritySelectorType = {
 };
 
 export type CardStatType = {
-	type: string;
+	name: string;
 	conditional: StatConditionalEnums;
 	value?: string;
 };
