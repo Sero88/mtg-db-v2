@@ -1,55 +1,23 @@
 import SearchPage from "./page";
 import { screen, render, fireEvent, waitFor } from "@testing-library/react";
-import * as CardNameComponent from "@/components/search/fields/CardName";
-import * as CardTextComponent from "@/components/search/fields/CardText";
-import * as CardTypesComponent from "@/components/search/fields/CardTypes";
-import * as CardColorsComponent from "@/components/search/fields/CardColors";
+
 import { useCollectionCardSearch } from "@/hooks/useCollectionCardSearch";
 import { UseQueryResult } from "react-query";
+import * as CollectionSearchFormComponent from "@/components/search/CollectionSearchForm";
 
-jest.mock("@/components/search/fields/CardName", () => {
-	const originalModule = jest.requireActual("@/components/search/fields/CardName");
-
-	return {
-		__esModule: true,
-		...originalModule,
-	};
-});
-
-jest.mock("@/components/search/fields/CardText", () => {
-	const originalModule = jest.requireActual("@/components/search/fields/CardText");
+jest.mock("@/components/search/CollectionSearchForm", () => {
+	const originalModule = jest.requireActual("@/components/search/CollectionSearchForm");
 
 	return {
 		__esModule: true,
 		...originalModule,
 	};
 });
-
-jest.mock("@/components/search/fields/CardTypes", () => {
-	const originalModule = jest.requireActual("@/components/search/fields/CardTypes");
-
-	return {
-		__esModule: true,
-		...originalModule,
-	};
-});
-
-jest.mock("@/components/search/fields/CardColors", () => {
-	const originalModule = jest.requireActual("@/components/search/fields/CardColors");
-
-	return {
-		__esModule: true,
-		...originalModule,
-	};
-});
-
-const cardNameSpy = jest.spyOn(CardNameComponent, "CardName");
-const cardTextSpy = jest.spyOn(CardTextComponent, "CardText");
-const cardTypesSpy = jest.spyOn(CardTypesComponent, "CardTypes");
-const cardColorsSpy = jest.spyOn(CardColorsComponent, "CardColors");
 
 jest.mock("@/hooks/useCollectionCardSearch");
 const useCollectionCardSearchMock = jest.mocked(useCollectionCardSearch);
+
+const collectionSearchFormSpy = jest.spyOn(CollectionSearchFormComponent, "CollectionSearchForm");
 
 describe("/collection/search page", () => {
 	beforeEach(() => {
@@ -67,11 +35,6 @@ describe("/collection/search page", () => {
 		expect(screen.queryByRole("heading", { level: 1 })).not.toBeNull();
 	});
 
-	it("should display CardName component", () => {
-		render(<SearchPage />);
-		expect(cardNameSpy).toHaveBeenCalled();
-	});
-
 	it("should update field value", async () => {
 		const expectedUpdatedValue = "testUpdatedValue";
 		render(<SearchPage />);
@@ -80,11 +43,6 @@ describe("/collection/search page", () => {
 		waitFor(() => {
 			expect(screen.queryByText(expectedUpdatedValue)).not.toBeNull();
 		});
-	});
-
-	it("should display CardText component", () => {
-		render(<SearchPage />);
-		expect(cardTextSpy).toHaveBeenCalled();
 	});
 
 	it("should fetch data when form is submitted", () => {
@@ -112,15 +70,8 @@ describe("/collection/search page", () => {
 		);
 	});
 
-	it("should display CardTypes component", () => {
+	it("should render CollectionSearchForm", () => {
 		render(<SearchPage />);
-		expect(cardTypesSpy).toHaveBeenCalled();
+		expect(collectionSearchFormSpy).toHaveBeenCalled();
 	});
-
-	it("should display CardColors component", () => {
-		render(<SearchPage />);
-		expect(cardColorsSpy).toHaveBeenCalled();
-	});
-
-	// TODO: once I add more fields, I should prove that updating one field, shouldn't reset another
 });
