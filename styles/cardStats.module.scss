@@ -1,0 +1,36 @@
+@import "./variables.scss";
+
+.statsWrapper {
+	.statField {
+		margin-top: 0.4rem;
+		margin-bottom: 0.25rem;
+
+		.statLabel {
+			display: flex;
+			gap: 0.5rem;
+			border: none;
+		}
+
+		.statLabelText {
+			width: 8.5rem;
+			text-align: right;
+			font-size: 1.4rem;
+			float: left;
+		}
+
+		input {
+			max-width: 8rem;
+		}
+
+		input[type="number"] {
+			max-width: 3rem;
+			&::-webkit-outer-spin-button,
+			&::-webkit-inner-spin-button {
+				-webkit-appearance: none;
+				margin: 0;
+			}
+			padding: inherit 0.5rem inherit 0.5rem;
+			text-align: center;
+		}
+	}
+}
