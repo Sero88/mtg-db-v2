@@ -6,11 +6,13 @@ import {
 } from "@/types/collection";
 import { ScryfallCard } from "@/types/scryfall";
 import {
+	CardStatType,
 	ColorConditionals,
 	ColorsSelectorType,
 	SearchQuery,
 	SearchQueryFields,
 	SelectorListType,
+	StatConditionalEnums,
 } from "@/types/search";
 import { DbModelResponseEnum } from "@/types/utils";
 import { CollectionCardUtil } from "@/utils/collectionCardUtil";
@@ -202,6 +204,48 @@ export class CardCollection {
 		return query;
 	}
 
+	private constructStatQueries(selectedStats: CardStatType[], queryObject: any) {
+		selectedStats.forEach((stat) => {
+			//check to see if the query field was selected and has a value
+			const conditional = `$${StatConditionalEnums[stat.conditional]}`;
+			const value = stat?.value ? stat.value : null;
+
+			//verify required query data is available
+			if (value === null) {
+				return;
+			}
+
+			//only manaValue uses number values the rest use strings
+			const convertedValue =
+				stat.name == "manaValue" && value !== undefined ? parseInt(value) : value;
+			let queryField = `cardFaces.${stat.name}`;
+			let queryValue: {} | [] = { [conditional]: convertedValue };
+
+			//fields where 0 is used and is gte or eq, we need to include "*" values (like Dungrove Elder card), because these are considered as 0
+			// * is already < than 0 so no need to check for these when using lte = 0
+			if (
+				(stat.conditional == StatConditionalEnums.eq ||
+					stat.conditional == StatConditionalEnums.gte) &&
+				convertedValue === "0"
+			) {
+				//example: {$or:[{'cardFaces.toughness':{$gte:"0"}}, {'cardFaces.toughness':{$eq:"*"}} ]}
+				queryValue = {
+					$or: [
+						{ [queryField]: { [conditional]: convertedValue } },
+						{ [queryField]: { $eq: "*" } },
+					],
+				};
+				queryObject.hasOwnProperty("$and")
+					? queryObject.$and.push(queryValue)
+					: (queryObject.$and = [queryValue]); //add $or field to $and operator
+			} else {
+				queryObject[queryField] = queryValue;
+			}
+		});
+
+		return queryObject;
+	}
+
 	async dbConnect() {
 		try {
 			this.client = await connect();
@@ -333,17 +377,11 @@ export class CardCollection {
 			queryObject["colorIdentity"] = this.constructColorsQuery(searchFields.cardColors);
 		}
 
-		//todo remove after testing 👇
-		console.log("query object ===>", queryObject);
-		//todo remove after testing 👆
-
-		/*
-		
-		if (searchFields.cardStats && Object.keys(searchFields.cardStats).length > 0) {
-			//todo: remove after completing searchFields functionality
-			//@ts-ignore
+		if (searchFields.cardStats && searchFields.cardStats?.length > 0) {
 			queryObject = this.constructStatQueries(searchFields.cardStats, queryObject);
 		}
+
+		/*
 
 		if (searchFields.cardSets && searchFields.cardSets.items.length > 0) {
 			//todo: remove after completing searchFields functionality

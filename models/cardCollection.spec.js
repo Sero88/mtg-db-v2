@@ -13,7 +13,7 @@ import {
 } from "@/tests/mocks/colorSelectorType.mock";
 import { CardCollection } from "./cardCollection";
 import { DbModelResponseEnum } from "@/types/utils";
-import { CollectionCardUtil } from "@/utils/CollectionCardUtil";
+import { CollectionCardUtil } from "@/utils/collectionCardUtil";
 import {
 	elvishMystic,
 	nissaVastwoodSeer,
@@ -25,6 +25,7 @@ import {
 	elvishMysticCollectionVersion,
 } from "@/tests/mocks/collectionCard.mock";
 import { CollectionCardQuantityTypeEnum } from "@/types/collection";
+import { cardStatsMock } from "@/tests/mocks/cardStat.mock";
 const mockIds = cardsWithRegularAndFoilQuantities.map((card) => {
 	return card.scryfallId;
 });
@@ -365,6 +366,16 @@ describe("CardCollection Model", () => {
 
 			expect(results?.data.length).toEqual(4);
 			expect(results?.status).toEqual(DbModelResponseEnum.SUCCESS);
+		});
+
+		it("should get results by card stat", async () => {
+			const results = await cardCollection.getCards({
+				cardStats: cardStatsMock,
+			});
+
+			expect(results?.data.length).toEqual(1);
+			expect(results?.status).toEqual(DbModelResponseEnum.SUCCESS);
+			expect(results.data[0].name).toEqual("Elvish Mystic");
 		});
 	});
 	describe("getTypes", () => {

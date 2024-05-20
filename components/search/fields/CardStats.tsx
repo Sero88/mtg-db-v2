@@ -54,9 +54,7 @@ export function CardStats({ changeHandler }: CardColorProps) {
 				return (
 					<div data-name={stat.name} key={stat.name} className={styles.statField}>
 						<fieldset className={styles.statLabel}>
-							<legend className={styles.statLabelText} data-testid={`s-${stat.name}`}>
-								{stat.title}
-							</legend>
+							<legend className={styles.statLabelText}>{stat.title}</legend>
 							<StatConditions
 								conditionalValue={conditionValue}
 								handleStatChange={(e) =>

@@ -48,7 +48,7 @@ export type SearchQueryFields = {
 	cardText?: string;
 	cardTypes?: SelectorListType;
 	cardColors?: ColorsSelectorType;
-	cardStats?: CardStatType;
+	cardStats?: CardStatType[];
 	cardSets?: SelectorListType;
 	cardRarity?: RaritySelectorType;
 };
