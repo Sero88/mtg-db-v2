@@ -1,7 +1,7 @@
 import "./globals.css";
 import { Saira } from "next/font/google";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "./api/auth/[...nextauth]/route";
+import { authOptions } from "@/utils/authOptions";
 import { Providers } from "./providers";
 
 const saira = Saira({ weight: ["200", "400"], subsets: ["latin"] });

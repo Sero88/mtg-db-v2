@@ -1,26 +1,6 @@
-import NextAuth, { NextAuthOptions } from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
+import { authOptions } from "@/utils/authOptions";
+import NextAuth from "next-auth/next";
 
-export const authOptions: NextAuthOptions = {
-	providers: [
-		GoogleProvider({
-			clientId: process.env.GOOGLE_ID as string,
-			clientSecret: process.env.GOOGLE_SECRET as string,
-		}),
-	],
-	//@ts-ignore
-	database: process.env.DATABASE_URL,
-	secret: process.env.SECRET,
-	callbacks: {
-		async signIn({ user }) {
-			const allowedEmails = JSON.parse(process.env.ALLOWED_EMAILS as string);
-
-			const canView = allowedEmails.includes(user.email) ? true : false;
-
-			return canView;
-		},
-	},
-};
-const handler = NextAuth( authOptions);
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
