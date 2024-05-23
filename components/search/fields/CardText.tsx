@@ -18,7 +18,7 @@ type CardTextProps = {
 		name: SearchFieldNames;
 		value: string;
 	};
-	changeHandler: (fieldName: SearchFieldNames, value: any) => void;
+	changeHandler: (value: any) => void;
 };
 
 export function CardText({ changeHandler, fieldData }: CardTextProps) {
@@ -36,7 +36,7 @@ export function CardText({ changeHandler, fieldData }: CardTextProps) {
 
 	const onSelectSearchItem = (value: string) => {
 		const selectedSymbol = symbolsMap.get(value);
-		changeHandler(fieldData?.name, fieldData?.value + selectedSymbol?.symbol);
+		changeHandler(fieldData?.value + selectedSymbol?.symbol);
 	};
 
 	const textChangeHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -46,7 +46,7 @@ export function CardText({ changeHandler, fieldData }: CardTextProps) {
 
 	const runChangeHandler = (newValue: string) => {
 		setDynamicOptionsEnabled(isSymbolOptionsNeeded(newValue));
-		changeHandler(fieldData?.name, newValue);
+		changeHandler(newValue);
 	};
 
 	const keyDownHandler = (event: React.KeyboardEvent) => {
