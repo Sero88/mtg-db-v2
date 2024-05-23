@@ -5,17 +5,17 @@ type SearchNameProps = {
 		name: SearchFieldNames;
 		value: string;
 	};
-	changeHandler: (fieldName: SearchFieldNames, value: any) => void;
+	changeHandler: (value: any) => void;
 };
 
 export function CardName({ changeHandler, fieldData }: SearchNameProps) {
 	return (
 		<>
-			<h2>Card name</h2>
+			<h2>Card Name</h2>
 			<label>
 				<input
 					name={fieldData?.name}
-					onChange={(event) => changeHandler(fieldData?.name, event.target.value)}
+					onChange={(event) => changeHandler(event.target.value)}
 					value={fieldData?.value}
 					autoComplete="off"
 				/>

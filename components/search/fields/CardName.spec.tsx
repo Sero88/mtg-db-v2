@@ -9,9 +9,9 @@ const fieldData = {
 const changeHandler = jest.fn();
 
 describe("CardName", () => {
-	it("should have label", () => {
+	it("should have heading", () => {
 		render(<CardName fieldData={fieldData} changeHandler={changeHandler} />);
-		expect(screen.queryByLabelText("Card name")).not.toBeNull();
+		expect(screen.queryByRole("heading", { level: 2 })).not.toBeNull();
 	});
 
 	it("should display passed value", () => {
