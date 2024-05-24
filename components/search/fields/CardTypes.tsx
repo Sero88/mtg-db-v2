@@ -11,7 +11,7 @@ type CardTypesProps = {
 		name: SearchFieldNames;
 		value: SelectorListType;
 	};
-	changeHandler: (fieldName: SearchFieldNames, value: SelectorListType) => void;
+	changeHandler: (value: SelectorListType) => void;
 };
 export function CardTypes({ fieldData, changeHandler }: CardTypesProps) {
 	const [selectedTypes, setSelectedTypes] = useState(new Map<String, IsNotSelectorItem>());
@@ -34,7 +34,7 @@ export function CardTypes({ fieldData, changeHandler }: CardTypesProps) {
 		newSelectedTypes.set(selectedItem, { is: true, value: selectedItem });
 
 		setSelectedTypes(newSelectedTypes);
-		changeHandler(fieldData.name, {
+		changeHandler({
 			items: Array.from(newSelectedTypes.values()),
 			allowPartials,
 		});
@@ -42,7 +42,7 @@ export function CardTypes({ fieldData, changeHandler }: CardTypesProps) {
 
 	const updateSelectedTypes = (newSelectedTypes: Map<String, IsNotSelectorItem>) => {
 		setSelectedTypes(new Map(newSelectedTypes));
-		changeHandler(fieldData.name, {
+		changeHandler({
 			items: Array.from(newSelectedTypes.values()),
 			allowPartials,
 		});
@@ -51,7 +51,7 @@ export function CardTypes({ fieldData, changeHandler }: CardTypesProps) {
 	const updateAllowPartials = () => {
 		const newAllowPartials = !allowPartials;
 		setAllowPartials(newAllowPartials);
-		changeHandler(fieldData.name, {
+		changeHandler({
 			items: Array.from(selectedTypes.values()),
 			allowPartials: newAllowPartials,
 		});
