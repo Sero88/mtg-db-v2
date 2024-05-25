@@ -77,7 +77,7 @@ export function CollectionSearchForm({ searchHandler }: SearchCollectionFormProp
 						name: SearchFieldNames.COLORS,
 						value: formFields[SearchFieldNames.COLORS],
 					}}
-					changeHandler={updateHandler}
+					changeHandler={(value) => updateHandler(SearchFieldNames.COLORS, value)}
 				/>
 			</div>
 			<hr />

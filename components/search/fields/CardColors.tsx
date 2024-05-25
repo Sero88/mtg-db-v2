@@ -10,7 +10,7 @@ type CardColorProps = {
 		name: SearchFieldNames;
 		value: ColorsSelectorType;
 	};
-	changeHandler: (fieldName: SearchFieldNames, value: ColorsSelectorType) => void;
+	changeHandler: (value: ColorsSelectorType) => void;
 };
 export function CardColors({ fieldData, changeHandler }: CardColorProps) {
 	const [selectedColors, setSelectedColors] = useState<string[]>([]);
@@ -39,7 +39,7 @@ export function CardColors({ fieldData, changeHandler }: CardColorProps) {
 		}
 
 		setSelectedColors(newSelectedColors);
-		changeHandler(SearchFieldNames.COLORS, {
+		changeHandler({
 			selected: newSelectedColors,
 			conditional: selectedConditional,
 		});
@@ -48,7 +48,7 @@ export function CardColors({ fieldData, changeHandler }: CardColorProps) {
 	const updateConditional = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		const newConditional = parseInt(e.target.value);
 		setSelectedConditional(newConditional);
-		changeHandler(SearchFieldNames.COLORS, {
+		changeHandler({
 			selected: selectedColors,
 			conditional: newConditional,
 		});
