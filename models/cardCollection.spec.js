@@ -391,4 +391,18 @@ describe("CardCollection Model", () => {
 			expect(results).toEqual(noDbConnectionResult);
 		});
 	});
+
+	describe("getSets", () => {
+		it("should get sets from collection", async () => {
+			const results = await cardCollection.getSets();
+
+			expect(Array.isArray(results?.data)).toEqual(true);
+			expect(results?.data.includes("m14")).toEqual(true);
+		});
+
+		it("should return empty and error response when there's no connection", async () => {
+			const results = await cardCollectionNoConnection.getSets();
+			expect(results).toEqual(noDbConnectionResult);
+		});
+	});
 });

@@ -354,6 +354,17 @@ export class CardCollection {
 		return this.responseObject(DbModelResponseEnum.SUCCESS, results);
 	}
 
+	async getSets() {
+		if (!this.db) {
+			return this.noDbConnectionResponse();
+		}
+
+		const results = await this.db
+			.collection(process.env.DATABASE_TABLE_VERSIONS as string)
+			.distinct("set");
+		return this.responseObject(DbModelResponseEnum.SUCCESS, results);
+	}
+
 	async getCards(searchFields: SearchQueryFields) {
 		let queryObject: SearchQuery = { $expr: { $eq: [1, 1] } };
 		let setsQuery = { $expr: { $eq: [1, 1] } };
