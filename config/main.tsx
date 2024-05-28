@@ -6,4 +6,13 @@ export const Config = {
 		{ symbol: "−", svg_uri: "", english: "− planeswalker minus ability", icon: faMinus },
 		{ symbol: "+", svg_uri: "", english: "+ planeswalker plus ability", icon: faPlus },
 	],
+	allowDigitalSets: false,
+	allowedSetTypes: [
+		"core",
+		"expansion",
+		"masters",
+		"draft_innovation",
+		//"commander",
+		//"promo",
+	],
 };

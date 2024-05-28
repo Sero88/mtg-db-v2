@@ -1,15 +1,7 @@
 import { ScryfallSet } from "@/types/scryfall";
+import { Config } from "@/config/main";
 
 const officialSetCharLimit = 3; // official sets have 3 chars
-
-export const allowedSets = [
-	"core",
-	"expansion",
-	"masters",
-	"draft_innovation",
-	//"commander",
-	//"promo",
-];
 
 export const SetUtil = {
 	getCardSet: function (apiSet: string) {
@@ -18,7 +10,8 @@ export const SetUtil = {
 	},
 
 	isAllowedSet: function (set: ScryfallSet) {
-		return !set.digital && allowedSets.includes(set.set_type);
+		const isDigitalSetAllowed = !Config.allowDigitalSets && set.digital ? false : true;
+		return isDigitalSetAllowed && Config.allowedSetTypes.includes(set.set_type);
 	},
 
 	//this removes promos such as 'pvow' and just shows the actual expansion: 'vow'
