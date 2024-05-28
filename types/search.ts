@@ -5,6 +5,7 @@ export interface SearchFields {
 	[SearchFieldNames.TEXT]: string;
 	[SearchFieldNames.TYPES]: SelectorListType;
 	[SearchFieldNames.COLORS]: ColorsSelectorType;
+	[SearchFieldNames.SETS]: string[];
 }
 export enum SearchFieldNames {
 	NAME = "cardName",
@@ -12,6 +13,7 @@ export enum SearchFieldNames {
 	TYPES = "cardTypes",
 	COLORS = "cardColors",
 	STATS = "cardStats",
+	SETS = "cardSets",
 }
 
 export enum StatConditionalEnums {
@@ -66,3 +68,9 @@ export enum ColorConditionals {
 	include,
 	atLeast,
 }
+
+export type CardSetDisplayItem = {
+	value: string;
+	iconUrl: string;
+	name: string;
+};
