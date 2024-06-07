@@ -12,6 +12,7 @@ import { TranslatedCardText } from "./TranslatedCardText";
 import { SymbolOptions } from "./SymbolOptions";
 import styles from "@/styles/cardTextField.module.scss";
 import { AcceptKeys, MoveKeys } from "@/types/cardText";
+import { SelectorListItem } from "@/types/searchSelector";
 
 type CardTextProps = {
 	fieldData: {
@@ -34,8 +35,8 @@ export function CardText({ changeHandler, fieldData }: CardTextProps) {
 		[symbols.length]
 	);
 
-	const onSelectSearchItem = (value: string) => {
-		const selectedSymbol = symbolsMap.get(value);
+	const onSelectSearchItem = (item: SelectorListItem) => {
+		const selectedSymbol = symbolsMap.get(item.value);
 		changeHandler(fieldData?.value + selectedSymbol?.symbol);
 	};
 

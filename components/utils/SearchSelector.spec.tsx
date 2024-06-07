@@ -36,7 +36,7 @@ describe("SearchSelector", () => {
 
 		fireEvent.click(item1);
 
-		expect(clickHandler).toHaveBeenCalledWith(itemsMock[0].value);
+		expect(clickHandler).toHaveBeenCalledWith(itemsMock[0]);
 	});
 
 	it("should only show matching list items from search", () => {

@@ -6,7 +6,7 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 type SearchSelectorProps = {
 	items: SelectorListItem[];
-	clickHandler: (itemValue: string) => void;
+	clickHandler: (item: SelectorListItem) => void;
 };
 
 export function SearchSelector({ items, clickHandler }: SearchSelectorProps) {
@@ -35,7 +35,7 @@ export function SearchSelector({ items, clickHandler }: SearchSelectorProps) {
 			</button>
 			<ul>
 				{filteredData.map((item, index) => (
-					<li onClick={() => clickHandler(item.value)} key={`${item.value}-${index}`}>
+					<li onClick={() => clickHandler(item)} key={`${item.value}-${index}`}>
 						{item.display}
 					</li>
 				))}

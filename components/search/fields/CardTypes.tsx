@@ -5,6 +5,7 @@ import { IsNotSelectorItem } from "@/types/isNotSelector";
 import { SearchFieldNames, SelectorListType } from "@/types/search";
 import { useContext, useMemo, useState } from "react";
 import styles from "@/styles/cardTypes.module.scss";
+import { SelectorListItem } from "@/types/searchSelector";
 
 type CardTypesProps = {
 	fieldData: {
@@ -26,12 +27,12 @@ export function CardTypes({ fieldData, changeHandler }: CardTypesProps) {
 		}));
 	}, [types]);
 
-	const searchSelectorClickHandler = (selectedItem: string) => {
-		if (selectedTypes.get(selectedItem)) {
+	const searchSelectorClickHandler = (selectedItem: SelectorListItem) => {
+		if (selectedTypes.get(selectedItem.value)) {
 			return;
 		}
 		const newSelectedTypes = new Map(selectedTypes);
-		newSelectedTypes.set(selectedItem, { is: true, value: selectedItem });
+		newSelectedTypes.set(selectedItem.value, { is: true, value: selectedItem.value });
 
 		setSelectedTypes(newSelectedTypes);
 		changeHandler({
