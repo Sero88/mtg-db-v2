@@ -29,12 +29,12 @@ export function CardSets({ changeHandler, fieldData }: CardSetsProps) {
 				break;
 			}
 
-			if (SetUtil.isAllowedSet(scryfallSet)) {
+			if (!SetUtil.isAllowedSet(scryfallSet)) {
 				continue;
 			}
 
 			collectionSets.forEach((set: string) => {
-				// scryfall broke the 3 letter mtg set convetion, so some sets on scryfall have more then 3 letters such as hrt20
+				// scryfall broke the 3 letter mtg set convetion, so some sets on scryfall have more than 3 letters such as hrt20
 				// parent_set_code is set for scryfall sets such as promo and tokens, the parent is the set we want, so ignore the child
 				// lastly, if none of the above worked, convert the set into three letters and check againts it
 				if (

@@ -27,3 +27,23 @@ export const setsList: ScryfallSet[] = [
 		icon_svg_uri: "https://svgs.scryfall.io/sets/aer.svg?1676869200",
 	},
 ];
+
+export const setsListForCardSets = [
+	...setsList,
+	{
+		code: "t4t",
+		name: "Set Name 4",
+		released_at: "2017-01-21",
+		digital: false,
+		set_type: "expansion",
+		icon_svg_uri: "https://svgs.scryfall.io/sets/aer.svg?1676869200",
+	},
+	{
+		code: "t5t",
+		name: "Set Name 5",
+		released_at: "2017-01-21",
+		digital: false,
+		set_type: "fakeExpansionNotAllowed",
+		icon_svg_uri: "https://svgs.scryfall.io/sets/aer.svg?1676869200",
+	},
+];
