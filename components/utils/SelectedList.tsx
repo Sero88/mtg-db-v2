@@ -1,4 +1,3 @@
-import { CardSetDisplayItem, SelectedSetsMap } from "@/types/search";
 import { SelectorListItem } from "@/types/searchSelector";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,7 +15,7 @@ export function SelectedList({ list, removeHandler }: SelectedListProps) {
 					onClick={() => removeHandler(item.value)}
 					data-testid={`remove-${item.value}`}
 				/>
-				<span>{item.value}</span>
+				{item.display}
 			</li>
 		);
 	});

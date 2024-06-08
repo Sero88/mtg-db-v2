@@ -1,4 +1,5 @@
 import { IsNotSelectorItem } from "./isNotSelector";
+import { SelectorListItem } from "./searchSelector";
 
 export interface SearchFields {
 	[SearchFieldNames.NAME]: string;
@@ -68,9 +69,3 @@ export enum ColorConditionals {
 	include,
 	atLeast,
 }
-
-export type CardSetDisplayItem = {
-	value: string;
-	iconUrl: string;
-	name: string;
-};

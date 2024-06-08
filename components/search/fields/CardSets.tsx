@@ -1,12 +1,12 @@
 import { SearchSelector } from "@/components/utils/SearchSelector";
 import { CollectionSetsContext } from "@/contexts/CollectionSetsContext";
 import { ScryfallSetDataContext } from "@/contexts/ScryfallSetDataContext";
-import { CardSetDisplayItem, SearchFieldNames } from "@/types/search";
+import { SearchFieldNames } from "@/types/search";
 import { SetUtil } from "@/utils/setUtil";
 import { useContext, useMemo, useState } from "react";
 import styles from "@/styles/cardSets.module.scss";
 import { SelectorListItem } from "@/types/searchSelector";
-import { ScryfallSet } from "@/types/scryfall";
+import { SelectedList } from "@/components/utils/SelectedList";
 
 type CardSetsProps = {
 	fieldData: {
@@ -17,14 +17,13 @@ type CardSetsProps = {
 };
 
 export function CardSets({ changeHandler, fieldData }: CardSetsProps) {
-	const [selectedSets, setSelectedSets] = useState(new Map<String, CardSetDisplayItem>());
+	const [selectedSets, setSelectedSets] = useState([] as SelectorListItem[]);
 
 	const scryfallSets = useContext(ScryfallSetDataContext);
 	const collectionSets = useContext(CollectionSetsContext);
 
-	const { searchSetSelectorList, searchSetMap } = useMemo(() => {
+	const searchSetSelectorList = useMemo(() => {
 		const searchSetSelectorList = [] as SelectorListItem[];
-		const searchSetMap = new Map<String, ScryfallSet>();
 		for (const scryfallSet of scryfallSets) {
 			if (searchSetSelectorList.length == collectionSets.length) {
 				break;
@@ -47,38 +46,43 @@ export function CardSets({ changeHandler, fieldData }: CardSetsProps) {
 						value: set,
 						searchValue: scryfallSet.name,
 					});
-					searchSetMap.set(set, scryfallSet);
 				}
 			});
 		}
-		return { searchSetSelectorList, searchSetMap };
+		return searchSetSelectorList;
 	}, [collectionSets, scryfallSets]);
 
-	const searchSelectorClickHandler = (selectedItem: string) => {
-		// if (selectedSets.get(selectedItem)) {
-		// 	return;
-		// }
+	const searchSelectorClickHandler = (newSelectedItem: SelectorListItem) => {
+		const duplicates = selectedSets.filter(
+			(previousSelectedSet) => newSelectedItem.value === previousSelectedSet.value
+		);
 
-		// const selectedSet = searchSetMap.get(selectedItem);
+		if (duplicates.length > 0) {
+			return;
+		}
 
-		// const newSelectedTypes = new Map(selectedSets);
-		// newSelectedTypes.set(selectedItem, {
-		// 	iconUrl: selectedSet?.icon_svg_uri!,
-		// 	name: selectedSet?.name!,
-		// 	value: selectedItem,
-		// });
-
-		// setSelectedSets(newSelectedTypes);
-		// changeHandler({
-		// 	items: Array.from(newSelectedTypes.values()),
-		// });
-		changeHandler(["test"]);
+		updateSets([...selectedSets, newSelectedItem]);
 	};
+
+	const updateSets = (newSelectedSets: SelectorListItem[]) => {
+		setSelectedSets(newSelectedSets);
+		changeHandler(newSelectedSets.map((set) => set.value));
+	};
+
+	const removeHandler = (itemToRemove: string) => {
+		const indexOfItemToDelete = selectedSets.findIndex((set) => {
+			set.value === itemToRemove;
+		});
+		const newSelection = [...selectedSets];
+		newSelection.splice(indexOfItemToDelete, 1);
+		updateSets(newSelection);
+	};
+
 	return (
 		<>
 			<h2>Card Sets</h2>
 			<div className={styles.cardTypes}>
-				<div></div>
+				<SelectedList list={selectedSets} removeHandler={removeHandler} />
 				<SearchSelector
 					items={searchSetSelectorList}
 					clickHandler={searchSelectorClickHandler}
