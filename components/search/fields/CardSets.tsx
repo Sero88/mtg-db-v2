@@ -2,11 +2,11 @@ import { SearchSelector } from "@/components/utils/SearchSelector";
 import { CollectionSetsContext } from "@/contexts/CollectionSetsContext";
 import { ScryfallSetDataContext } from "@/contexts/ScryfallSetDataContext";
 import { SearchFieldNames } from "@/types/search";
-import { SetUtil } from "@/utils/setUtil";
 import { useContext, useMemo, useState } from "react";
 import styles from "@/styles/cardSets.module.scss";
 import { SelectorListItem } from "@/types/searchSelector";
 import { SelectedList } from "@/components/utils/SelectedList";
+import { createSetsArray } from "@/components/utils/CardSetUtil";
 
 type CardSetsProps = {
 	fieldData: {
@@ -22,35 +22,10 @@ export function CardSets({ changeHandler, fieldData }: CardSetsProps) {
 	const scryfallSets = useContext(ScryfallSetDataContext);
 	const collectionSets = useContext(CollectionSetsContext);
 
-	const searchSetSelectorList = useMemo(() => {
-		const searchSetSelectorList = [] as SelectorListItem[];
-		for (const scryfallSet of scryfallSets) {
-			if (searchSetSelectorList.length == collectionSets.length) {
-				break;
-			}
-
-			if (!SetUtil.isAllowedSet(scryfallSet)) {
-				continue;
-			}
-
-			collectionSets.forEach((set: string) => {
-				// scryfall broke the 3 letter mtg set convetion, so some sets on scryfall have more than 3 letters such as hrt20
-				// parent_set_code is set for scryfall sets such as promo and tokens, the parent is the set we want, so ignore the child
-				// lastly, if none of the above worked, convert the set into three letters and check againts it
-				if (
-					scryfallSet.code == set ||
-					(!scryfallSet.parent_set_code && SetUtil.getCardSet(scryfallSet.code) == set)
-				) {
-					searchSetSelectorList.push({
-						display: <p>{scryfallSet.name}</p>,
-						value: set,
-						searchValue: scryfallSet.name,
-					});
-				}
-			});
-		}
-		return searchSetSelectorList;
-	}, [collectionSets, scryfallSets]);
+	const searchSetSelectorList = useMemo(
+		() => createSetsArray(scryfallSets, collectionSets),
+		[collectionSets, scryfallSets]
+	);
 
 	const searchSelectorClickHandler = (newSelectedItem: SelectorListItem) => {
 		const duplicates = selectedSets.filter(
