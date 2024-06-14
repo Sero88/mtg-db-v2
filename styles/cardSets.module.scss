@@ -1,0 +1,7 @@
+@import "./variables.scss";
+@import "./mixins.scss";
+
+.cardSets {
+	@include search-selector-block;
+	display: flex;
+}

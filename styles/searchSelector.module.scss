@@ -1,8 +1,11 @@
 @import "./variables.scss";
 
 .searchList {
+	width: 25rem;
+
 	p {
-		margin: 0;
+		font-size: 1rem;
+		margin: 0 0 0.5rem 0;
 	}
 
 	.itemRemove,
@@ -17,35 +20,51 @@
 		transition: background-color 0.25s ease-in-out;
 	}
 
-	.clearButton {
-		background-color: transparent;
-		color: $dark-gray;
-		font-size: 1.25rem;
-		border: none;
-		padding: 0;
-		font-family: inherit;
-		cursor: pointer;
+	.searchInput {
+		display: flex;
+		align-items: end;
+		width: 100%;
 
-		&:hover {
-			color: $dark-blue;
+		label {
+			flex: 1 0 95%;
+			input {
+				border: none;
+				border-bottom: 1px solid $dark-gray;
+				margin-right: 0.25rem;
+				width: 100%;
+			}
+			p {
+				margin: 0;
+				font-size: 1rem;
+				text-transform: uppercase;
+			}
 		}
-	}
 
-	.clearButton::before {
-		font-family: "fontawesome";
-	}
+		.clearButton {
+			flex: 0 0 5%;
+			background-color: transparent;
+			color: $dark-gray;
+			font-size: 1.25rem;
+			border: none;
+			padding: 0;
+			font-family: inherit;
+			cursor: pointer;
 
-	input {
-		border: none;
-		border-bottom: 1px solid $dark-gray;
-		margin-right: 0.25rem;
+			&:hover {
+				color: $dark-blue;
+			}
+		}
+
+		.clearButton::before {
+			font-family: "fontawesome";
+		}
 	}
 
 	ul {
 		list-style-type: none;
-		border: 2px solid $gray;
+		border: 1px solid $gray;
 		padding: 1rem;
-		height: 10rem;
+		height: 9rem;
 		overflow: auto;
 
 		li {
@@ -58,6 +77,11 @@
 			&:hover {
 				color: $dark-green;
 				font-weight: bold;
+			}
+
+			p {
+				line-height: 1rem;
+				margin-bottom: 0.5rem;
 			}
 		}
 	}

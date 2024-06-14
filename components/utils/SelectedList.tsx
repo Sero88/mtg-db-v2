@@ -1,6 +1,7 @@
 import { SelectorListItem } from "@/types/searchSelector";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import styles from "@/styles/selectedList.module.scss";
 
 type SelectedListProps = {
 	list: SelectorListItem[];
@@ -9,7 +10,7 @@ type SelectedListProps = {
 export function SelectedList({ list, removeHandler }: SelectedListProps) {
 	const selectedItems = list.map((item, index) => {
 		return (
-			<li key={`${item.value}-${index}`}>
+			<li key={`${item.value}-${index}`} className={styles.selectedListItem}>
 				<FontAwesomeIcon
 					icon={faClose}
 					onClick={() => removeHandler(item.value)}
@@ -21,7 +22,7 @@ export function SelectedList({ list, removeHandler }: SelectedListProps) {
 	});
 	return (
 		<div>
-			<ul>{selectedItems}</ul>
+			<ul className={styles.selectedList}>{selectedItems}</ul>
 		</div>
 	);
 }

@@ -56,7 +56,7 @@ export function CardSets({ changeHandler, fieldData }: CardSetsProps) {
 	return (
 		<>
 			<h2>Card Sets</h2>
-			<div className={styles.cardTypes}>
+			<div className={styles.cardSets}>
 				<SelectedList list={selectedSets} removeHandler={removeHandler} />
 				<SearchSelector
 					items={searchSetSelectorList}

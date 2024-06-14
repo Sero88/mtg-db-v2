@@ -1,11 +1,7 @@
 @import "./variables.scss";
+@import "./mixins.scss";
 .isNotList {
-	list-style: none;
-	border: 1px solid $gray;
-	height: 14rem;
-	overflow-y: auto;
-	padding: 1rem;
-	width: 25rem;
+	@include selected-list;
 
 	.isNotItem {
 		display: flex;

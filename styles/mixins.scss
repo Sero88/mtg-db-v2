@@ -1,0 +1,15 @@
+@mixin selected-list {
+	list-style: none;
+	border: 1px solid $gray;
+	height: 14rem;
+	overflow-y: auto;
+	padding: 1rem;
+	margin: 0;
+	width: 25rem;
+}
+
+@mixin search-selector-block {
+	display: flex;
+	gap: 3rem;
+	align-items: start;
+}
