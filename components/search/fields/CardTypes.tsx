@@ -64,20 +64,16 @@ export function CardTypes({ fieldData, changeHandler }: CardTypesProps) {
 			<div className={styles.cardTypes}>
 				<div>
 					<IsNotSelector items={selectedTypes} updateTypes={updateSelectedTypes} />
-					<label>
-						<input
-							type="checkbox"
-							checked={allowPartials}
-							onChange={updateAllowPartials}
-						/>
-						Allow partial types <span>(search will use OR instead of AND)</span>
-					</label>
 				</div>
 				<SearchSelector
 					items={typesSelectorList}
 					clickHandler={searchSelectorClickHandler}
 				/>
 			</div>
+			<label>
+				<input type="checkbox" checked={allowPartials} onChange={updateAllowPartials} />
+				Allow partial types <span>(search will use OR instead of AND)</span>
+			</label>
 		</>
 	);
 }

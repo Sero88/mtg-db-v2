@@ -1,7 +1,6 @@
 @import "./variables.scss";
+@import "./mixins.scss";
 
 .cardTypes {
-	display: flex;
-	gap: 3rem;
-	align-items: start;
+	@include search-selector-block;
 }
