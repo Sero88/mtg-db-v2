@@ -4,10 +4,8 @@
 .selectedList {
 	@include selected-list;
 	.selectedListItem {
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		gap: 0.5rem;
+		@include icon-with-text;
+		margin-bottom: 0.5rem;
 
 		svg {
 			cursor: pointer;

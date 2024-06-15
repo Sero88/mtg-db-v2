@@ -5,3 +5,7 @@
 	@include search-selector-block;
 	display: flex;
 }
+
+.setDisplay {
+	@include icon-with-text;
+}

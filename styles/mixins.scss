@@ -13,3 +13,10 @@
 	gap: 3rem;
 	align-items: start;
 }
+
+@mixin icon-with-text {
+	display: flex;
+	gap: 0.25rem;
+	align-items: center;
+	line-height: 1rem;
+}
