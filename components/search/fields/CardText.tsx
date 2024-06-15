@@ -86,33 +86,37 @@ export function CardText({ changeHandler, fieldData }: CardTextProps) {
 			: [];
 
 	return (
-		<div
-			onFocus={() => setIsFocused(true)}
-			onBlur={() => setIsFocused(false)}
-			className={styles.cardText}
-		>
-			<div>
-				<h2>Card Text</h2>
-				<TranslatedCardText textToTranslate={fieldData?.value} symbols={symbolsMap} />
-				<label>
-					<textarea
-						name={fieldData?.name}
-						onChange={textChangeHandler}
-						value={fieldData?.value}
-						data-testid="cardTextArea"
-						className={styles.cardTextArea}
-						onKeyDown={keyDownHandler}
-					/>
-					<br />
-				</label>
-				{showInputOptions && (
-					<SymbolOptions
-						symbols={filteredSymbols}
-						highlightedOption={highlightedOptionIndex}
-					/>
-				)}
+		<>
+			<h2>Card Text</h2>
+
+			<div
+				onFocus={() => setIsFocused(true)}
+				onBlur={() => setIsFocused(false)}
+				className={styles.cardText}
+			>
+				<div>
+					<label>
+						<textarea
+							name={fieldData?.name}
+							onChange={textChangeHandler}
+							value={fieldData?.value}
+							data-testid="cardTextArea"
+							className={styles.cardTextArea}
+							onKeyDown={keyDownHandler}
+						/>
+						<br />
+					</label>
+					{showInputOptions && (
+						<SymbolOptions
+							symbols={filteredSymbols}
+							highlightedOption={highlightedOptionIndex}
+						/>
+					)}
+				</div>
+
+				<SearchSelector items={symbolsArray} clickHandler={onSelectSearchItem} />
 			</div>
-			<SearchSelector items={symbolsArray} clickHandler={onSelectSearchItem} />
-		</div>
+			<TranslatedCardText textToTranslate={fieldData?.value} symbols={symbolsMap} />
+		</>
 	);
 }

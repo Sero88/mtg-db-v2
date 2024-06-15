@@ -1,10 +1,14 @@
 @import "./variables.scss";
 
 .translatedCardText {
-	font-size: 1.5rem;
+	font-size: 1.25rem;
 	margin-top: 0;
 
-	svg {
-		font-size: 1rem;
+	img {
+		width: 1.25rem;
+		padding-top: 0.25rem;
 	}
+
+	max-width: 25rem;
+	opacity: 0.75;
 }
