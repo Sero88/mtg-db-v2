@@ -52,7 +52,7 @@ export type SearchQueryFields = {
 	cardTypes?: SelectorListType;
 	cardColors?: ColorsSelectorType;
 	cardStats?: CardStatType[];
-	cardSets?: SelectorListType;
+	cardSets?: string[];
 	cardRarity?: RaritySelectorType;
 };
 
@@ -62,6 +62,11 @@ export type SearchQuery = {
 	"cardFaces.oracleText"?: RegExp;
 	types?: { $all?: string[]; $in?: string[]; $nin?: string[] };
 	colorIdentity?: { $all?: string[]; $in?: string[]; $size?: number } | null;
+};
+
+export type SetsQuery = {
+	$expr?: { $eq: number[] };
+	"versions.set"?: { $in: string[] };
 };
 
 export enum ColorConditionals {

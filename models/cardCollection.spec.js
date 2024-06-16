@@ -26,6 +26,7 @@ import {
 } from "@/tests/mocks/collectionCard.mock";
 import { CollectionCardQuantityTypeEnum } from "@/types/collection";
 import { cardStatsMock } from "@/tests/mocks/cardStat.mock";
+import { collectionSetFromDB } from "@/tests/mocks/collectionSets.mock";
 const mockIds = cardsWithRegularAndFoilQuantities.map((card) => {
 	return card.scryfallId;
 });
@@ -371,6 +372,16 @@ describe("CardCollection Model", () => {
 		it("should get results by card stat", async () => {
 			const results = await cardCollection.getCards({
 				cardStats: cardStatsMock,
+			});
+
+			expect(results?.data.length).toEqual(1);
+			expect(results?.status).toEqual(DbModelResponseEnum.SUCCESS);
+			expect(results.data[0].name).toEqual("Elvish Mystic");
+		});
+
+		it("should get results by card set", async () => {
+			const results = await cardCollection.getCards({
+				cardSets: collectionSetFromDB,
 			});
 
 			expect(results?.data.length).toEqual(1);

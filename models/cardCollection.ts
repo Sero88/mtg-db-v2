@@ -12,6 +12,7 @@ import {
 	SearchQuery,
 	SearchQueryFields,
 	SelectorListType,
+	SetsQuery,
 	StatConditionalEnums,
 } from "@/types/search";
 import { DbModelResponseEnum } from "@/types/utils";
@@ -246,6 +247,10 @@ export class CardCollection {
 		return queryObject;
 	}
 
+	private constructSetsQuery(selectedSets: string[]) {
+		return { "versions.set": { $in: selectedSets } };
+	}
+
 	async dbConnect() {
 		try {
 			this.client = await connect();
@@ -367,7 +372,7 @@ export class CardCollection {
 
 	async getCards(searchFields: SearchQueryFields) {
 		let queryObject: SearchQuery = { $expr: { $eq: [1, 1] } };
-		let setsQuery = { $expr: { $eq: [1, 1] } };
+		let setsQuery: SetsQuery = { $expr: { $eq: [1, 1] } };
 		let rarityQuery = { $expr: { $eq: [1, 1] } };
 
 		if (searchFields.cardName) {
@@ -392,13 +397,13 @@ export class CardCollection {
 			queryObject = this.constructStatQueries(searchFields.cardStats, queryObject);
 		}
 
+		if (searchFields.cardSets && searchFields.cardSets?.length > 0) {
+			setsQuery = this.constructSetsQuery(searchFields.cardSets);
+		}
+
 		/*
 
-		if (searchFields.cardSets && searchFields.cardSets.items.length > 0) {
-			//todo: remove after completing searchFields functionality
-			//@ts-ignore
-			setsQuery = this.constructSetsQuery(searchFields.cardSets.items);
-		}
+		
 
 		if (searchFields.cardRarity && searchFields.cardRarity.selected.length > 0) {
 			//todo: remove after completing searchFields functionality
