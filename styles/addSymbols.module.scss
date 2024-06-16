@@ -1,9 +1,8 @@
+@import "./mixins.scss";
+
 .cardListItem {
-	margin-bottom: 0.5rem;
+	@include icon-with-text;
 	cursor: pointer;
-	display: flex;
-	gap: 0.25rem;
-	align-items: center;
 
 	.symbolImage {
 		display: flex;

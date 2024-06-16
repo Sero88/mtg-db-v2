@@ -8,7 +8,7 @@
 		margin-bottom: 0.5rem;
 
 		svg {
-			cursor: pointer;
+			@include remove-item-icon;
 		}
 
 		p {
