@@ -3,6 +3,7 @@ import * as CardTextComponent from "@/components/search/fields/CardText";
 import * as CardTypesComponent from "@/components/search/fields/CardTypes";
 import * as CardColorsComponent from "@/components/search/fields/CardColors";
 import * as CardStatsComponent from "@/components/search/fields/CardStats";
+import * as CardSetsComponent from "@/components/search/fields/CardSets";
 import { CollectionSearchForm } from "./CollectionSearchForm";
 import { render } from "@testing-library/react";
 
@@ -51,11 +52,21 @@ jest.mock("@/components/search/fields/CardStats", () => {
 	};
 });
 
+jest.mock("@/components/search/fields/CardSets", () => {
+	const originalModule = jest.requireActual("@/components/search/fields/CardSets");
+
+	return {
+		__esModule: true,
+		...originalModule,
+	};
+});
+
 const cardNameSpy = jest.spyOn(CardNameComponent, "CardName");
 const cardTextSpy = jest.spyOn(CardTextComponent, "CardText");
 const cardTypesSpy = jest.spyOn(CardTypesComponent, "CardTypes");
 const cardColorsSpy = jest.spyOn(CardColorsComponent, "CardColors");
 const cardStatsSpy = jest.spyOn(CardStatsComponent, "CardStats");
+const cardSetsSpy = jest.spyOn(CardSetsComponent, "CardSets");
 const searchHandlerMock = jest.fn();
 
 describe("CollectionSearchForm", () => {
@@ -82,6 +93,11 @@ describe("CollectionSearchForm", () => {
 	it("should display CardStats component", () => {
 		render(<CollectionSearchForm searchHandler={searchHandlerMock} />);
 		expect(cardStatsSpy).toHaveBeenCalled();
+	});
+
+	it("should display CardSets component", () => {
+		render(<CollectionSearchForm searchHandler={searchHandlerMock} />);
+		expect(cardSetsSpy).toHaveBeenCalled();
 	});
 
 	// TODO: once I add more fields, I should prove that updating one field, shouldn't reset another
