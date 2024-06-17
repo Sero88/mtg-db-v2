@@ -82,6 +82,7 @@ export function CollectionSearchForm({ searchHandler }: SearchCollectionFormProp
 					changeHandler={(value) => updateHandler(SearchFieldNames.COLORS, value)}
 				/>
 			</div>
+			<hr />
 			<div className="form-section">
 				<CardStats
 					fieldData={{
