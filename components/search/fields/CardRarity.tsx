@@ -5,13 +5,14 @@ import { useState } from "react";
 type CardRarityProps = {
 	fieldData: {
 		name: SearchFieldNames;
-		value: string[];
+		value: number[];
 	};
-	changeHandler: (value: any) => void;
+	changeHandler: (newSelection: number[]) => void;
 };
+
 export function CardRarity({ changeHandler, fieldData }: CardRarityProps) {
 	const rarities = [];
-	const [selectedRarities, setSelectedSRarities] = useState(new Set());
+	const [selectedRarities, setSelectedSRarities] = useState(new Set<number>());
 
 	const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>, rarity: CardRarityEnum) => {
 		const newSetSelection = new Set(selectedRarities);
@@ -21,6 +22,7 @@ export function CardRarity({ changeHandler, fieldData }: CardRarityProps) {
 			newSetSelection.delete(rarity);
 		}
 		setSelectedSRarities(newSetSelection);
+		changeHandler(Array.from(newSetSelection));
 	};
 
 	for (const rarityEnum in CardRarityEnum) {
@@ -33,28 +35,27 @@ export function CardRarity({ changeHandler, fieldData }: CardRarityProps) {
 
 		//create the checkboxes
 		rarities.push(
-			<label key={rarity}>
-				<input
-					type="checkbox"
-					data-value={rarity}
-					checked={selectedRarities.has(rarity)}
-					onChange={(e) => onChangeHandler(e, rarity)}
-				/>
-				<span>
-					{rarity == CardRarityEnum.specialBonus
-						? "Special/Bonus"
-						: CardRarityEnum[rarity]}
-				</span>
-			</label>
+			<li key={rarity}>
+				<label>
+					<input
+						type="checkbox"
+						checked={selectedRarities.has(rarity)}
+						onChange={(e) => onChangeHandler(e, rarity)}
+					/>
+					<span>
+						{rarity == CardRarityEnum.specialBonus
+							? "Special/Bonus"
+							: CardRarityEnum[rarity]}
+					</span>
+				</label>
+			</li>
 		);
 	}
 
 	return (
 		<>
 			<h2>Card Rarity</h2>
-			<div>
-				<div>{rarities}</div>
-			</div>
+			<ul>{rarities}</ul>
 		</>
 	);
 }
