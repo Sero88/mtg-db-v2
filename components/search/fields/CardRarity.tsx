@@ -11,7 +11,7 @@ type CardRarityProps = {
 };
 
 export function CardRarity({ changeHandler, fieldData }: CardRarityProps) {
-	const rarities = [];
+	const rarityListItems = [];
 	const [selectedRarities, setSelectedSRarities] = useState(new Set<number>());
 
 	const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>, rarity: CardRarityEnum) => {
@@ -34,7 +34,7 @@ export function CardRarity({ changeHandler, fieldData }: CardRarityProps) {
 		}
 
 		//create the checkboxes
-		rarities.push(
+		rarityListItems.push(
 			<li key={rarity}>
 				<label>
 					<input
@@ -55,7 +55,7 @@ export function CardRarity({ changeHandler, fieldData }: CardRarityProps) {
 	return (
 		<>
 			<h2>Card Rarity</h2>
-			<ul>{rarities}</ul>
+			<ul>{rarityListItems}</ul>
 		</>
 	);
 }
