@@ -33,3 +33,17 @@
 		background-color: $error;
 	}
 }
+
+@mixin checkbox-choices-list {
+	display: flex;
+	gap: 2rem;
+	margin: 1rem 0;
+	list-style: none;
+	padding: 0;
+
+	label {
+		display: flex;
+		align-items: center;
+		text-transform: capitalize;
+	}
+}

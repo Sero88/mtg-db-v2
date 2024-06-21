@@ -1,6 +1,7 @@
 import { CardRarityEnum } from "@/types/card";
 import { SearchFieldNames } from "@/types/search";
 import { useState } from "react";
+import styles from "@/styles/cardRarity.module.scss";
 
 type CardRarityProps = {
 	fieldData: {
@@ -55,7 +56,7 @@ export function CardRarity({ changeHandler, fieldData }: CardRarityProps) {
 	return (
 		<>
 			<h2>Card Rarity</h2>
-			<ul>{rarityListItems}</ul>
+			<ul className={styles.cardRarityList}>{rarityListItems}</ul>
 		</>
 	);
 }
