@@ -1,3 +1,4 @@
+import { CardRarityEnum } from "@/types/card";
 import {
 	CollectionCard,
 	VersionQuery,
@@ -9,8 +10,9 @@ import {
 	CardStatType,
 	ColorConditionals,
 	ColorsSelectorType,
+	RarityQuery,
+	SearchFields,
 	SearchQuery,
-	SearchQueryFields,
 	SelectorListType,
 	SetsQuery,
 	StatConditionalEnums,
@@ -247,6 +249,21 @@ export class CardCollection {
 		return queryObject;
 	}
 
+	private constructRarityQuery(selectedRarity: number[]) {
+		const rarities = [] as string[];
+
+		selectedRarity.forEach((rarity) => {
+			if (rarity == CardRarityEnum.specialBonus) {
+				rarities.push("special");
+				rarities.push("bonus");
+			} else {
+				rarities.push(CardRarityEnum[rarity]);
+			}
+		});
+
+		return { "versions.rarity": { $in: rarities } };
+	}
+
 	private constructSetsQuery(selectedSets: string[]) {
 		return { "versions.set": { $in: selectedSets } };
 	}
@@ -370,10 +387,10 @@ export class CardCollection {
 		return this.responseObject(DbModelResponseEnum.SUCCESS, results);
 	}
 
-	async getCards(searchFields: SearchQueryFields) {
+	async getCards(searchFields: SearchFields) {
 		let queryObject: SearchQuery = { $expr: { $eq: [1, 1] } };
 		let setsQuery: SetsQuery = { $expr: { $eq: [1, 1] } };
-		let rarityQuery = { $expr: { $eq: [1, 1] } };
+		let rarityQuery: RarityQuery = { $expr: { $eq: [1, 1] } };
 
 		if (searchFields.cardName) {
 			queryObject.name = CollectionCardUtil.constructTextQuery(searchFields.cardName);
@@ -401,16 +418,10 @@ export class CardCollection {
 			setsQuery = this.constructSetsQuery(searchFields.cardSets);
 		}
 
-		/*
-
-		
-
-		if (searchFields.cardRarity && searchFields.cardRarity.selected.length > 0) {
-			//todo: remove after completing searchFields functionality
-			//@ts-ignore
-			rarityQuery = this.constructRarityQuery(searchFields.cardRarity.selected);
+		if (searchFields.cardRarity && searchFields.cardRarity.length > 0) {
+			rarityQuery = this.constructRarityQuery(searchFields.cardRarity);
 		}
- */
+
 		const queryWithVersions = [
 			{
 				$lookup: {

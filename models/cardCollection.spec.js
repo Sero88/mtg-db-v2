@@ -27,6 +27,7 @@ import {
 import { CollectionCardQuantityTypeEnum } from "@/types/collection";
 import { cardStatsMock } from "@/tests/mocks/cardStat.mock";
 import { collectionSetFromDB } from "@/tests/mocks/collectionSets.mock";
+import { collectionCardRarityMock } from "@/tests/mocks/collectionRarity.mock";
 const mockIds = cardsWithRegularAndFoilQuantities.map((card) => {
 	return card.scryfallId;
 });
@@ -387,6 +388,16 @@ describe("CardCollection Model", () => {
 			expect(results?.data.length).toEqual(1);
 			expect(results?.status).toEqual(DbModelResponseEnum.SUCCESS);
 			expect(results.data[0].name).toEqual("Elvish Mystic");
+		});
+
+		it("should get results by card rarity", async () => {
+			const results = await cardCollection.getCards({
+				cardRarity: collectionCardRarityMock,
+			});
+
+			expect(results?.data.length).toEqual(1);
+			expect(results?.status).toEqual(DbModelResponseEnum.SUCCESS);
+			expect(results.data[0].name).toEqual("Mirror Entity");
 		});
 	});
 	describe("getTypes", () => {

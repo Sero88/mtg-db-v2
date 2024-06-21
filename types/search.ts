@@ -1,12 +1,13 @@
 import { IsNotSelectorItem } from "./isNotSelector";
-import { SelectorListItem } from "./searchSelector";
 
 export interface SearchFields {
 	[SearchFieldNames.NAME]: string;
 	[SearchFieldNames.TEXT]: string;
 	[SearchFieldNames.TYPES]: SelectorListType;
 	[SearchFieldNames.COLORS]: ColorsSelectorType;
+	[SearchFieldNames.STATS]: CardStatType[];
 	[SearchFieldNames.SETS]: string[];
+	[SearchFieldNames.RARITY]: number[];
 }
 export enum SearchFieldNames {
 	NAME = "cardName",
@@ -37,24 +38,10 @@ export type ColorsSelectorType = {
 	selected: string[];
 };
 
-export type RaritySelectorType = {
-	selected: string[];
-};
-
 export type CardStatType = {
 	name: string;
 	conditional: StatConditionalEnums;
 	value?: string;
-};
-
-export type SearchQueryFields = {
-	cardName?: string;
-	cardText?: string;
-	cardTypes?: SelectorListType;
-	cardColors?: ColorsSelectorType;
-	cardStats?: CardStatType[];
-	cardSets?: string[];
-	cardRarity?: RaritySelectorType;
 };
 
 export type SearchQuery = {
@@ -68,6 +55,11 @@ export type SearchQuery = {
 export type SetsQuery = {
 	$expr?: { $eq: number[] };
 	"versions.set"?: { $in: string[] };
+};
+
+export type RarityQuery = {
+	$expr?: { $eq: number[] };
+	"versions.rarity"?: { $in: string[] };
 };
 
 export enum ColorConditionals {
