@@ -13,6 +13,7 @@ import { useState } from "react";
 import { CardColors } from "./fields/CardColors";
 import { CardStats } from "./fields/CardStats";
 import { CardSets } from "./fields/CardSets";
+import { CardRarity } from "./fields/CardRarity";
 
 type SearchCollectionFormProps = {
 	searchHandler: (updatedFields: SearchFields) => void;
@@ -26,6 +27,7 @@ export function CollectionSearchForm({ searchHandler }: SearchCollectionFormProp
 		[SearchFieldNames.COLORS]: {} as ColorsSelectorType,
 		[SearchFieldNames.STATS]: [] as CardStatType[],
 		[SearchFieldNames.SETS]: [] as string[],
+		[SearchFieldNames.RARITY]: [] as number[],
 	};
 	const [formFields, setFormFields] = useState(initialFormFields);
 
@@ -100,6 +102,17 @@ export function CollectionSearchForm({ searchHandler }: SearchCollectionFormProp
 						value: formFields[SearchFieldNames.SETS],
 					}}
 					changeHandler={(value) => updateHandler(SearchFieldNames.SETS, value)}
+				/>
+			</div>
+
+			<hr />
+			<div className="form-section">
+				<CardRarity
+					fieldData={{
+						name: SearchFieldNames.RARITY,
+						value: formFields[SearchFieldNames.RARITY],
+					}}
+					changeHandler={(value) => updateHandler(SearchFieldNames.RARITY, value)}
 				/>
 			</div>
 			<button type="submit">Test</button>

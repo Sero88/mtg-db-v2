@@ -15,6 +15,7 @@ export enum SearchFieldNames {
 	COLORS = "cardColors",
 	STATS = "cardStats",
 	SETS = "cardSets",
+	RARITY = "cardRarity",
 }
 
 export enum StatConditionalEnums {
