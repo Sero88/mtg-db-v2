@@ -8,12 +8,14 @@ import {
 	SearchFields,
 	SelectorListType,
 } from "@/types/search";
-import styles from "@/styles/collectionSearchResults.module.scss";
+import styles from "@/styles/collectionSearchForm.module.scss";
 import { useState } from "react";
 import { CardColors } from "./fields/CardColors";
 import { CardStats } from "./fields/CardStats";
 import { CardSets } from "./fields/CardSets";
 import { CardRarity } from "./fields/CardRarity";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 type SearchCollectionFormProps = {
 	searchHandler: (updatedFields: SearchFields) => void;
@@ -115,7 +117,13 @@ export function CollectionSearchForm({ searchHandler }: SearchCollectionFormProp
 					changeHandler={(value) => updateHandler(SearchFieldNames.RARITY, value)}
 				/>
 			</div>
-			<button type="submit">Test</button>
+			<hr />
+			<div className="form-section">
+				<button type="submit">
+					<FontAwesomeIcon icon={faSearch} />
+					<span>Search</span>
+				</button>
+			</div>
 		</form>
 	);
 }

@@ -47,3 +47,28 @@
 		text-transform: capitalize;
 	}
 }
+
+@mixin primary-button {
+	background: white;
+	border: 2px solid #0f597c;
+	border-radius: 0.25rem;
+	padding: 0.25rem 0.75rem;
+	font-family: inherit;
+
+	&:hover {
+		background: $dark-blue;
+		border: 2px solid $dark-blue;
+		color: white;
+		cursor: pointer;
+	}
+}
+
+@mixin button-with-icon {
+	display: flex;
+	gap: 0.25rem;
+	align-items: center;
+
+	svg {
+		font-size: 0.99rem;
+	}
+}
