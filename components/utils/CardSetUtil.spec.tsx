@@ -1,6 +1,7 @@
 import { setsListForCardSets } from "@/tests/mocks/setsList.mock";
 import { createSetsArray } from "./CardSetUtil";
 import { collectionSets } from "@/tests/mocks/collectionSets.mock";
+import { DisplayScryfallSet } from "@/components/utils/DisplayScryfallSet";
 
 describe("CardSetUtil", () => {
 	describe("createSetsArray", () => {
@@ -9,7 +10,7 @@ describe("CardSetUtil", () => {
 
 			expect(selectorListItemArray[0]).toEqual(
 				expect.objectContaining({
-					display: <p>{setsListForCardSets[0].name}</p>,
+					display: <DisplayScryfallSet scryfallSet={setsListForCardSets[0]} />,
 					value: setsListForCardSets[0].code,
 					searchValue: setsListForCardSets[0].name,
 				})
