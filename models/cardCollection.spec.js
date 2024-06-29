@@ -427,4 +427,13 @@ describe("CardCollection Model", () => {
 			expect(results).toEqual(noDbConnectionResult);
 		});
 	});
+
+	describe("getAllVersions", () => {
+		it("should get all versions from collection", async () => {
+			const results = await cardCollection.getAllVersions();
+
+			expect(results.status).toEqual(DbModelResponseEnum.SUCCESS);
+			expect(results.data?.length).toBeGreaterThan(0);
+		});
+	});
 });

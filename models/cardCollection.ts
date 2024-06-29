@@ -462,4 +462,16 @@ export class CardCollection {
 
 		return this.responseObject(DbModelResponseEnum.SUCCESS, results);
 	}
+
+	async getAllVersions() {
+		if (!this.db) {
+			return this.noDbConnectionResponse();
+		}
+
+		const results = await this.db
+			.collection(process.env.DATABASE_TABLE_VERSIONS as string)
+			.find()
+			.toArray();
+		return this.responseObject(DbModelResponseEnum.SUCCESS, results);
+	}
 }
