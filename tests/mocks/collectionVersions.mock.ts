@@ -1,6 +1,7 @@
-export const collectionVersionsMock = [
+import { Version } from "@/types/collection";
+
+export const collectionVersionsMock: Version[] = [
 	{
-		_id: "61ffd32aeeadc3037c78230f",
 		collectionNumber: "187",
 		images: [
 			{
@@ -11,7 +12,7 @@ export const collectionVersionsMock = [
 		],
 		isPromo: false,
 		prices: {
-			regular: "0.12",
+			regular: 0.12,
 			foil: null,
 		},
 		quantity: {
@@ -23,7 +24,6 @@ export const collectionVersionsMock = [
 		oracleId: "2dbe8aaa-2e34-4552-8da7-cf8ecbbaa7b6",
 	},
 	{
-		_id: "61ffd32aeeadc3037c782310",
 		collectionNumber: "20",
 		images: [
 			{
@@ -34,7 +34,7 @@ export const collectionVersionsMock = [
 		],
 		isPromo: false,
 		prices: {
-			regular: "1.39",
+			regular: 1.39,
 			foil: null,
 		},
 		quantity: {
@@ -46,7 +46,6 @@ export const collectionVersionsMock = [
 		oracleId: "7df3e379-c217-416e-a1c8-46338608c49e",
 	},
 	{
-		_id: "61ffd32aeeadc3037c782311",
 		collectionNumber: "1",
 		images: [
 			{
@@ -57,8 +56,8 @@ export const collectionVersionsMock = [
 		],
 		isPromo: false,
 		prices: {
-			regular: "1.50",
-			foil: "4.33",
+			regular: 1.5,
+			foil: 4.33,
 		},
 		quantity: {
 			regular: 3,
@@ -69,7 +68,6 @@ export const collectionVersionsMock = [
 		oracleId: "c5bfc1b9-a55d-4608-a6f7-bb62cb8dc3c6",
 	},
 	{
-		_id: "61ffd32aeeadc3037c782312",
 		collectionNumber: "1",
 		images: [
 			{
@@ -80,8 +78,8 @@ export const collectionVersionsMock = [
 		],
 		isPromo: false,
 		prices: {
-			regular: "0.38",
-			foil: "0.88",
+			regular: 0.38,
+			foil: 0.88,
 		},
 		quantity: {
 			regular: 2,
@@ -92,7 +90,6 @@ export const collectionVersionsMock = [
 		oracleId: "18c58328-518f-4228-bb1b-2433f3fb21f2",
 	},
 	{
-		_id: "61ffd32aeeadc3037c78230e",
 		collectionNumber: "75",
 		images: [
 			{
@@ -104,7 +101,7 @@ export const collectionVersionsMock = [
 		isPromo: true,
 		prices: {
 			regular: null,
-			foil: "9.64",
+			foil: 9.64,
 		},
 		promoTypes: ["prerelease", "datestamped"],
 		quantity: {
@@ -116,7 +113,6 @@ export const collectionVersionsMock = [
 		oracleId: "e802fb53-7cf5-46bc-8a0b-f99cf5c20f74",
 	},
 	{
-		_id: "621563e685fbad465690a705",
 		scryfallId: "0e09b054-4d33-4a12-bf2a-9b0009f33044",
 		collectionNumber: "290",
 		images: [
@@ -133,8 +129,8 @@ export const collectionVersionsMock = [
 		isPromo: false,
 		oracleId: "ae92942b-919c-4ea9-b693-85fcef765d5a",
 		prices: {
-			regular: "0.17",
-			foil: "3.10",
+			regular: 0.17,
+			foil: 3.1,
 		},
 		quantity: {
 			regular: 2,
@@ -143,7 +139,6 @@ export const collectionVersionsMock = [
 		set: "mh2",
 	},
 	{
-		_id: "61ffd32aeeadc3037c782318",
 		collectionNumber: "155",
 		images: [
 			{
@@ -154,8 +149,8 @@ export const collectionVersionsMock = [
 		],
 		isPromo: false,
 		prices: {
-			regular: "0.16",
-			foil: "0.50",
+			regular: 0.16,
+			foil: 0.5,
 		},
 		quantity: {
 			regular: 2,
@@ -166,7 +161,6 @@ export const collectionVersionsMock = [
 		oracleId: "159427f7-27fe-490d-ac78-fed092952f51",
 	},
 	{
-		_id: "62002dbb1d1ecb599397a746",
 		scryfallId: "d4949a0b-e320-470a-ba54-07ac75b0053b",
 		collectionNumber: "277",
 		images: [
@@ -179,8 +173,8 @@ export const collectionVersionsMock = [
 		isPromo: false,
 		oracleId: "e802fb53-7cf5-46bc-8a0b-f99cf5c20f74",
 		prices: {
-			regular: "5.26",
-			foil: "5.72",
+			regular: 5.26,
+			foil: 5.72,
 		},
 		quantity: {
 			regular: 3,
@@ -190,7 +184,6 @@ export const collectionVersionsMock = [
 		set: "m21",
 	},
 	{
-		_id: "6207c4de1d1ecb59930dee86",
 		scryfallId: "4a4039bd-ed03-4eef-8a3d-97f134475974",
 		collectionNumber: "1",
 		images: [
@@ -213,7 +206,6 @@ export const collectionVersionsMock = [
 		set: "tr20",
 	},
 	{
-		_id: "62002cf11d1ecb59939765d2",
 		scryfallId: "20a271b3-c3a9-47c6-bc8b-b580ede1968b",
 		collectionNumber: "292",
 		images: [
@@ -226,8 +218,8 @@ export const collectionVersionsMock = [
 		isPromo: false,
 		oracleId: "e802fb53-7cf5-46bc-8a0b-f99cf5c20f74",
 		prices: {
-			regular: "5.21",
-			foil: "8.15",
+			regular: 5.21,
+			foil: 8.15,
 		},
 		promoTypes: ["boosterfun"],
 		quantity: {
@@ -237,7 +229,6 @@ export const collectionVersionsMock = [
 		set: "m21",
 	},
 	{
-		_id: "62002dbd1d1ecb599397a7c9",
 		scryfallId: "c0ba42c9-480c-4236-b217-01910e51b290",
 		collectionNumber: "291",
 		images: [
@@ -250,8 +241,8 @@ export const collectionVersionsMock = [
 		isPromo: false,
 		oracleId: "e802fb53-7cf5-46bc-8a0b-f99cf5c20f74",
 		prices: {
-			regular: "5.38",
-			foil: "8.22",
+			regular: 5.38,
+			foil: 8.22,
 		},
 		promoTypes: ["boosterfun"],
 		quantity: {
@@ -262,7 +253,6 @@ export const collectionVersionsMock = [
 		set: "m21",
 	},
 	{
-		_id: "61ffd32aeeadc3037c782319",
 		collectionNumber: "107",
 		images: [
 			{
@@ -273,7 +263,7 @@ export const collectionVersionsMock = [
 		],
 		isPromo: false,
 		prices: {
-			regular: "0.24",
+			regular: 0.24,
 			foil: null,
 		},
 		quantity: {
@@ -285,7 +275,6 @@ export const collectionVersionsMock = [
 		oracleId: "8adbba6e-03ef-4278-aec5-8a4496b377a8",
 	},
 	{
-		_id: "61ffd32aeeadc3037c782315",
 		collectionNumber: "192",
 		images: [
 			{
@@ -296,8 +285,8 @@ export const collectionVersionsMock = [
 		],
 		isPromo: false,
 		prices: {
-			regular: "0.16",
-			foil: "0.96",
+			regular: 0.16,
+			foil: 0.96,
 		},
 		quantity: {
 			regular: 2,
@@ -308,7 +297,6 @@ export const collectionVersionsMock = [
 		oracleId: "b270d091-ea4c-4dfd-9c50-48b45bbc396e",
 	},
 	{
-		_id: "6206e90e1d1ecb5993cc8552",
 		scryfallId: "a6baa9ab-a187-44e2-9417-51913f42b2d7",
 		collectionNumber: "175",
 		images: [
@@ -322,7 +310,7 @@ export const collectionVersionsMock = [
 		oracleId: "d6861319-ae16-4e6c-af87-a264f667d694",
 		prices: {
 			regular: null,
-			foil: "1.55",
+			foil: 1.55,
 		},
 		promoTypes: ["prerelease", "datestamped"],
 		quantity: {
@@ -332,7 +320,6 @@ export const collectionVersionsMock = [
 		set: "znr",
 	},
 	{
-		_id: "6210f8e67da4ed6213596028",
 		scryfallId: "c55b2b50-ac83-4a78-8f84-580193d1ca0f",
 		collectionNumber: "30",
 		images: [
@@ -345,8 +332,8 @@ export const collectionVersionsMock = [
 		isPromo: false,
 		oracleId: "cf307f81-488c-4df5-8b08-ba46e3e7f3d9",
 		prices: {
-			regular: "0.04",
-			foil: "0.20",
+			regular: 0.04,
+			foil: 0.2,
 		},
 		promoTypes: ["boosterfun"],
 		quantity: {
@@ -356,7 +343,6 @@ export const collectionVersionsMock = [
 		set: "sta",
 	},
 	{
-		_id: "6218057b85fbad46564ad099",
 		scryfallId: "4520505c-161f-40c1-bb43-8b9dc5274447",
 		collectionNumber: "221",
 		images: [
@@ -370,7 +356,7 @@ export const collectionVersionsMock = [
 		oracleId: "3bd8ea71-cbcc-4659-b9a8-88cf27ee12d8",
 		prices: {
 			regular: null,
-			foil: "1.20",
+			foil: 1.2,
 		},
 		promoTypes: ["setpromo", "datestamped", "prerelease"],
 		quantity: {
@@ -380,7 +366,6 @@ export const collectionVersionsMock = [
 		set: "dtk",
 	},
 	{
-		_id: "62002dbf1d1ecb599397a89a",
 		scryfallId: "35b27a41-b4c1-417c-a1c5-a72f2c38ed0e",
 		collectionNumber: "75",
 		images: [
@@ -393,8 +378,8 @@ export const collectionVersionsMock = [
 		isPromo: true,
 		oracleId: "e802fb53-7cf5-46bc-8a0b-f99cf5c20f74",
 		prices: {
-			regular: "9.11",
-			foil: "20.24",
+			regular: 9.11,
+			foil: 20.24,
 		},
 		promoTypes: ["promopack", "stamped"],
 		quantity: {
@@ -405,7 +390,6 @@ export const collectionVersionsMock = [
 		set: "m21",
 	},
 	{
-		_id: "61ffd32aeeadc3037c78231b",
 		collectionNumber: "152",
 		images: [
 			{
@@ -421,8 +405,8 @@ export const collectionVersionsMock = [
 		],
 		isPromo: false,
 		prices: {
-			regular: "0.08",
-			foil: "0.13",
+			regular: 0.08,
+			foil: 0.13,
 		},
 		quantity: {
 			regular: 2,
@@ -434,7 +418,6 @@ export const collectionVersionsMock = [
 		oracleId: "9eab65ee-e8be-4fa6-9634-fb03582bd745",
 	},
 	{
-		_id: "61ffd32aeeadc3037c78230d",
 		collectionNumber: "152",
 		images: [
 			{
@@ -451,7 +434,7 @@ export const collectionVersionsMock = [
 		isPromo: true,
 		prices: {
 			regular: null,
-			foil: "0.24",
+			foil: 0.24,
 		},
 		promoTypes: ["prerelease", "datestamped"],
 		quantity: {
@@ -463,7 +446,6 @@ export const collectionVersionsMock = [
 		oracleId: "9eab65ee-e8be-4fa6-9634-fb03582bd745",
 	},
 	{
-		_id: "61ffd32aeeadc3037c782313",
 		collectionNumber: "164",
 		images: [
 			{
@@ -474,8 +456,8 @@ export const collectionVersionsMock = [
 		],
 		isPromo: false,
 		prices: {
-			regular: "0.56",
-			foil: "4.82",
+			regular: 0.56,
+			foil: 4.82,
 		},
 		quantity: {
 			regular: 1,
@@ -486,7 +468,6 @@ export const collectionVersionsMock = [
 		oracleId: "01294ac9-1a06-4ee8-b3b1-db1f07c9d94e",
 	},
 	{
-		_id: "62002db91d1ecb599397a6c4",
 		scryfallId: "9c0c61e3-9f3d-4e7f-9046-0ea336dd8a2d",
 		collectionNumber: "75",
 		images: [
@@ -499,8 +480,8 @@ export const collectionVersionsMock = [
 		isPromo: false,
 		oracleId: "e802fb53-7cf5-46bc-8a0b-f99cf5c20f74",
 		prices: {
-			regular: "7.27",
-			foil: "8.59",
+			regular: 7.27,
+			foil: 8.59,
 		},
 		quantity: {
 			regular: 1,
@@ -510,7 +491,6 @@ export const collectionVersionsMock = [
 		set: "m21",
 	},
 	{
-		_id: "61ffd32aeeadc3037c78230b",
 		collectionNumber: "27",
 		images: [
 			{
@@ -525,8 +505,8 @@ export const collectionVersionsMock = [
 		],
 		isPromo: false,
 		prices: {
-			regular: "3.33",
-			foil: "30.00",
+			regular: 3.33,
+			foil: 30.0,
 		},
 		quantity: {
 			regular: 2,
@@ -538,7 +518,6 @@ export const collectionVersionsMock = [
 		oracleId: "710f1f8a-e5f7-4889-9f12-2611f42d5c73",
 	},
 	{
-		_id: "61ffd32aeeadc3037c782316",
 		collectionNumber: "54",
 		images: [
 			{
@@ -549,7 +528,7 @@ export const collectionVersionsMock = [
 		],
 		isPromo: false,
 		prices: {
-			regular: "0.05",
+			regular: 0.05,
 			foil: null,
 		},
 		quantity: {
@@ -561,7 +540,6 @@ export const collectionVersionsMock = [
 		oracleId: "ed47dd31-f7cd-4ecb-960f-470cb8f4ed3c",
 	},
 	{
-		_id: "620029411d1ecb59939644de",
 		scryfallId: "ba95c4fc-f0fc-4bfe-bef7-694c3d82a6c7",
 		collectionNumber: "281",
 		images: [
@@ -574,8 +552,8 @@ export const collectionVersionsMock = [
 		isPromo: false,
 		oracleId: "e802fb53-7cf5-46bc-8a0b-f99cf5c20f74",
 		prices: {
-			regular: "8.02",
-			foil: "16.35",
+			regular: 8.02,
+			foil: 16.35,
 		},
 		promoTypes: ["boosterfun"],
 		quantity: {
@@ -585,7 +563,6 @@ export const collectionVersionsMock = [
 		set: "m21",
 	},
 	{
-		_id: "61ffd32aeeadc3037c782314",
 		collectionNumber: "101",
 		images: [
 			{
@@ -596,8 +573,8 @@ export const collectionVersionsMock = [
 		],
 		isPromo: false,
 		prices: {
-			regular: "2.68",
-			foil: "43.51",
+			regular: 2.68,
+			foil: 43.51,
 		},
 		quantity: {
 			regular: 2,
@@ -608,7 +585,6 @@ export const collectionVersionsMock = [
 		oracleId: "70dbe8a9-505d-41c2-9b5b-a991d13ab459",
 	},
 	{
-		_id: "61ffd32aeeadc3037c782317",
 		collectionNumber: "94",
 		images: [
 			{
@@ -619,8 +595,8 @@ export const collectionVersionsMock = [
 		],
 		isPromo: false,
 		prices: {
-			regular: "0.16",
-			foil: "0.41",
+			regular: 0.16,
+			foil: 0.41,
 		},
 		quantity: {
 			regular: 2,
@@ -631,7 +607,6 @@ export const collectionVersionsMock = [
 		oracleId: "51577a8b-28d6-4f9e-8d3f-6a1380270fab",
 	},
 	{
-		_id: "620028ae1d1ecb5993961848",
 		scryfallId: "b69e7200-96ea-4455-83cc-0a497d56efe5",
 		collectionNumber: "170",
 		images: [
@@ -644,8 +619,8 @@ export const collectionVersionsMock = [
 		isPromo: false,
 		oracleId: "77d016e3-f652-4827-b49a-8044f6d2d45b",
 		prices: {
-			regular: "0.14",
-			foil: "0.25",
+			regular: 0.14,
+			foil: 0.25,
 		},
 		quantity: {
 			regular: 1,
@@ -655,7 +630,6 @@ export const collectionVersionsMock = [
 		set: "afr",
 	},
 	{
-		_id: "62002db21d1ecb599397a54e",
 		scryfallId: "2d1ff397-2445-459a-ae4e-7bf1cd48f490",
 		collectionNumber: "275",
 		images: [
@@ -668,8 +642,8 @@ export const collectionVersionsMock = [
 		isPromo: false,
 		oracleId: "e802fb53-7cf5-46bc-8a0b-f99cf5c20f74",
 		prices: {
-			regular: "4.94",
-			foil: "5.25",
+			regular: 4.94,
+			foil: 5.25,
 		},
 		quantity: {
 			regular: 1,
@@ -678,7 +652,6 @@ export const collectionVersionsMock = [
 		set: "m21",
 	},
 	{
-		_id: "62d040e7c14e58b4a5bfab55",
 		scryfallId: "e6cce4d3-e6d8-4c6f-9d9c-c0a8a607a42f",
 		collectionNumber: "1",
 		images: [
@@ -702,7 +675,6 @@ export const collectionVersionsMock = [
 		set: "snc",
 	},
 	{
-		_id: "6342e0385953bc3aee1ae843",
 		scryfallId: "c0a72721-2a4a-4d48-a7b0-2370b90b8619",
 		collectionNumber: "98",
 		images: [
@@ -715,8 +687,8 @@ export const collectionVersionsMock = [
 		isPromo: false,
 		oracleId: "33d405ea-7a9a-4970-b70f-9c05d90dd6f0",
 		prices: {
-			regular: "0.03",
-			foil: "0.14",
+			regular: 0.03,
+			foil: 0.14,
 		},
 		quantity: {
 			regular: 2,
@@ -725,7 +697,6 @@ export const collectionVersionsMock = [
 		set: "mid",
 	},
 	{
-		_id: "6508c1470ad44b571335b6d0",
 		scryfallId: "2933ca2a-097b-44f4-ae56-ad524d26fd06",
 		collectionNumber: "4",
 		images: [
@@ -748,7 +719,6 @@ export const collectionVersionsMock = [
 		set: "arn",
 	},
 	{
-		_id: "650a148f7f459a9c4a4b071c",
 		scryfallId: "b9d349f3-5be2-4b1f-a4c3-ba94822cf0cf",
 		collectionNumber: "51",
 		images: [
@@ -771,7 +741,6 @@ export const collectionVersionsMock = [
 		set: "snc",
 	},
 	{
-		_id: "650cb52a7f459a9c4ad9ab16",
 		scryfallId: "116d4030-acd2-4aa2-8254-aaaff1264459",
 		collectionNumber: "38",
 		images: [
@@ -794,7 +763,6 @@ export const collectionVersionsMock = [
 		set: "ltr",
 	},
 	{
-		_id: "650cb59a7f459a9c4ada59b5",
 		scryfallId: "e882c9f9-bf30-46b6-bedc-379d2c80e5cb",
 		collectionNumber: "1",
 		images: [
@@ -817,7 +785,6 @@ export const collectionVersionsMock = [
 		set: "afr",
 	},
 	{
-		_id: "653837f885df933da1221f15",
 		scryfallId: "8d30ff4f-5973-4a49-aaa0-7ff95bec9f79",
 		collectionNumber: "156",
 		images: [
@@ -841,7 +808,6 @@ export const collectionVersionsMock = [
 		set: "frf",
 	},
 	{
-		_id: "65383b8385df933da126750c",
 		scryfallId: "67d470cd-9ff9-49d8-b66a-331cb6cf8257",
 		collectionNumber: "156",
 		images: [
@@ -864,7 +830,6 @@ export const collectionVersionsMock = [
 		set: "frf",
 	},
 	{
-		_id: "65cd457353b95550542116e1",
 		scryfallId: "9a9da45b-54ae-49c1-af50-8b88912c5bcd",
 		collectionNumber: "475",
 		images: [
@@ -887,7 +852,6 @@ export const collectionVersionsMock = [
 		set: "sld",
 	},
 	{
-		_id: "662acf44dfdf8734ac252f58",
 		scryfallId: "221d999c-dde1-4a0f-87cf-9e9f44969f94",
 		collectionNumber: "3",
 		images: [
@@ -910,7 +874,6 @@ export const collectionVersionsMock = [
 		set: "isd",
 	},
 	{
-		_id: "66759f59feb129a9a9ffd3d4",
 		scryfallId: "76f71a96-94d1-4cbb-b21c-0e5075840777",
 		collectionNumber: "297",
 		images: [
@@ -933,7 +896,6 @@ export const collectionVersionsMock = [
 		set: "tsr",
 	},
 	{
-		_id: "667c82a9feb129a9a9716734",
 		scryfallId: "57877b1c-e91d-4941-81bd-008dff1272ed",
 		collectionNumber: "203",
 		images: [
@@ -956,7 +918,6 @@ export const collectionVersionsMock = [
 		set: "m13",
 	},
 	{
-		_id: "667ffa1ffeb129a9a984b8c7",
 		scryfallId: "880468be-3f4d-4dbf-92e7-cf212da7f718",
 		collectionNumber: "238",
 		images: [
@@ -979,7 +940,6 @@ export const collectionVersionsMock = [
 		set: "ltc",
 	},
 	{
-		_id: "667ffa1ffeb129a9a984b964",
 		scryfallId: "008b1ea5-1a8d-4a9d-b208-421fea2f9c58",
 		collectionNumber: "189",
 		images: [
@@ -1008,7 +968,6 @@ export const collectionVersionsMock = [
 		set: "s15",
 	},
 	{
-		_id: "667ffa20feb129a9a984b9b4",
 		scryfallId: "60d0e6a6-629a-45a7-bfcb-25ba7156788b",
 		collectionNumber: "169",
 		images: [
