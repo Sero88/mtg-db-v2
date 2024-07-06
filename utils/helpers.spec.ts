@@ -37,4 +37,14 @@ describe("Helpers Utils", () => {
 			expect(response).toEqual({ data: undefined, success: false });
 		});
 	});
+
+	describe("formatAmount", () => {
+		it("should return number rounded to 2 decimal places", () => {
+			const formattedAmount = Helpers.formatAmount(23.4600000000000009);
+			expect(formattedAmount).toEqual(23.46);
+
+			const formattedAmountNoDecimal = Helpers.formatAmount(23.00000000000001);
+			expect(formattedAmountNoDecimal).toEqual(23);
+		});
+	});
 });

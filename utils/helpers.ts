@@ -12,4 +12,8 @@ export const Helpers = {
 
 	getDataset: (element: HTMLElement, name: string) =>
 		element?.dataset?.[name] ? element.dataset[name] : null,
+
+	formatAmount: (amount: number) => {
+		return Math.round(amount * 100) / 100;
+	},
 };
