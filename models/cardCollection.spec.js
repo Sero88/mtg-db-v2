@@ -446,4 +446,13 @@ describe("CardCollection Model", () => {
 			expect(results.data[0].versions.length).toBeGreaterThan(0);
 		});
 	});
+
+	describe("getVersionsCount", () => {
+		it("should get version count", async () => {
+			const results = await cardCollection.getVersionsCount();
+
+			expect(results.status).toEqual(DbModelResponseEnum.SUCCESS);
+			expect(results.data).toBeGreaterThan(0);
+		});
+	});
 });

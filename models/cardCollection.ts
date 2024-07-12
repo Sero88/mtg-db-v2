@@ -497,4 +497,15 @@ export class CardCollection {
 			.toArray();
 		return this.responseObject(DbModelResponseEnum.SUCCESS, results);
 	}
+
+	async getVersionsCount() {
+		if (!this.db) {
+			return this.noDbConnectionResponse();
+		}
+
+		const results = await this.db
+			.collection(process.env.DATABASE_TABLE_VERSIONS as string)
+			.countDocuments();
+		return this.responseObject(DbModelResponseEnum.SUCCESS, results);
+	}
 }
