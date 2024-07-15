@@ -7,7 +7,7 @@ import {
 
 const axiosGetSpy = jest.spyOn(axios, "get");
 
-const collectionApiPath = "/api/collection/";
+const collectionApiPath = "/api/collection/test/path";
 describe("fetchCollection", () => {
 	beforeEach(() => {
 		jest.clearAllMocks();
@@ -20,14 +20,14 @@ describe("fetchCollection", () => {
 			},
 		});
 	});
-	it("should call /api/collection api", async () => {
-		const result = await fetchCollection();
+	it("should call path passed", async () => {
+		const result = await fetchCollection(collectionApiPath);
 
 		expect(axiosGetSpy).toHaveBeenCalledWith(collectionApiPath);
 	});
 
-	it("should return all card in collection along with their versions", async () => {
-		const result = await fetchCollection();
+	it("should return data with resolved data", async () => {
+		const result = await fetchCollection(collectionApiPath);
 
 		expect(axiosGetSpy).toHaveBeenCalledWith(collectionApiPath);
 		expect(result).toEqual({
@@ -39,10 +39,10 @@ describe("fetchCollection", () => {
 		});
 	});
 
-	it("should return success false and data null when fetch fails", async () => {
+	it("should return success as false and data null when fetch fails", async () => {
 		axiosGetSpy.mockRejectedValue("Something went wrong");
 
-		const result = await fetchCollection();
+		const result = await fetchCollection(collectionApiPath);
 		expect(axiosGetSpy).toHaveBeenCalledWith(collectionApiPath);
 		expect(result).toEqual({
 			success: false,
