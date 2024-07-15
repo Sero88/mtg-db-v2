@@ -126,6 +126,10 @@ export const nissaVastwoodSeerCollectionVersion: Version = {
 	quantity: { [CollectionCardQuantityTypeEnum.FOIL]: 1 },
 };
 
+export const nissaVastwoodSeerCollectionCardWithVersion = {
+	...nissaVastwoodSeerCollectionCard,
+	versions: [nissaVastwoodSeerCollectionVersion],
+};
 export const plusTwoMaceCollectionVersion = {
 	_id: "650cb59a7f459a9c4ada599a",
 	cardFaces: [
