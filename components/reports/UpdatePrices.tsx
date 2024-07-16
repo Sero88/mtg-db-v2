@@ -1,10 +1,12 @@
-import { CollectionCard, Version } from "@/types/collection";
+import { CollectionCard } from "@/types/collection";
+import { ScryfallCard } from "@/types/scryfall";
 import { UpdatePricesProps, UpdateState, UpdateStatus } from "@/types/updatePrices";
-import { fetchCollection } from "@/utils/dataFetch/clientSide/collection";
+import axios from "axios";
 import React, { useEffect, useState, useRef, ReactElement } from "react";
 
 export function UpdatePrices({ updateCompleteCallback }: UpdatePricesProps) {
 	const collectionData = useRef<CollectionCard[]>();
+	const scryfallMappedData = useRef<Map<String, ScryfallCard[]>>();
 
 	const [updateState, setUpdateState] = useState<UpdateState>({
 		status: UpdateStatus.initial,
@@ -19,12 +21,12 @@ export function UpdatePrices({ updateCompleteCallback }: UpdatePricesProps) {
 			name: "Retrieving collection data",
 			callback: async () => retrieveCollectionHandler(),
 		},
-		// {
-		// 	id: "retrieveScryfall",
-		// 	name: "Getting new card data",
-		// 	completed: false,
-		// 	callback: async () => retrieveScryfall(),
-		// },
+		{
+			id: "retrieveScryfall",
+			name: "Getting new card data",
+			completed: false,
+			callback: async () => retrieveScryfallDataHandler(),
+		},
 		// {
 		// 	id: "updateCollection",
 		// 	name: "Updating collection data with new prices",
@@ -46,18 +48,56 @@ export function UpdatePrices({ updateCompleteCallback }: UpdatePricesProps) {
 	];
 
 	const retrieveCollectionHandler = async () => {
-		const collection = await fetchCollection("/api/collection/");
-		const versionCount = await fetchCollection("/api/collection/versions?action=count");
+		try {
+			const collection = await axios.get("/api/collection/");
+			const versionCount = await axios.get("/api/collection/versions?action=count");
 
-		if (!collection.success || !versionCount.success) {
+			collectionData.current = collection?.data?.data as CollectionCard[];
+			setUpdateState((prevState) => ({
+				...prevState,
+				updatedCards: {
+					...prevState.updatedCards,
+					total: versionCount?.data?.data as number,
+				},
+			}));
+		} catch (e) {
 			throw new Error("Unable to retrieve cards from collection. Please try again later.");
 		}
+	};
 
-		collectionData.current = collection?.data as CollectionCard[];
-		setUpdateState((prevState) => ({
-			...prevState,
-			updatedCards: { ...prevState.updatedCards, total: versionCount?.data as number },
-		}));
+	const retrieveScryfallDataHandler = async () => {
+		try {
+			const bulkResponse = await axios.get(
+				"https://api.scryfall.com/bulk-data/default-cards/?format=json"
+			);
+
+			const scryfallResponse = await axios.get(bulkResponse?.data?.download_uri);
+			const scryfallCards = scryfallResponse?.data as ScryfallCard[];
+
+			//for testing w/o calling api
+			// const scryfallCards = [
+			// 	{
+			// 		id: "42ba0e13-d20f-47f9-9c86-2b0b13c39ada",
+			// 		prices: {
+			// 			eur: "0.45",
+			// 			eur_foil: "2.29",
+			// 			tix: "0.02",
+			// 			usd: "0.32",
+			// 			usd_etched: null,
+			// 			usd_foil: "115.25",
+			// 		},
+			// 	},
+			// ];
+
+			const mappedCards = new Map();
+			for (let i = 0; i < scryfallCards?.length; i++) {
+				mappedCards.set(scryfallCards[i].id, scryfallCards[i].prices);
+			}
+
+			scryfallMappedData.current = mappedCards;
+		} catch (e) {
+			throw new Error("Unable to retrieve price data.");
+		}
 	};
 
 	useEffect(() => {
@@ -91,7 +131,10 @@ export function UpdatePrices({ updateCompleteCallback }: UpdatePricesProps) {
 
 	//todo remove after testing 👇
 	console.log("state", updateState);
+	console.log("collection", collectionData.current);
+	console.log("scryfall data", scryfallMappedData);
 	//todo remove after testing 👆
+
 	return (
 		<>
 			<p>{UpdateStatus[updateState.status]}</p>
