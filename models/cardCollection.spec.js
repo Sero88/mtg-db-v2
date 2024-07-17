@@ -455,4 +455,20 @@ describe("CardCollection Model", () => {
 			expect(results.data).toBeGreaterThan(0);
 		});
 	});
+
+	describe("updatePrices", () => {
+		it("should update prices of card", async () => {
+			const randomRegular = Math.floor(Math.random() * 100);
+			const randomFoil = Math.floor(Math.random() * 100);
+
+			const results = await cardCollection.updatePrices(
+				elvishMysticCollectionVersion.scryfallId,
+				{ usd: randomRegular, usd_foil: randomFoil }
+			);
+
+			expect(results.status).toEqual(DbModelResponseEnum.SUCCESS);
+			expect(results.data.value.prices.regular).toEqual(randomRegular);
+			expect(results.data.value.prices.foil).toEqual(randomFoil);
+		});
+	});
 });

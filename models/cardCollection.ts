@@ -5,7 +5,7 @@ import {
 	CollectionCardQuantityTypeEnum,
 	Version,
 } from "@/types/collection";
-import { ScryfallCard } from "@/types/scryfall";
+import { ScryfallCard, ScryfallCardPrices } from "@/types/scryfall";
 import {
 	CardStatType,
 	ColorConditionals,
@@ -506,6 +506,26 @@ export class CardCollection {
 		const results = await this.db
 			.collection(process.env.DATABASE_TABLE_VERSIONS as string)
 			.countDocuments();
+		return this.responseObject(DbModelResponseEnum.SUCCESS, results);
+	}
+
+	async updatePrices(scryfallId: string, prices: ScryfallCardPrices) {
+		if (!this.db) {
+			return this.noDbConnectionResponse();
+		}
+		const filter = { scryfallId: { $eq: scryfallId } };
+		const update = {
+			$set: {
+				prices: {
+					regular: prices.usd,
+					foil: prices.usd_foil,
+				},
+			},
+		};
+
+		const results = await this.db
+			.collection(process.env.DATABASE_TABLE_VERSIONS as string)
+			.findOneAndUpdate(filter, update, { returnDocument: "after" });
 		return this.responseObject(DbModelResponseEnum.SUCCESS, results);
 	}
 }
