@@ -470,5 +470,17 @@ describe("CardCollection Model", () => {
 			expect(results.data.value.prices.regular).toEqual(randomRegular);
 			expect(results.data.value.prices.foil).toEqual(randomFoil);
 		});
+
+		it("should return error when not able to update price", async () => {
+			const randomRegular = Math.floor(Math.random() * 100);
+			const randomFoil = Math.floor(Math.random() * 100);
+
+			const results = await cardCollection.updatePrices("fakeScryfallId", {
+				usd: randomRegular,
+				usd_foil: randomFoil,
+			});
+
+			expect(results.status).toEqual(DbModelResponseEnum.ERROR);
+		});
 	});
 });

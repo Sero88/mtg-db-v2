@@ -26,7 +26,7 @@ export class CardCollection {
 	private db: Db | undefined;
 	private client: MongoClient | undefined;
 
-	private responseObject(status: DbModelResponseEnum, data: {}, message = "") {
+	private responseObject(status: DbModelResponseEnum, data: {}) {
 		return {
 			status,
 			data,
@@ -526,6 +526,9 @@ export class CardCollection {
 		const results = await this.db
 			.collection(process.env.DATABASE_TABLE_VERSIONS as string)
 			.findOneAndUpdate(filter, update, { returnDocument: "after" });
-		return this.responseObject(DbModelResponseEnum.SUCCESS, results);
+
+		return results?.value
+			? this.responseObject(DbModelResponseEnum.SUCCESS, results)
+			: this.responseObject(DbModelResponseEnum.ERROR, {});
 	}
 }
