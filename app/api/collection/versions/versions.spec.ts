@@ -3,16 +3,20 @@
  */
 import { GET } from "@/app/api/collection/versions/route";
 import { CardCollection } from "@/models/cardCollection";
+import {
+	elvishMysticCollectionVersion,
+	nissaVastwoodSeerCollectionVersion,
+} from "@/tests/mocks/collectionCard.mock";
 import { DbModelResponseEnum } from "@/types/utils";
 
 const dbConnectSpy = jest.spyOn(CardCollection.prototype, "dbConnect");
-const getCardsSpy = jest.spyOn(CardCollection.prototype, "getVersionsCount");
+const getVersionsSpy = jest.spyOn(CardCollection.prototype, "getAllVersions");
 process.env.DATABASE_URL = "test";
 let req: Request;
 
 describe("API route: /api/collection/versions", () => {
 	beforeEach(() => {
-		req = new Request("http://localhost:3000/api/collection/versions?action=count", {
+		req = new Request("http://localhost:3000/api/collection/versions", {
 			method: "GET",
 		});
 	});
@@ -29,22 +33,26 @@ describe("API route: /api/collection/versions", () => {
 		});
 
 		it("should return results", async () => {
+			const expectedResults = [
+				elvishMysticCollectionVersion,
+				nissaVastwoodSeerCollectionVersion,
+			];
 			dbConnectSpy.mockResolvedValue(true);
-			getCardsSpy.mockResolvedValue({
+			getVersionsSpy.mockResolvedValue({
 				status: DbModelResponseEnum.SUCCESS,
-				data: 43,
+				data: expectedResults,
 			});
 
 			const response = await GET(req);
 			const cardResults = await response.json();
 
 			expect(cardResults.success).toEqual(true);
-			expect(cardResults.data).toEqual(43);
+			expect(cardResults.data).toEqual(expectedResults);
 		});
 
 		it("should return status 400 when retrieval is unsuccessful", async () => {
 			dbConnectSpy.mockResolvedValue(true);
-			getCardsSpy.mockResolvedValue({
+			getVersionsSpy.mockResolvedValue({
 				status: DbModelResponseEnum.ERROR,
 				data: {},
 			});

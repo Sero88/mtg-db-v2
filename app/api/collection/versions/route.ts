@@ -11,21 +11,14 @@ export async function GET(req: Request) {
 	if (!isConnected) {
 		return NextResponse.json({ error: "Unable to connect to database." }, { status: 500 });
 	}
-	switch (searchParams.get("action")) {
-		case "count":
-			const results = await cardCollection.getVersionsCount();
 
-			if (results.status == DbModelResponseEnum.SUCCESS) {
-				return NextResponse.json(Helpers.apiResponse(true, results?.data));
-			} else {
-				return NextResponse.json(Helpers.apiResponse(false, results?.data), {
-					status: 400,
-				});
-			}
+	const results = await cardCollection.getAllVersions();
 
-		default:
-			return NextResponse.json(Helpers.apiResponse(false, { error: "must specify action" }), {
-				status: 400,
-			});
+	if (results.status == DbModelResponseEnum.SUCCESS) {
+		return NextResponse.json(Helpers.apiResponse(true, results?.data));
+	} else {
+		return NextResponse.json(Helpers.apiResponse(false, results?.data), {
+			status: 400,
+		});
 	}
 }
