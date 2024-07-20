@@ -34,12 +34,12 @@ export function UpdatePrices({ updateCompleteCallback }: UpdatePricesProps) {
 			completed: false,
 			callback: () => updateCollection(),
 		},
-		// {
-		// 	id: "prepareDownload",
-		// 	name: "Preparing data for download",
-		// 	completed: false,
-		// 	callback: () => prepareCollection(),
-		// },
+		{
+			id: "prepareDownload",
+			name: "Preparing data for download",
+			completed: false,
+			callback: () => prepareCollection(),
+		},
 		// {
 		// 	id: "completedCallback",
 		// 	name: "Complete",
@@ -134,6 +134,30 @@ export function UpdatePrices({ updateCompleteCallback }: UpdatePricesProps) {
 				current: !updateIsComplete ? nextUpdateCurrent : updateState.updatedCards.current,
 			},
 		});
+	};
+
+	const prepareCollection = async () => {
+		try {
+			const response = await axios.get("/api/collection");
+			const collectionCards = response?.data?.data;
+
+			var element = document.createElement("a");
+			element.setAttribute(
+				"href",
+				"data:application/json;charset=utf-8," +
+					encodeURIComponent(JSON.stringify(collectionCards))
+			);
+			element.setAttribute("download", "collection");
+
+			element.style.display = "none";
+			document.body.appendChild(element);
+
+			element.click();
+
+			document.body.removeChild(element);
+		} catch (e) {
+			throw new Error("Unable to download collection.");
+		}
 	};
 
 	useEffect(() => {
