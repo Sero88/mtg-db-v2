@@ -1,12 +1,13 @@
-import { CollectionCard } from "@/types/collection";
-import { ScryfallCard } from "@/types/scryfall";
+import { Version } from "@/types/collection";
+import { ScryfallCard, ScryfallCardPrices } from "@/types/scryfall";
 import { UpdatePricesProps, UpdateState, UpdateStatus } from "@/types/updatePrices";
 import axios from "axios";
 import React, { useEffect, useState, useRef, ReactElement } from "react";
 
 export function UpdatePrices({ updateCompleteCallback }: UpdatePricesProps) {
-	const collectionData = useRef<CollectionCard[]>();
-	const scryfallMappedData = useRef<Map<String, ScryfallCard[]>>();
+	const collectionVersions = useRef<Version[]>([]);
+	const scryfallMappedData = useRef<Map<String, ScryfallCardPrices>>(new Map());
+	const failedToUpdateVersions = useRef<Version[]>([]);
 
 	const [updateState, setUpdateState] = useState<UpdateState>({
 		status: UpdateStatus.initial,
@@ -27,12 +28,12 @@ export function UpdatePrices({ updateCompleteCallback }: UpdatePricesProps) {
 			completed: false,
 			callback: async () => retrieveScryfallDataHandler(),
 		},
-		// {
-		// 	id: "updateCollection",
-		// 	name: "Updating collection data with new prices",
-		// 	completed: false,
-		// 	callback: () => updateCollection(),
-		// },
+		{
+			id: "updateCollection",
+			name: "Updating collection data with new prices",
+			completed: false,
+			callback: () => updateCollection(),
+		},
 		// {
 		// 	id: "prepareDownload",
 		// 	name: "Preparing data for download",
@@ -49,17 +50,18 @@ export function UpdatePrices({ updateCompleteCallback }: UpdatePricesProps) {
 
 	const retrieveCollectionHandler = async () => {
 		try {
-			const collection = await axios.get("/api/collection/");
-			const versionCount = await axios.get("/api/collection/versions?action=count");
+			const versions = await axios.get("/api/collection/versions");
 
-			collectionData.current = collection?.data?.data as CollectionCard[];
-			setUpdateState((prevState) => ({
-				...prevState,
+			collectionVersions.current = versions?.data?.data as Version[];
+
+			setUpdateState({
+				...updateState,
+				step: updateState.step + 1,
 				updatedCards: {
-					...prevState.updatedCards,
-					total: versionCount?.data?.data as number,
+					...updateState.updatedCards,
+					total: versions?.data?.data?.length as number,
 				},
-			}));
+			});
 		} catch (e) {
 			throw new Error("Unable to retrieve cards from collection. Please try again later.");
 		}
@@ -74,10 +76,10 @@ export function UpdatePrices({ updateCompleteCallback }: UpdatePricesProps) {
 			const scryfallResponse = await axios.get(bulkResponse?.data?.download_uri);
 			const scryfallCards = scryfallResponse?.data as ScryfallCard[];
 
-			//for testing w/o calling api
+			// for testing w/o calling api
 			// const scryfallCards = [
 			// 	{
-			// 		id: "42ba0e13-d20f-47f9-9c86-2b0b13c39ada",
+			// 		id: "60d0e6a6-629a-45a7-bfcb-25ba7156788b",
 			// 		prices: {
 			// 			eur: "0.45",
 			// 			eur_foil: "2.29",
@@ -95,30 +97,59 @@ export function UpdatePrices({ updateCompleteCallback }: UpdatePricesProps) {
 			}
 
 			scryfallMappedData.current = mappedCards;
+			setUpdateState({
+				...updateState,
+				step: updateState.step + 1,
+			});
 		} catch (e) {
 			throw new Error("Unable to retrieve price data.");
 		}
 	};
 
+	const updateCollection = async () => {
+		const currentVersion = collectionVersions.current[updateState.updatedCards.current];
+		const prices = scryfallMappedData.current.get(currentVersion?.scryfallId);
+		const nextUpdateCurrent = updateState.updatedCards.current + 1;
+		const updateIsComplete = nextUpdateCurrent >= updateState.updatedCards.total;
+		const updateStep = updateIsComplete ? updateState.step + 1 : updateState.step;
+
+		try {
+			if (!prices) {
+				throw new Error("No price data found for card");
+			}
+
+			await axios.patch("/api/collection/update", {
+				scryfallId: currentVersion?.scryfallId,
+				prices,
+			});
+		} catch (e) {
+			failedToUpdateVersions.current.push(currentVersion);
+		}
+
+		setUpdateState({
+			...updateState,
+			step: updateStep,
+			updatedCards: {
+				...updateState.updatedCards,
+				current: !updateIsComplete ? nextUpdateCurrent : updateState.updatedCards.current,
+			},
+		});
+	};
+
 	useEffect(() => {
-		const newStep = updateState.step - 1; //starts at 0 in array
-		const inProgress = updateState.status == UpdateStatus.inProgress && newStep < steps.length;
+		const inProgress =
+			updateState.status == UpdateStatus.inProgress && updateState.step < steps.length;
 		const isComplete =
-			updateState.status == UpdateStatus.inProgress && newStep === steps.length;
+			updateState.status == UpdateStatus.inProgress && updateState.step === steps.length;
 
 		if (inProgress) {
-			steps[newStep]
-				.callback()
-				.then(() => {
-					setUpdateState((prevState) => ({ ...prevState, step: updateState.step + 1 }));
-				})
-				.catch((e) => {
-					setUpdateState((prevState) => ({
-						...prevState,
-						status: UpdateStatus.error,
-						updateMessage: `Error: ${e.message}`,
-					}));
-				});
+			steps[updateState.step].callback().catch((e) => {
+				setUpdateState((prevState) => ({
+					...prevState,
+					status: UpdateStatus.error,
+					updateMessage: `Error: ${e.message}`,
+				}));
+			});
 		} else if (isComplete) {
 			setUpdateState((prevState) => ({
 				...prevState,
@@ -127,22 +158,37 @@ export function UpdatePrices({ updateCompleteCallback }: UpdatePricesProps) {
 				updateMessage: `Success: collection has been updated.`,
 			}));
 		}
-	}, [updateState.status, updateState.step]);
+	}, [updateState.status, updateState.step, updateState.updatedCards.current]);
 
 	//todo remove after testing 👇
 	console.log("state", updateState);
-	console.log("collection", collectionData.current);
+	console.log("collection", collectionVersions.current);
 	console.log("scryfall data", scryfallMappedData);
+	console.log("failed to update", failedToUpdateVersions);
 	//todo remove after testing 👆
+
+	const updateCount =
+		steps[updateState.step]?.id == "updateCollection" ? (
+			<>
+				<ul>
+					<li>{`Card ${updateState.updatedCards.current} of ${updateState.updatedCards.total}`}</li>
+				</ul>
+				{updateState.updatedCards.current > 0 &&
+					(
+						(updateState.updatedCards.current / updateState.updatedCards.total) *
+						100
+					).toFixed(2) + "%"}
+			</>
+		) : null;
 
 	return (
 		<>
 			<p>{UpdateStatus[updateState.status]}</p>
 			<p>{updateState.updateMessage}</p>
+			{updateCount}
+
 			<button
-				onClick={() =>
-					setUpdateState({ ...updateState, status: UpdateStatus.inProgress, step: 1 })
-				}
+				onClick={() => setUpdateState({ ...updateState, status: UpdateStatus.inProgress })}
 			>
 				Update Prices
 			</button>
