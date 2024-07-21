@@ -12,6 +12,7 @@ const updateCompleteCallback = jest.fn();
 const axiosGetSpy = jest.spyOn(axios, "get");
 const axiosPatchSpy = jest.spyOn(axios, "patch");
 axiosGetSpy.mockResolvedValue({ data: {} });
+HTMLAnchorElement.prototype.click = jest.fn();
 
 describe("UpdatePrices", () => {
 	beforeEach(() => {
@@ -143,6 +144,43 @@ describe("UpdatePrices", () => {
 			});
 			expect(axiosGetSpy).toHaveBeenCalledWith("/api/collection");
 			expect(screen.queryByText("Error: Unable to download collection.")).not.toBeNull();
+		});
+	});
+
+	it("should run updateCompleteCallback when process is complete", async () => {
+		axiosGetSpy.mockResolvedValueOnce({
+			data: { data: [elvishMysticCollectionVersion, nissaVastwoodSeerCollectionVersion] },
+		});
+		axiosGetSpy.mockResolvedValueOnce({ data: { download_uri: "test/download" } });
+		axiosGetSpy.mockResolvedValueOnce({
+			data: [
+				{
+					id: "60d0e6a6-629a-45a7-bfcb-25ba7156788b",
+					prices: { usd: "23.2", usd_foil: "42" },
+				},
+				{
+					id: "008b1ea5-1a8d-4a9d-b208-421fea2f9c58",
+					prices: { usd: "23.2", usd_foil: "42" },
+				},
+			],
+		});
+		axiosPatchSpy.mockResolvedValue({ data: {} });
+		axiosGetSpy.mockResolvedValueOnce({
+			data: {
+				data: [
+					elvishMysticCollectionCardWithVersions,
+					nissaVastwoodSeerCollectionCardWithVersion,
+				],
+			},
+		});
+
+		render(<UpdatePrices updateCompleteCallback={updateCompleteCallback} />);
+		const button = screen.getByRole("button", { name: "Update Prices" });
+
+		fireEvent.click(button);
+
+		await waitFor(() => {
+			expect(updateCompleteCallback).toHaveBeenCalled();
 		});
 	});
 });

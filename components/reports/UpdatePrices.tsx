@@ -25,27 +25,23 @@ export function UpdatePrices({ updateCompleteCallback }: UpdatePricesProps) {
 		{
 			id: "retrieveScryfall",
 			name: "Getting new card data",
-			completed: false,
 			callback: async () => retrieveScryfallDataHandler(),
 		},
 		{
 			id: "updateCollection",
 			name: "Updating collection data with new prices",
-			completed: false,
 			callback: () => updateCollection(),
 		},
 		{
 			id: "prepareDownload",
 			name: "Preparing data for download",
-			completed: false,
 			callback: () => prepareCollection(),
 		},
-		// {
-		// 	id: "completedCallback",
-		// 	name: "Complete",
-		// 	completed: false,
-		// 	callback: () => updateCompleteCallback( new Date()),
-		// },
+		{
+			id: "completedCallback",
+			name: "Complete",
+			callback: async () => updateCompleteCallback(new Date()),
+		},
 	];
 
 	const retrieveCollectionHandler = async () => {
@@ -158,6 +154,11 @@ export function UpdatePrices({ updateCompleteCallback }: UpdatePricesProps) {
 		} catch (e) {
 			throw new Error("Unable to download collection.");
 		}
+
+		setUpdateState({
+			...updateState,
+			step: updateState.step + 1,
+		});
 	};
 
 	useEffect(() => {
