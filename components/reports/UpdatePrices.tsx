@@ -1,6 +1,6 @@
 import { Version } from "@/types/collection";
 import { ScryfallCardPrices } from "@/types/scryfall";
-import { UpdatePricesProps, UpdateState, UpdateStatus } from "@/types/updatePrices";
+import { UpdatePricesProps, UpdateState, UpdateStatus, UpdateStep } from "@/types/updatePrices";
 import {
 	prepareCollection,
 	retrieveCollectionHandler,
@@ -8,6 +8,7 @@ import {
 	updateCollection,
 } from "@/utils/updatePricesUtil";
 import React, { useEffect, useState, useRef } from "react";
+import { StepStatusDisplay } from "./UpdateStatusDisplay";
 
 export function UpdatePrices({ updateCompleteCallback }: UpdatePricesProps) {
 	const collectionVersions = useRef<Version[]>([]);
@@ -21,9 +22,10 @@ export function UpdatePrices({ updateCompleteCallback }: UpdatePricesProps) {
 		updateMessage: "",
 	});
 
+	const hasInitialStatus = updateState.status == UpdateStatus.initial;
 	const updateStateHandler = (newUpdateState: UpdateState) => setUpdateState(newUpdateState);
 
-	const steps = [
+	const steps: UpdateStep[] = [
 		{
 			id: "retrieveCollection",
 			name: "Retrieving collection data",
@@ -36,7 +38,7 @@ export function UpdatePrices({ updateCompleteCallback }: UpdatePricesProps) {
 		},
 		{
 			id: "retrieveScryfall",
-			name: "Getting new card data",
+			name: "Getting new price data",
 			callback: async () =>
 				retrieveScryfallDataHandler(
 					(retrievedData) => (scryfallMappedData.current = retrievedData),
@@ -47,7 +49,7 @@ export function UpdatePrices({ updateCompleteCallback }: UpdatePricesProps) {
 		{
 			id: "updateCollection",
 			name: "Updating collection data with new prices",
-			callback: () =>
+			callback: async () =>
 				updateCollection(
 					{
 						collectionVersions: collectionVersions.current,
@@ -70,15 +72,16 @@ export function UpdatePrices({ updateCompleteCallback }: UpdatePricesProps) {
 		{
 			id: "completedCallback",
 			name: "Complete",
-			callback: async () => updateCompleteCallback(new Date()),
+			callback: async () => {
+				setUpdateState({ ...updateState, status: UpdateStatus.complete });
+				updateCompleteCallback(new Date());
+			},
 		},
 	];
 
 	useEffect(() => {
 		const inProgress =
 			updateState.status == UpdateStatus.inProgress && updateState.step < steps.length;
-		const isComplete =
-			updateState.status == UpdateStatus.inProgress && updateState.step === steps.length;
 
 		if (inProgress) {
 			steps[updateState.step].callback().catch((e) => {
@@ -88,13 +91,6 @@ export function UpdatePrices({ updateCompleteCallback }: UpdatePricesProps) {
 					updateMessage: `Error: ${e.message}`,
 				}));
 			});
-		} else if (isComplete) {
-			setUpdateState((prevState) => ({
-				...prevState,
-				step: 0,
-				status: UpdateStatus.completed,
-				updateMessage: `Success: collection has been updated.`,
-			}));
 		}
 	}, [updateState.status, updateState.step, updateState.updatedCards.current]);
 
@@ -105,27 +101,19 @@ export function UpdatePrices({ updateCompleteCallback }: UpdatePricesProps) {
 	console.log("failed to update", failedToUpdateVersions);
 	//todo remove after testing 👆
 
-	const updateCount =
-		steps[updateState.step]?.id == "updateCollection" ? (
-			<>
-				<ul>
-					<li>{`Card ${updateState.updatedCards.current} of ${updateState.updatedCards.total}`}</li>
-				</ul>
-				{updateState.updatedCards.current > 0 &&
-					(
-						(updateState.updatedCards.current / updateState.updatedCards.total) *
-						100
-					).toFixed(2) + "%"}
-			</>
-		) : null;
-
 	return (
 		<>
-			<p>{UpdateStatus[updateState.status]}</p>
+			{!hasInitialStatus && (
+				<StepStatusDisplay
+					currentStep={updateState.step}
+					steps={steps}
+					updatedCards={updateState.updatedCards}
+				/>
+			)}
 			<p>{updateState.updateMessage}</p>
-			{updateCount}
 
 			<button
+				disabled={!hasInitialStatus}
 				onClick={() => setUpdateState({ ...updateState, status: UpdateStatus.inProgress })}
 			>
 				Update Prices
