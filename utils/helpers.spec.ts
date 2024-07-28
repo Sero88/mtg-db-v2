@@ -47,4 +47,12 @@ describe("Helpers Utils", () => {
 			expect(formattedAmountNoDecimal).toEqual(23);
 		});
 	});
+
+	describe("getPercentage", () => {
+		it("should return correct number with percentage", () => {
+			expect(Helpers.getPercentage(7, 10)).toEqual("70%");
+			expect(Helpers.getPercentage(4.5, 10)).toEqual("45%");
+			expect(Helpers.getPercentage(13, 40)).toEqual("33%");
+		});
+	});
 });

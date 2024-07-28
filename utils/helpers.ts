@@ -16,4 +16,9 @@ export const Helpers = {
 	formatAmount: (amount: number) => {
 		return Math.round(amount * 100) / 100;
 	},
+
+	getPercentage: (partial: number, total: number) => {
+		//toFixed automatically rounds
+		return ((partial * 100) / total).toFixed(0) + "%";
+	},
 };
