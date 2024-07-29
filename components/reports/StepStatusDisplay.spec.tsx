@@ -26,7 +26,7 @@ describe("StepStatusDisplay", () => {
 	});
 	it("should show updateCollection step progress", () => {
 		render(<StepStatusDisplay currentStep={1} steps={steps} updatedCards={updatedCards} />);
-		screen.getByText(`Card ${updatedCards.current + 1} of ${updatedCards.total} 33%`);
+		screen.getByText(`Card ${updatedCards.current + 1} of ${updatedCards.total} (33%)`);
 	});
 
 	it("should showing loader by default", () => {

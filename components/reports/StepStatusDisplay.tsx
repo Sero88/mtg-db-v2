@@ -14,13 +14,17 @@ type StepStatusDisplayProps = {
 	};
 };
 
-export function StepStatusDisplay({ steps, currentStep, updatedCards }: StepStatusDisplayProps) {
+export function StepStatusDisplay({
+	steps,
+	currentStep: currentStepIndex,
+	updatedCards,
+}: StepStatusDisplayProps) {
 	const currentCard = updatedCards.current + 1;
 	const totalCards = updatedCards.total;
-	const showLoader = currentStep < totalCards;
+	const showLoader = currentStepIndex < steps.length - 1;
 
 	let stepsTakenLog = [];
-	for (let i = 0; i <= currentStep && i < steps.length; i++) {
+	for (let i = 0; i <= currentStepIndex && i < steps.length; i++) {
 		const stepName = steps[i]?.name;
 		let stepInfo: ReactElement | string = "";
 
@@ -30,7 +34,7 @@ export function StepStatusDisplay({ steps, currentStep, updatedCards }: StepStat
 					<ul>
 						<li>
 							{`Card ${currentCard} of ${totalCards} `}
-							{Helpers.getPercentage(currentCard, totalCards)}
+							{`(${Helpers.getPercentage(currentCard, totalCards)})`}
 						</li>
 					</ul>
 				);
