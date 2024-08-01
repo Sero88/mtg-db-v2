@@ -8,6 +8,7 @@ export interface SearchFields {
 	[SearchFieldNames.STATS]: CardStatType[];
 	[SearchFieldNames.SETS]: string[];
 	[SearchFieldNames.RARITY]: number[];
+	[SearchFieldNames.ORACLEID]?: string[];
 }
 export enum SearchFieldNames {
 	NAME = "cardName",
@@ -17,6 +18,7 @@ export enum SearchFieldNames {
 	STATS = "cardStats",
 	SETS = "cardSets",
 	RARITY = "cardRarity",
+	ORACLEID = "oracleId",
 }
 
 export enum StatConditionalEnums {
@@ -50,6 +52,7 @@ export type SearchQuery = {
 	"cardFaces.oracleText"?: RegExp;
 	types?: { $all?: string[]; $in?: string[]; $nin?: string[] };
 	colorIdentity?: { $all?: string[]; $in?: string[]; $size?: number } | null;
+	oracleId?: { $in: string[] };
 };
 
 export type SetsQuery = {
