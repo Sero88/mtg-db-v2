@@ -422,6 +422,12 @@ export class CardCollection {
 			rarityQuery = this.constructRarityQuery(searchFields.cardRarity);
 		}
 
+		if (searchFields.oracleId && searchFields.oracleId?.length > 0) {
+			queryObject["oracleId"] = {
+				$in: searchFields.oracleId,
+			};
+		}
+
 		const queryWithVersions = [
 			{
 				$lookup: {

@@ -399,6 +399,20 @@ describe("CardCollection Model", () => {
 			expect(results?.status).toEqual(DbModelResponseEnum.SUCCESS);
 			expect(results.data[0].name).toEqual("Mirror Entity");
 		});
+
+		it("should get results by oracleId", async () => {
+			const results = await cardCollection.getCards({
+				oracleId: [
+					"7df3e379-c217-416e-a1c8-46338608c49e",
+					"c5bfc1b9-a55d-4608-a6f7-bb62cb8dc3c6",
+				],
+			});
+
+			expect(results?.data.length).toEqual(2);
+			expect(results?.status).toEqual(DbModelResponseEnum.SUCCESS);
+			expect(results.data[0].name).toEqual("Elvish Promenade");
+			expect(results.data[1].name).toEqual("Aegis of the Gods");
+		});
 	});
 	describe("getTypes", () => {
 		it("should get types from collection", async () => {
