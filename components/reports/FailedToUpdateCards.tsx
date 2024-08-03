@@ -1,11 +1,9 @@
 import { useCollectionCardSearch } from "@/hooks/useCollectionCardSearch";
 import { CollectionCard, Version } from "@/types/collection";
-import { faSpinner } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { QueryResult } from "../utils/QueryResult";
 import { QueryResultData } from "@/types/queryResult";
 import { useMemo } from "react";
-import { PrintCardDetails } from "../cards/PrintCardDetails";
+import style from "@/styles/failedToUpdateCards.module.scss";
 
 type FailedToUpdateCardsProps = {
 	failedToUpdateVersions: Version[];
@@ -42,8 +40,8 @@ export function FailedToUpdateCards({ failedToUpdateVersions }: FailedToUpdateCa
 	return (
 		<>
 			<QueryResult queryResult={searchResponse as QueryResultData}>
-				<div>
-					<p>Unable to update the following cards:</p>
+				<div className={style.wrapper}>
+					<h3 className={style.infoText}>Unable to update the following cards:</h3>
 					<ul>
 						{failedToUpdateVersions.map((failedVersion) => {
 							const card = mappedfailedCards.get(failedVersion.oracleId);
