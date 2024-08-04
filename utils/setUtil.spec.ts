@@ -1,3 +1,4 @@
+import { scryfallSetsMock } from "@/tests/mocks/scryfallSets.mock";
 import { setsList } from "../tests/mocks/setsList.mock";
 import { SetUtil } from "./setUtil";
 
@@ -23,6 +24,20 @@ describe("SetUtil", () => {
 		it("should return the same set name if it not longer than limit", () => {
 			const cardSet = SetUtil.getCardSet("TST");
 			expect(cardSet).toEqual("TST");
+		});
+	});
+
+	describe("getScryfallSetUsingCollectionSetCode", () => {
+		const sets = [
+			["c19", "c19"],
+			["f20", "af20"], //(in this case expected is 'af20' because scryfall broke 3 set code limit)
+		];
+		test.each(sets)("should return %p, %p", (input, expected) => {
+			const scryfallSet = SetUtil.getScryfallSetUsingCollectionSetCode(
+				scryfallSetsMock,
+				input
+			);
+			expect(scryfallSet?.code).toEqual(expected);
 		});
 	});
 });

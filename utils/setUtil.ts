@@ -18,4 +18,16 @@ export const SetUtil = {
 	isAllowedSearchSet: function (set: ScryfallSet) {
 		return this.isAllowedSet(set) && set.code.length <= officialSetCharLimit;
 	},
+
+	getScryfallSetUsingCollectionSetCode(sets: ScryfallSet[], collectionSet: string) {
+		// scryfall broke the 3 letter mtg set convetion, so some sets on scryfall have more than 3 letters such as hrt20
+		// parent_set_code is set for scryfall sets such as promo and tokens, the parent is the set we want, so ignore the child
+		// lastly, if none of the above worked, convert the set into three letters and check againts it
+
+		return sets.find(
+			(scryfallSet) =>
+				scryfallSet.code == collectionSet ||
+				(!scryfallSet.parent_set_code && this.getCardSet(scryfallSet.code) == collectionSet)
+		);
+	},
 };

@@ -61,7 +61,7 @@ export function FailedToUpdateCards({ failedToUpdateVersions }: FailedToUpdateCa
 						<ul>
 							{failedToUpdateVersions.map((failedVersion) => {
 								const card = mappedfailedCards.get(failedVersion.oracleId);
-								const setData = SetUtil.getScryfallSetWithCollectionSetCode(
+								const setData = SetUtil.getScryfallSetUsingCollectionSetCode(
 									sets?.data,
 									failedVersion.set
 								);
