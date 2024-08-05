@@ -7,12 +7,24 @@ import {
 	nissaVastwoodSeerCollectionCardWithVersion,
 	nissaVastwoodSeerCollectionVersion,
 } from "@/tests/mocks/collectionCard.mock";
+import * as FailedToUpdateCardsComponent from "./FailedToUpdateCards";
+
+jest.mock("./FailedToUpdateCards", () => {
+	const originalModule = jest.requireActual("./FailedToUpdateCards");
+	return {
+		__esModule: true,
+		...originalModule,
+	};
+});
 
 const updateCompleteCallback = jest.fn();
 const axiosGetSpy = jest.spyOn(axios, "get");
 const axiosPatchSpy = jest.spyOn(axios, "patch");
 axiosGetSpy.mockResolvedValue({ data: {} });
 HTMLAnchorElement.prototype.click = jest.fn();
+
+const failedToUpdateCardsSpy = jest.spyOn(FailedToUpdateCardsComponent, "FailedToUpdateCards");
+failedToUpdateCardsSpy.mockImplementation(() => <></>);
 
 describe("UpdatePrices", () => {
 	beforeEach(() => {
@@ -181,6 +193,43 @@ describe("UpdatePrices", () => {
 
 		await waitFor(() => {
 			expect(updateCompleteCallback).toHaveBeenCalled();
+		});
+	});
+
+	it("should show FailedToUpdate cards when there's an error updating prices", async () => {
+		axiosGetSpy.mockResolvedValueOnce({
+			data: { data: [elvishMysticCollectionVersion, nissaVastwoodSeerCollectionVersion] },
+		});
+		axiosGetSpy.mockResolvedValueOnce({ data: { download_uri: "test/download" } });
+		axiosGetSpy.mockResolvedValueOnce({
+			data: [
+				{
+					id: "60d0e6a6-629a-45a7-bfcb-25ba7156788b",
+					prices: { usd: "23.2", usd_foil: "42" },
+				},
+				{
+					id: "008b1ea5-1a8d-4a9d-b208-421fea2f9c58",
+					prices: { usd: "23.2", usd_foil: "42" },
+				},
+			],
+		});
+		axiosPatchSpy.mockRejectedValue({ data: {} });
+		axiosGetSpy.mockResolvedValueOnce({
+			data: {
+				data: [
+					elvishMysticCollectionCardWithVersions,
+					nissaVastwoodSeerCollectionCardWithVersion,
+				],
+			},
+		});
+
+		render(<UpdatePrices updateCompleteCallback={updateCompleteCallback} />);
+		const button = screen.getByRole("button", { name: "Update Prices" });
+
+		fireEvent.click(button);
+
+		await waitFor(() => {
+			expect(failedToUpdateCardsSpy).toHaveBeenCalled();
 		});
 	});
 });

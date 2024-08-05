@@ -8,7 +8,8 @@ import {
 	updateCollection,
 } from "@/utils/updatePricesUtil";
 import React, { useEffect, useState, useRef } from "react";
-import { StepStatusDisplay } from "./UpdateStatusDisplay";
+import { StepStatusDisplay } from "./StepStatusDisplay";
+import { FailedToUpdateCards } from "./FailedToUpdateCards";
 
 export function UpdatePrices({ updateCompleteCallback }: UpdatePricesProps) {
 	const collectionVersions = useRef<Version[]>([]);
@@ -24,6 +25,8 @@ export function UpdatePrices({ updateCompleteCallback }: UpdatePricesProps) {
 
 	const hasInitialStatus = updateState.status == UpdateStatus.initial;
 	const updateStateHandler = (newUpdateState: UpdateState) => setUpdateState(newUpdateState);
+	const showFailedUpdates =
+		failedToUpdateVersions.current.length > 0 && updateState.status == UpdateStatus.complete;
 
 	const steps: UpdateStep[] = [
 		{
@@ -111,6 +114,10 @@ export function UpdatePrices({ updateCompleteCallback }: UpdatePricesProps) {
 				/>
 			)}
 			<p>{updateState.updateMessage}</p>
+
+			{showFailedUpdates && (
+				<FailedToUpdateCards failedToUpdateVersions={failedToUpdateVersions.current} />
+			)}
 
 			<button
 				disabled={!hasInitialStatus}
