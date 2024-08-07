@@ -41,6 +41,10 @@ export const scryfallSetsMock = [
 		block: "Commander",
 		icon_svg_uri: "https://svgs.scryfall.io/sets/c19.svg?1722225600",
 	},
+];
+
+export const SetsMockWithBrokenThreeCharRule = [
+	...scryfallSetsMock,
 	{
 		object: "set",
 		id: "0fa3ccbb-d86d-4a2e-a55e-c4979c4feeb3",

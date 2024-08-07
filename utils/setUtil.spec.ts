@@ -1,4 +1,4 @@
-import { scryfallSetsMock } from "@/tests/mocks/scryfallSets.mock";
+import { SetsMockWithBrokenThreeCharRule } from "@/tests/mocks/scryfallSets.mock";
 import { setsList } from "../tests/mocks/setsList.mock";
 import { SetUtil } from "./setUtil";
 
@@ -34,7 +34,7 @@ describe("SetUtil", () => {
 		];
 		test.each(sets)("should return %p, %p", (input, expected) => {
 			const scryfallSet = SetUtil.getScryfallSetUsingCollectionSetCode(
-				scryfallSetsMock,
+				SetsMockWithBrokenThreeCharRule,
 				input
 			);
 			expect(scryfallSet?.code).toEqual(expected);
