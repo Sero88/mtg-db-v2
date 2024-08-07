@@ -6,6 +6,7 @@ import { ReportData } from "@/types/reports";
 import { getReportData } from "@/utils/reportsUtil";
 import styles from "@/styles/reports.module.scss";
 import { QuantityRarityTable } from "@/components/reports/QuantityRarityTable";
+import { UpdatePrices } from "@/components/reports/UpdatePrices";
 
 export default function SearchPage() {
 	const versions = useContext(CollectionVersionsContext);
@@ -61,6 +62,10 @@ export default function SearchPage() {
 						</li>
 					</ul>
 				</div>
+			</div>
+
+			<div className={styles.reportSection}>
+				<UpdatePrices updateCompleteCallback={() => console.log("updating time")} />
 			</div>
 		</>
 	);
