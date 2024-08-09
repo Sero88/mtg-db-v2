@@ -97,13 +97,6 @@ export function UpdatePrices({ updateCompleteCallback }: UpdatePricesProps) {
 		}
 	}, [updateState.status, updateState.step, updateState.updatedCards.current]);
 
-	//todo remove after testing 👇
-	console.log("state", updateState);
-	console.log("collection", collectionVersions.current);
-	console.log("scryfall data", scryfallMappedData);
-	console.log("failed to update", failedToUpdateVersions);
-	//todo remove after testing 👆
-
 	return (
 		<>
 			{!hasInitialStatus && (
