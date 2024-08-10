@@ -8,9 +8,18 @@ import {
 	nissaVastwoodSeerCollectionVersion,
 } from "@/tests/mocks/collectionCard.mock";
 import * as FailedToUpdateCardsComponent from "./FailedToUpdateCards";
+import * as DisplayErrorComponent from "@/components/utils/DisplayError";
 
 jest.mock("./FailedToUpdateCards", () => {
 	const originalModule = jest.requireActual("./FailedToUpdateCards");
+	return {
+		__esModule: true,
+		...originalModule,
+	};
+});
+
+jest.mock("@/components/utils/DisplayError", () => {
+	const originalModule = jest.requireActual("@/components/utils/DisplayError");
 	return {
 		__esModule: true,
 		...originalModule,
@@ -25,6 +34,8 @@ HTMLAnchorElement.prototype.click = jest.fn();
 
 const failedToUpdateCardsSpy = jest.spyOn(FailedToUpdateCardsComponent, "FailedToUpdateCards");
 failedToUpdateCardsSpy.mockImplementation(() => <></>);
+
+const displayErrorSpy = jest.spyOn(DisplayErrorComponent, "DisplayError");
 
 describe("UpdatePrices", () => {
 	beforeEach(() => {
@@ -91,11 +102,13 @@ describe("UpdatePrices", () => {
 
 		await waitFor(() => {
 			expect(axiosGetSpy).toHaveBeenCalledWith("/api/collection/versions");
-			expect(
-				screen.queryByText(
-					"Error: Unable to retrieve cards from collection. Please try again later."
-				)
-			).not.toBeNull();
+			expect(displayErrorSpy).toHaveBeenCalledWith(
+				{
+					errorMessage:
+						"Error: Unable to retrieve cards from collection. Please try again later.",
+				},
+				{}
+			);
 		});
 	});
 

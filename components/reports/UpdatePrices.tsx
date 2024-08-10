@@ -10,6 +10,7 @@ import {
 import React, { useEffect, useState, useRef } from "react";
 import { StepStatusDisplay } from "./StepStatusDisplay";
 import { FailedToUpdateCards } from "./FailedToUpdateCards";
+import { DisplayError } from "../utils/DisplayError";
 
 export function UpdatePrices({ updateCompleteCallback }: UpdatePricesProps) {
 	const collectionVersions = useRef<Version[]>([]);
@@ -24,6 +25,7 @@ export function UpdatePrices({ updateCompleteCallback }: UpdatePricesProps) {
 	});
 
 	const hasInitialStatus = updateState.status == UpdateStatus.initial;
+	const hasErrorStatus = updateState.status == UpdateStatus.error;
 	const updateStateHandler = (newUpdateState: UpdateState) => setUpdateState(newUpdateState);
 	const showFailedUpdates =
 		failedToUpdateVersions.current.length > 0 && updateState.status == UpdateStatus.complete;
@@ -99,14 +101,15 @@ export function UpdatePrices({ updateCompleteCallback }: UpdatePricesProps) {
 
 	return (
 		<>
-			{!hasInitialStatus && (
+			{!hasInitialStatus && !hasErrorStatus && (
 				<StepStatusDisplay
 					currentStep={updateState.step}
 					steps={steps}
 					updatedCards={updateState.updatedCards}
 				/>
 			)}
-			<p>{updateState.updateMessage}</p>
+
+			{hasErrorStatus && <DisplayError errorMessage={updateState.updateMessage} />}
 
 			{showFailedUpdates && (
 				<FailedToUpdateCards failedToUpdateVersions={failedToUpdateVersions.current} />
