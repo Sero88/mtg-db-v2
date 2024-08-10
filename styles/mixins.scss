@@ -1,3 +1,5 @@
+@import "./variables";
+
 @mixin selected-list {
 	list-style: none;
 	border: 1px solid $gray;
@@ -71,4 +73,14 @@
 	svg {
 		font-size: 0.99rem;
 	}
+}
+
+@mixin error-block {
+	padding: 2rem;
+	background-color: $pink;
+	color: $error;
+	font-size: 1.2rem;
+	font-weight: bold;
+	border-radius: 0.75rem;
+	width: fit-content;
 }

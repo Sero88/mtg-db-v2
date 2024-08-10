@@ -1,0 +1,5 @@
+@import "./mixins.scss";
+
+.error {
+	@include error-block;
+}
