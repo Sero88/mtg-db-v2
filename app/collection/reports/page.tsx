@@ -7,7 +7,7 @@ import { getReportData } from "@/utils/reportsUtil";
 import styles from "@/styles/reports.module.scss";
 import { QuantityRarityTable } from "@/components/reports/QuantityRarityTable";
 import { UpdatePrices } from "@/components/reports/UpdatePrices";
-import { useGetCollectionVersions } from "@/hooks/useGetCollectionWithVersions";
+import { useGetCollectionVersions } from "@/hooks/useGetCollectionVersions";
 import { QueryResult } from "@/components/utils/QueryResult";
 
 export default function SearchPage() {

@@ -2,7 +2,7 @@ import axios from "axios";
 import { ReactElement } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { renderHook, waitFor } from "@testing-library/react";
-import { useGetCollectionVersions } from "./useGetCollectionWithVersions";
+import { useGetCollectionVersions } from "./useGetCollectionVersions";
 import { collectionVersionsMock } from "@/tests/mocks/collectionVersions.mock";
 
 const axiosSpy = jest.spyOn(axios, "get");
