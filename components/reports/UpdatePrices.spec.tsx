@@ -9,6 +9,7 @@ import {
 } from "@/tests/mocks/collectionCard.mock";
 import * as FailedToUpdateCardsComponent from "./FailedToUpdateCards";
 import * as DisplayErrorComponent from "@/components/utils/DisplayError";
+import * as DownloadCardDataComponent from "@/components/reports/DownloadCardData";
 
 jest.mock("./FailedToUpdateCards", () => {
 	const originalModule = jest.requireActual("./FailedToUpdateCards");
@@ -26,21 +27,31 @@ jest.mock("@/components/utils/DisplayError", () => {
 	};
 });
 
+jest.mock("@/components/reports/DownloadCardData", () => {
+	const originalModule = jest.requireActual("@/components/reports/DownloadCardData");
+	return {
+		__esModule: true,
+		...originalModule,
+	};
+});
+
 const updateCompleteCallback = jest.fn();
 const axiosGetSpy = jest.spyOn(axios, "get");
 const axiosPatchSpy = jest.spyOn(axios, "patch");
-axiosGetSpy.mockResolvedValue({ data: {} });
 HTMLAnchorElement.prototype.click = jest.fn();
 
 const failedToUpdateCardsSpy = jest.spyOn(FailedToUpdateCardsComponent, "FailedToUpdateCards");
-failedToUpdateCardsSpy.mockImplementation(() => <></>);
-
 const displayErrorSpy = jest.spyOn(DisplayErrorComponent, "DisplayError");
+const downloadCardDataSpy = jest.spyOn(DownloadCardDataComponent, "DownloadCardData");
 
 describe("UpdatePrices", () => {
 	beforeEach(() => {
-		jest.clearAllMocks();
+		jest.resetAllMocks();
+		axiosGetSpy.mockResolvedValue({ data: {} });
+		downloadCardDataSpy.mockImplementation(() => <></>);
+		failedToUpdateCardsSpy.mockImplementation(() => <></>);
 	});
+
 	it("should fetch and update prices button is clicked", async () => {
 		axiosGetSpy.mockResolvedValueOnce({
 			data: { data: [elvishMysticCollectionVersion, nissaVastwoodSeerCollectionVersion] },
@@ -87,7 +98,6 @@ describe("UpdatePrices", () => {
 				scryfallId: nissaVastwoodSeerCollectionVersion.scryfallId,
 				prices: { usd: "23.2", usd_foil: "42" },
 			});
-			expect(axiosGetSpy).toHaveBeenCalledWith("/api/collection");
 		});
 	});
 
@@ -124,51 +134,13 @@ describe("UpdatePrices", () => {
 
 		await waitFor(() => {
 			expect(axiosGetSpy).toHaveBeenCalledWith("/api/collection/versions");
-			expect(screen.queryByText("Error: Unable to retrieve price data.")).not.toBeNull();
-		});
-	});
-
-	it("should show error when it fails to download collection", async () => {
-		axiosGetSpy.mockResolvedValueOnce({
-			data: { data: [elvishMysticCollectionVersion, nissaVastwoodSeerCollectionVersion] },
-		});
-		axiosGetSpy.mockResolvedValueOnce({ data: { download_uri: "test/download" } });
-		axiosGetSpy.mockResolvedValueOnce({
-			data: [
+			expect(displayErrorSpy).toHaveBeenCalledWith(
 				{
-					id: "60d0e6a6-629a-45a7-bfcb-25ba7156788b",
-					prices: { usd: "23.2", usd_foil: "42" },
+					errorMessage: "Error: Unable to retrieve price data.",
 				},
-				{
-					id: "008b1ea5-1a8d-4a9d-b208-421fea2f9c58",
-					prices: { usd: "23.2", usd_foil: "42" },
-				},
-			],
-		});
-		axiosPatchSpy.mockResolvedValue({ data: {} });
-		axiosGetSpy.mockRejectedValueOnce(new Error("unable to get collection"));
-
-		render(<UpdatePrices updateCompleteCallback={updateCompleteCallback} />);
-		const button = screen.getByRole("button", { name: "Update Prices" });
-
-		fireEvent.click(button);
-
-		await waitFor(() => {
-			expect(axiosGetSpy).toHaveBeenCalledWith("/api/collection/versions");
-			expect(axiosGetSpy).toHaveBeenCalledWith(
-				"https://api.scryfall.com/bulk-data/default-cards/?format=json"
+				{}
 			);
-			expect(axiosGetSpy).toHaveBeenCalledWith("test/download");
-			expect(axiosPatchSpy).toHaveBeenCalledWith("/api/collection/update", {
-				scryfallId: elvishMysticCollectionVersion.scryfallId,
-				prices: { usd: "23.2", usd_foil: "42" },
-			});
-			expect(axiosPatchSpy).toHaveBeenCalledWith("/api/collection/update", {
-				scryfallId: nissaVastwoodSeerCollectionVersion.scryfallId,
-				prices: { usd: "23.2", usd_foil: "42" },
-			});
-			expect(axiosGetSpy).toHaveBeenCalledWith("/api/collection");
-			expect(screen.queryByText("Error: Unable to download collection.")).not.toBeNull();
+			//expect(screen.queryByText("Error: Unable to retrieve price data.")).not.toBeNull();
 		});
 	});
 
@@ -244,5 +216,10 @@ describe("UpdatePrices", () => {
 		await waitFor(() => {
 			expect(failedToUpdateCardsSpy).toHaveBeenCalled();
 		});
+	});
+
+	it("should display DownloadCardData component", () => {
+		render(<UpdatePrices updateCompleteCallback={updateCompleteCallback} />);
+		expect(downloadCardDataSpy).toHaveBeenCalled();
 	});
 });

@@ -73,34 +73,6 @@ export async function retrieveScryfallDataHandler(
 	}
 }
 
-export async function prepareCollection(
-	updateCallback: (newUpdateState: UpdateState) => void,
-	updateState: UpdateState
-) {
-	try {
-		const response = await axios.get("/api/collection");
-		const collectionCards = response?.data?.data;
-		var element = document.createElement("a");
-		element.setAttribute(
-			"href",
-			"data:application/json;charset=utf-8," +
-				encodeURIComponent(JSON.stringify(collectionCards))
-		);
-		element.setAttribute("download", "collection");
-		element.style.display = "none";
-		document.body.appendChild(element);
-		element.click();
-		document.body.removeChild(element);
-	} catch (e) {
-		throw new Error("Unable to download collection.");
-	}
-
-	updateCallback({
-		...updateState,
-		step: updateState.step + 1,
-	});
-}
-
 export async function updateCollection(
 	collectionData: CollectionUpdateData,
 	updateState: UpdateState,

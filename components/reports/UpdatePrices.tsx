@@ -2,7 +2,6 @@ import { Version } from "@/types/collection";
 import { ScryfallCardPrices } from "@/types/scryfall";
 import { UpdatePricesProps, UpdateState, UpdateStatus, UpdateStep } from "@/types/updatePrices";
 import {
-	prepareCollection,
 	retrieveCollectionHandler,
 	retrieveScryfallDataHandler,
 	updateCollection,
@@ -11,6 +10,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { StepStatusDisplay } from "./StepStatusDisplay";
 import { FailedToUpdateCards } from "./FailedToUpdateCards";
 import { DisplayError } from "../utils/DisplayError";
+import { DownloadCardData } from "./DownloadCardData";
 
 export function UpdatePrices({ updateCompleteCallback }: UpdatePricesProps) {
 	const collectionVersions = useRef<Version[]>([]);
@@ -70,11 +70,6 @@ export function UpdatePrices({ updateCompleteCallback }: UpdatePricesProps) {
 				),
 		},
 		{
-			id: "prepareDownload",
-			name: "Preparing data for download",
-			callback: async () => prepareCollection(updateStateHandler, updateState),
-		},
-		{
 			id: "completedCallback",
 			name: "Complete",
 			callback: async () => {
@@ -121,6 +116,8 @@ export function UpdatePrices({ updateCompleteCallback }: UpdatePricesProps) {
 			>
 				Update Prices
 			</button>
+
+			<DownloadCardData />
 		</>
 	);
 }
