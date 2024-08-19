@@ -11,6 +11,9 @@ import { StepStatusDisplay } from "./StepStatusDisplay";
 import { FailedToUpdateCards } from "./FailedToUpdateCards";
 import { DisplayError } from "../utils/DisplayError";
 import { DownloadCardData } from "./DownloadCardData";
+import style from "@/styles/updatePrices.module.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRefresh } from "@fortawesome/free-solid-svg-icons";
 
 export function UpdatePrices({ updateCompleteCallback }: UpdatePricesProps) {
 	const collectionVersions = useRef<Version[]>([]);
@@ -110,14 +113,19 @@ export function UpdatePrices({ updateCompleteCallback }: UpdatePricesProps) {
 				<FailedToUpdateCards failedToUpdateVersions={failedToUpdateVersions.current} />
 			)}
 
-			<button
-				disabled={!hasInitialStatus}
-				onClick={() => setUpdateState({ ...updateState, status: UpdateStatus.inProgress })}
-			>
-				Update Prices
-			</button>
+			<div className={style.actionButtonsWrapper}>
+				<button
+					disabled={!hasInitialStatus}
+					onClick={() =>
+						setUpdateState({ ...updateState, status: UpdateStatus.inProgress })
+					}
+				>
+					<FontAwesomeIcon icon={faRefresh} />
+					Update Prices
+				</button>
 
-			<DownloadCardData />
+				<DownloadCardData />
+			</div>
 		</>
 	);
 }

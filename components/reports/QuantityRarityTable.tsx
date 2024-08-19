@@ -1,4 +1,5 @@
 import { CardRarityEnum } from "@/types/card";
+import styles from "@/styles/quantityRarityTable.module.scss";
 
 export function QuantityRarityTable({ reportData }: { reportData: { [key: string]: any } }) {
 	const rarityHeaders = [];
@@ -27,7 +28,7 @@ export function QuantityRarityTable({ reportData }: { reportData: { [key: string
 	}
 
 	return (
-		<table>
+		<table className={styles.quantityRarityTable}>
 			<thead>
 				<tr data-testid="tableHeaderRow">{rarityHeaders}</tr>
 			</thead>

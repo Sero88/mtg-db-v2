@@ -1,6 +1,9 @@
 import { useGetCollectionWithVersions } from "@/hooks/useGetCollectionWithVersions";
 import { useEffect, useState } from "react";
 import { QueryResult } from "../utils/QueryResult";
+import style from "@/styles/downloadCardData.module.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faDownload } from "@fortawesome/free-solid-svg-icons";
 
 export function DownloadCardData() {
 	const [updateTime, setUpdateTime] = useState<Date>();
@@ -31,7 +34,10 @@ export function DownloadCardData() {
 				error: collectionData.isError,
 			}}
 		>
-			<button onClick={() => setUpdateTime(new Date())}>Download Card Data</button>
+			<button className={style.downloadButton} onClick={() => setUpdateTime(new Date())}>
+				<FontAwesomeIcon icon={faDownload} />
+				Download Card Data
+			</button>
 		</QueryResult>
 	);
 }

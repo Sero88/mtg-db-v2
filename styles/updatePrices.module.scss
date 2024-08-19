@@ -1,0 +1,12 @@
+@import "./variables.scss";
+@import "./mixins.scss";
+
+.actionButtonsWrapper {
+	display: flex;
+	gap: 1rem;
+
+	button {
+		@include primary-button;
+		@include button-with-icon;
+	}
+}
