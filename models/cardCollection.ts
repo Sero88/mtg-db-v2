@@ -537,4 +537,30 @@ export class CardCollection {
 			? this.responseObject(DbModelResponseEnum.SUCCESS, results)
 			: this.responseObject(DbModelResponseEnum.ERROR, {});
 	}
+
+	async getDailyFlavorText() {
+		if (!this.db) {
+			return this.noDbConnectionResponse();
+		}
+		//const projection = {projection:{cardFaces:{flavorText:1}}}; projection is not an option for aggregate
+
+		//match cards that have a flavor text
+		const matchQuery = {
+			$match: {
+				cardFaces: {
+					$elemMatch: {
+						flavorText: { $exists: true },
+					},
+				},
+			},
+		};
+
+		//using sample we retrieve a random card from the match query results
+		const results = await this.db
+			.collection(process.env.DATABASE_TABLE_CARDS as string)
+			.aggregate([matchQuery, { $sample: { size: 1 } }])
+			.toArray();
+
+		return this.responseObject(DbModelResponseEnum.SUCCESS, results[0]);
+	}
 }

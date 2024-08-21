@@ -497,4 +497,11 @@ describe("CardCollection Model", () => {
 			expect(results.status).toEqual(DbModelResponseEnum.ERROR);
 		});
 	});
+
+	describe("getdailyFlavorText", () => {
+		it("should return card data that has flavor text", async () => {
+			const card = await cardCollection.getDailyFlavorText();
+			expect(card.data.cardFaces[0].flavorText).toBeTruthy();
+		});
+	});
 });
