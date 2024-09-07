@@ -1,7 +1,7 @@
 import ReportsPage from "./page";
 import { screen, render, queryByTestId } from "@testing-library/react";
 import * as UpdatePricesComponent from "@/components/reports/UpdatePrices";
-import { useGetCollectionVersions } from "@/hooks/useGetCollectionWithVersions";
+import { useGetCollectionVersions } from "@/hooks/useGetCollectionVersions";
 import { UseQueryResult } from "react-query";
 import * as QueryResultComponent from "@/components/utils/QueryResult";
 
@@ -22,9 +22,10 @@ jest.mock("@/components/utils/QueryResult", () => {
 });
 
 const updatePricesSpy = jest.spyOn(UpdatePricesComponent, "UpdatePrices");
+updatePricesSpy.mockImplementation(() => <></>);
 const queryResultSpy = jest.spyOn(QueryResultComponent, "QueryResult");
 
-jest.mock("@/hooks/useGetCollectionWithVersions");
+jest.mock("@/hooks/useGetCollectionVersions");
 const useGetCollectionVersionsMock = jest.mocked(useGetCollectionVersions);
 
 describe("/collection/search page", () => {
