@@ -1,7 +1,7 @@
 import * as QueryResultComponent from "@/components/utils/QueryResult";
 import { useGetCollectionData } from "@/hooks/useGetCollectionData";
 import { UseQueryResult } from "react-query";
-import DailyFlavorText from "./DailyFlavorText";
+import { DailyFlavorText } from "./DailyFlavorText";
 import { render, screen } from "@testing-library/react";
 import { faQuoteLeft, faQuoteRight } from "@fortawesome/free-solid-svg-icons";
 import { elvishMysticCollectionCard } from "@/tests/mocks/collectionCard.mock";

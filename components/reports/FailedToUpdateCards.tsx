@@ -6,6 +6,7 @@ import { useMemo } from "react";
 import style from "@/styles/failedToUpdateCards.module.scss";
 import { SetUtil } from "@/utils/setUtil";
 import { useGetSets } from "@/hooks/useGetSets";
+import { SearchFieldNames } from "@/types/search";
 
 type FailedToUpdateCardsProps = {
 	failedToUpdateVersions: Version[];
@@ -14,7 +15,7 @@ export function FailedToUpdateCards({ failedToUpdateVersions }: FailedToUpdateCa
 	const oracleIds = failedToUpdateVersions.map((version: Version) => version.oracleId);
 	const sets = useGetSets();
 	const collectionCards = useCollectionCardSearch({
-		oracleId: oracleIds,
+		[SearchFieldNames.ORACLEID]: oracleIds,
 	});
 
 	const isLoading = sets.isLoading || collectionCards.isLoading;
@@ -41,7 +42,7 @@ export function FailedToUpdateCards({ failedToUpdateVersions }: FailedToUpdateCa
 			});
 		}
 		return map;
-	}, [collectionCards.data]);
+	}, [collectionCards.data, failedToUpdateVersions]);
 
 	return (
 		<>

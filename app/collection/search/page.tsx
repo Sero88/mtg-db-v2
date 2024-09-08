@@ -17,10 +17,7 @@ export default function SearchPage() {
 		}
 
 		setSearchFields(updatedFields);
-		console.log("search fields", updatedFields);
 	};
-
-	console.log("search response ==> ", searchResponse);
 
 	return (
 		<>

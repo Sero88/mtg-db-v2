@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { ScryfallSearchResults } from "@/components/scryfall/ScryfallSearchResults";
 import { ScryfallSearchForm } from "@/components/scryfall/scryfallSearchForm/ScryfallSearchForm";
 import { ScryfallResultsTypeEnum, ScryfallSearchCardData } from "@/types/scryfall";
@@ -10,11 +10,13 @@ import { Pagination } from "@/components/utils/Pagination";
 import styles from "@/styles/collection-add.page.module.scss";
 
 export default function AddPage() {
-	const initialCardSearch: ScryfallSearchCardData = {
-		cardName: "",
-		setCode: "",
-		isPrintSearch: false,
-	};
+	const initialCardSearch: ScryfallSearchCardData = useMemo(() => {
+		return {
+			cardName: "",
+			setCode: "",
+			isPrintSearch: false,
+		};
+	}, []);
 
 	const [searchCardData, setSearchCardData] = useState<ScryfallSearchCardData>(initialCardSearch);
 
@@ -41,13 +43,13 @@ export default function AddPage() {
 		querySearchResponse?.data?.type === ScryfallResultsTypeEnum.GENERAL &&
 		generalSearchList.cardId;
 
-	const resetGeneralSearchList = () => {
+	const resetGeneralSearchList = useCallback(() => {
 		setGeneralSearchList({
 			cardId: "",
 			previousSearch: initialCardSearch,
 			page: 1,
 		});
-	};
+	}, [setGeneralSearchList, initialCardSearch]);
 
 	const handleSearchFormSubmit = (newSearchCardData: ScryfallSearchCardData) => {
 		setSearchCardData({ ...newSearchCardData, isPrintSearch: false });
@@ -75,7 +77,7 @@ export default function AddPage() {
 			document?.getElementById(generalSearchList.cardId)?.scrollIntoView();
 			resetGeneralSearchList();
 		}
-	}, [backFromPrintView]);
+	}, [backFromPrintView, generalSearchList.cardId, resetGeneralSearchList]);
 
 	return (
 		<>
@@ -84,7 +86,6 @@ export default function AddPage() {
 				onSubmitSearch={handleSearchFormSubmit}
 				disabled={querySearchResponse.isLoading}
 			/>
-
 			{showBackButton && (
 				<button
 					type="button"
@@ -95,7 +96,6 @@ export default function AddPage() {
 					&larr; Back to results list
 				</button>
 			)}
-
 			{showPagination && querySearchResponse?.data && (
 				<Pagination
 					itemsInfo={{
@@ -107,7 +107,6 @@ export default function AddPage() {
 					currentPage={page}
 				/>
 			)}
-
 			<QueryResult queryResult={querySearchResponse as QueryResultData}>
 				<ScryfallSearchResults
 					cardData={querySearchResponse.data}

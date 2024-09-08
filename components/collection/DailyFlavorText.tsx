@@ -31,7 +31,7 @@ export function DailyFlavorText() {
 			cardName,
 			flavorText: flavorTexts[Math.floor(Math.random() * flavorTexts.length)],
 		};
-	}, [collectionData.isSuccess]);
+	}, [collectionData.isSuccess, collectionData.data?.cardFaces, collectionData.data?.name]);
 
 	return (
 		<QueryResult

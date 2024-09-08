@@ -1,13 +1,13 @@
 import { IsNotSelectorItem } from "./isNotSelector";
 
 export interface SearchFields {
-	[SearchFieldNames.NAME]: string;
-	[SearchFieldNames.TEXT]: string;
-	[SearchFieldNames.TYPES]: SelectorListType;
-	[SearchFieldNames.COLORS]: ColorsSelectorType;
-	[SearchFieldNames.STATS]: CardStatType[];
-	[SearchFieldNames.SETS]: string[];
-	[SearchFieldNames.RARITY]: number[];
+	[SearchFieldNames.NAME]?: string;
+	[SearchFieldNames.TEXT]?: string;
+	[SearchFieldNames.TYPES]?: SelectorListType;
+	[SearchFieldNames.COLORS]?: ColorsSelectorType;
+	[SearchFieldNames.STATS]?: CardStatType[];
+	[SearchFieldNames.SETS]?: string[];
+	[SearchFieldNames.RARITY]?: number[];
 	[SearchFieldNames.ORACLEID]?: string[];
 }
 export enum SearchFieldNames {

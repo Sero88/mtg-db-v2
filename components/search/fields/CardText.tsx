@@ -32,7 +32,7 @@ export function CardText({ changeHandler, fieldData }: CardTextProps) {
 
 	const { symbolsMap, symbolsArray } = useMemo(
 		() => createSymbolsMapAndArray(symbols),
-		[symbols.length]
+		[symbols]
 	);
 
 	const onSelectSearchItem = (item: SelectorListItem) => {

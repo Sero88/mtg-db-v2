@@ -6,7 +6,7 @@ import {
 	retrieveScryfallDataHandler,
 	updateCollection,
 } from "@/utils/updatePricesUtil";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useMemo } from "react";
 import { StepStatusDisplay } from "./StepStatusDisplay";
 import { FailedToUpdateCards } from "./FailedToUpdateCards";
 import { DisplayError } from "../utils/DisplayError";
@@ -33,54 +33,56 @@ export function UpdatePrices({ updateCompleteCallback }: UpdatePricesProps) {
 	const showFailedUpdates =
 		failedToUpdateVersions.current.length > 0 && updateState.status == UpdateStatus.complete;
 
-	const steps: UpdateStep[] = [
-		{
-			id: "retrieveCollection",
-			name: "Retrieving collection data",
-			callback: async () =>
-				retrieveCollectionHandler(
-					(versions) => (collectionVersions.current = versions),
-					updateStateHandler,
-					updateState
-				),
-		},
-		{
-			id: "retrieveScryfall",
-			name: "Getting new price data",
-			callback: async () =>
-				retrieveScryfallDataHandler(
-					(retrievedData) => (scryfallMappedData.current = retrievedData),
-					updateStateHandler,
-					updateState
-				),
-		},
-		{
-			id: "updateCollection",
-			name: "Updating collection data with new prices",
-			callback: async () =>
-				updateCollection(
-					{
-						collectionVersions: collectionVersions.current,
-						scryfallMappedData: scryfallMappedData.current,
-						failedToUpdateVersions: failedToUpdateVersions.current,
-					},
-					updateState,
-					{
-						updateFailedToUpdateHandler: (newArray) =>
-							(failedToUpdateVersions.current = newArray),
-						updateCallback: updateStateHandler,
-					}
-				),
-		},
-		{
-			id: "completedCallback",
-			name: "Complete",
-			callback: async () => {
-				setUpdateState({ ...updateState, status: UpdateStatus.complete });
-				updateCompleteCallback(new Date());
+	const steps: UpdateStep[] = useMemo(() => {
+		return [
+			{
+				id: "retrieveCollection",
+				name: "Retrieving collection data",
+				callback: async () =>
+					retrieveCollectionHandler(
+						(versions) => (collectionVersions.current = versions),
+						updateStateHandler,
+						updateState
+					),
 			},
-		},
-	];
+			{
+				id: "retrieveScryfall",
+				name: "Getting new price data",
+				callback: async () =>
+					retrieveScryfallDataHandler(
+						(retrievedData) => (scryfallMappedData.current = retrievedData),
+						updateStateHandler,
+						updateState
+					),
+			},
+			{
+				id: "updateCollection",
+				name: "Updating collection data with new prices",
+				callback: async () =>
+					updateCollection(
+						{
+							collectionVersions: collectionVersions.current,
+							scryfallMappedData: scryfallMappedData.current,
+							failedToUpdateVersions: failedToUpdateVersions.current,
+						},
+						updateState,
+						{
+							updateFailedToUpdateHandler: (newArray) =>
+								(failedToUpdateVersions.current = newArray),
+							updateCallback: updateStateHandler,
+						}
+					),
+			},
+			{
+				id: "completedCallback",
+				name: "Complete",
+				callback: async () => {
+					setUpdateState({ ...updateState, status: UpdateStatus.complete });
+					updateCompleteCallback(new Date());
+				},
+			},
+		];
+	}, [updateState, updateCompleteCallback]);
 
 	useEffect(() => {
 		const inProgress =
@@ -95,7 +97,7 @@ export function UpdatePrices({ updateCompleteCallback }: UpdatePricesProps) {
 				}));
 			});
 		}
-	}, [updateState.status, updateState.step, updateState.updatedCards.current]);
+	}, [updateState.status, updateState.step, steps]);
 
 	return (
 		<>

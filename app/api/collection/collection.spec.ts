@@ -37,9 +37,6 @@ describe("API route: /api/scryfall/collection", () => {
 			const response = await GET();
 			const cardResults = await response.json();
 
-			//todo remove after testing 👇
-			console.log("cards results", cardResults);
-			//todo remove after testing 👆
 			expect(cardResults.success).toEqual(true);
 			expect(cardResults.data).toEqual(elvishMysticCollectionCardWithVersions);
 		});
