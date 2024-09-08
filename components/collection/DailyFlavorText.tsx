@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuoteLeft, faQuoteRight } from "@fortawesome/free-solid-svg-icons";
 import styles from "@/styles/dailyFlavorText.module.scss";
 
-export default function DailyFlavorText() {
+export function DailyFlavorText() {
 	const collectionData = useGetCollectionData(
 		"/api/collection/flavor-text",
 		"flavorTextHomepage"
