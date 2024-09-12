@@ -10,7 +10,7 @@ export function Header() {
 	const isHome = pathName == "/";
 	return (
 		<header className={styles.mainHeader}>
-			<div className={`${styles.headerWrapper} wrapper`}>
+			<div className={`${styles.headerWrapper}`}>
 				<div className={styles.siteLogoWrapper}>
 					<Link href="/">
 						<Image

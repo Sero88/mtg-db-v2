@@ -17,7 +17,7 @@ export function Navigation() {
 					</Link>
 				</li>
 				<li>
-					<Link href="/reports">
+					<Link href="/collection/reports">
 						<FontAwesomeIcon icon={faChartBar} /> Data
 					</Link>
 				</li>
