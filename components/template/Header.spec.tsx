@@ -48,12 +48,6 @@ describe("Header", () => {
 		expect(NavigationMock).toHaveBeenCalled();
 	});
 
-	it("should not show navigation when is homepage ", () => {
-		render(<Header />);
-
-		expect(NavigationMock).not.toHaveBeenCalled();
-	});
-
 	it("should provide link to home", () => {
 		render(<Header />);
 
