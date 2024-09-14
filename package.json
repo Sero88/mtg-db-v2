@@ -8,7 +8,8 @@
 	"scripts": {
 		"dev": "next dev",
 		"dev:debug": "cross-env NODE_OPTIONS='--inspect' next dev",
-		"build": "jest && next build",
+		"build": "next build",
+		"build:test":"jest && next build",
 		"test": "jest && jest models",
 		"start": "next start",
 		"lint": "next lint",
