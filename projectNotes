@@ -41,19 +41,19 @@ i: have two functions generalSearch and printSearch
 i: very similar to apollo, but used with fetch, instead of GraphQL
 i: let's use it for practice and deduping + caching sound really good
 
-[] Begin refactoring search results.
+[x] Begin refactoring search results.
 i: have two functions generalSearch and printSearch
 
-[] Add tests to add page
+[x] Add tests to add page
 
-[] Use composition for Results - ResultsGeneral and ResultsPrint
-[] remove the types into their own files under /types
-[] analyze the search results and break down into smaller components
-[] for card wrappers - print vs general - extract interweaved logic to their own utility function
+[x] Use composition for Results - ResultsGeneral and ResultsPrint
+[x] remove the types into their own files under /types
+[x] analyze the search results and break down into smaller components
+[x] for card wrappers - print vs general - extract interweaved logic to their own utility function
 [] middleware testing. I'm currently skipping these tests, this type of testing requires the app to be running. So it can actually hit the endpoints paths. Need to find a way to test it w/o this.
 
 BUGS:
-[] image issue, double face card showing error
+[x] image issue, double face card showing error
 [x] search for card general, click on it, click search again, click on same card, results stay because the url didn't change -- FIX: No longer adding card to URL.
 i- possibly use context so we can more easily trigger new search data
 
