@@ -1,0 +1,48 @@
+@import "./variables.scss";
+
+.collectionOptionsWrapper {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+	gap: 0 4rem;
+	margin-bottom: 8rem;
+}
+
+.flavorTextWrapper {
+	min-height: 14rem;
+}
+
+.reportsWrapper {
+	font-size: 1.6rem;
+	text-align: center;
+	color: $dark-blue;
+	a {
+		transition: all 0.25s ease-in-out;
+	}
+
+	a:hover {
+		display: block;
+		transform: scale(1.5);
+	}
+}
+
+.homeDivider {
+	width: 95%;
+	height: 1px;
+	background: linear-gradient(
+		to right,
+		rgba(2, 2, 2, 0) 0,
+		rgba(2, 2, 2, 0.25) 50%,
+		rgba(2, 2, 2, 0) 100%
+	);
+	box-shadow: 0 0 18px 0 #ccd;
+	margin: 0 auto;
+	border: none;
+	margin-bottom: 4rem;
+}
+
+@media all and (min-width: 30.25em) {
+	//420px
+	.collectionOptionsWrapper {
+		justify-items: center;
+	}
+}

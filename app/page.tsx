@@ -1,11 +1,12 @@
 import { DailyFlavorText } from "@/components/collection/DailyFlavorText";
 import { CollectionOption } from "@/components/utils/CollectionOption";
+import styles from "@/styles/home.module.scss";
 
 export default function Home() {
 	return (
 		<>
 			<DailyFlavorText />
-			<div>
+			<div className={styles.collectionOptionsWrapper}>
 				<CollectionOption
 					mainImage="/images/cards-add-image.png"
 					imageBg="/images/add-polygon.png"
