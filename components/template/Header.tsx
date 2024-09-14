@@ -23,7 +23,7 @@ export function Header() {
 					</Link>
 				</div>
 
-				{!isHome && <Navigation />}
+				<Navigation />
 			</div>
 		</header>
 	);
