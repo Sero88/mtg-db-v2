@@ -11,10 +11,6 @@ type ProviderProps = {
 	children: ReactNode;
 };
 export function Providers({ session, children }: ProviderProps) {
-	if (!session) {
-		return <button onClick={() => signIn()}>Sign In</button>;
-	}
-
 	return (
 		<SessionProvider session={session}>
 			<QueryClientProvider client={queryClient}>{children}</QueryClientProvider>

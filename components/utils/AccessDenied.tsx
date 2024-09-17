@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export function AccessDenied() {
 	return (
-		<div className={`wrapper ${styles.deniedWrapper}`}>
+		<div className={`${styles.deniedWrapper}`}>
 			<div className={styles.accessDeniedComponent}>
 				<div className={styles.deniedCard}>
 					<Image

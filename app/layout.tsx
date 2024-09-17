@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/utils/authOptions";
 import { Providers } from "./providers";
 import { Header } from "@/components/template/Header";
+import { AccessDenied } from "@/components/utils/AccessDenied";
 
 const saira = Saira({ weight: ["200", "400"], subsets: ["latin"] });
 
@@ -18,12 +19,16 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 	return (
 		<html lang="en">
 			<body className={saira.className}>
-				<Providers session={session}>
-					<main className="wrapper">
-						<Header />
-						<div>{children}</div>
-					</main>
-				</Providers>
+				<main className="wrapper">
+					{!session ? (
+						<AccessDenied />
+					) : (
+						<Providers session={session}>
+							<Header />
+							<div>{children}</div>
+						</Providers>
+					)}
+				</main>
 			</body>
 		</html>
 	);
