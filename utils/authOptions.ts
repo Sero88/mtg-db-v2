@@ -10,7 +10,7 @@ export const authOptions: NextAuthOptions = {
 	],
 	//@ts-ignore
 	database: process.env.DATABASE_URL,
-	secret: process.env.SECRET,
+	secret: process.env.NEXTAUTH_SECRET,
 	callbacks: {
 		async signIn({ user }) {
 			const allowedEmails = JSON.parse(process.env.ALLOWED_EMAILS as string);
