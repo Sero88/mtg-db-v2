@@ -2,6 +2,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import styles from "@/styles/ffxiTreasure.module.scss";
 
 let numberOptions = [];
 
@@ -107,14 +108,12 @@ export default function AddPage() {
 	return (
 		<>
 			<h1>Treasure Opener</h1>
-			<div style={{ display: "flex", gap: 5, width: "100px", flexWrap: "wrap" }}>
-				{displayOptions}
-			</div>
 
 			<form>
 				<label>{`Greater than (>)`}</label>
 				<input
-					type="text"
+					className={styles.inputNum}
+					type="number"
 					value={range.greater}
 					onChange={(event) => updateRange(event, "greater")}
 					onFocus={(e) => e.target.select()}
@@ -122,7 +121,8 @@ export default function AddPage() {
 
 				<label>{`Less than (<)`}</label>
 				<input
-					type="text"
+					className={styles.inputNum}
+					type="number"
 					value={range.less}
 					onChange={(event) => updateRange(event, "less")}
 					onFocus={(e) => e.target.select()}
@@ -131,7 +131,8 @@ export default function AddPage() {
 				<div>
 					<label>Both digits add to:</label>
 					<input
-						type="text"
+						className={styles.inputNum}
+						type="number"
 						value={addition}
 						onChange={(event) => setAddition(event.target.value)}
 					/>
@@ -140,7 +141,8 @@ export default function AddPage() {
 				<div>
 					<label>Left Digit:</label>
 					<input
-						type="text"
+						className={styles.inputNum}
+						type="number"
 						value={specificDigits.left}
 						onChange={(event) =>
 							setSpecificDigits({ ...specificDigits, left: event.target.value })
@@ -149,7 +151,8 @@ export default function AddPage() {
 
 					<label>Right Digit:</label>
 					<input
-						type="text"
+						className={styles.inputNum}
+						type="number"
 						value={specificDigits.right}
 						onChange={(event) =>
 							setSpecificDigits({ ...specificDigits, right: event.target.value })
@@ -157,9 +160,13 @@ export default function AddPage() {
 					/>
 				</div>
 
-				<button type="button" onClick={resetForm}>
+				<button type="button" onClick={resetForm} className={styles.resetButton}>
 					Reset
 				</button>
+
+				<div style={{ display: "flex", gap: 5, width: "100px", flexWrap: "wrap" }}>
+					{displayOptions}
+				</div>
 			</form>
 		</>
 	);
