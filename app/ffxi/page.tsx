@@ -137,6 +137,7 @@ export default function AddPage() {
 		setRange(initialRange);
 		setSpecificDigits(initialSpecificDigits);
 		setAddition("");
+		setEvenOdd(initialSpecificDigits);
 	};
 
 	let possibleOptions = getPossibleRange(numberOptions, range);
