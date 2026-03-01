@@ -87,10 +87,6 @@ function getEvenOddDigits(currentOptions, evenOdd) {
 		let leftCheckPass = false;
 		let rightCheckPass = false;
 
-		//todo remove after testing 👇
-		console.log("even odd", evenOdd);
-		//todo remove after testing 👆
-
 		if (evenOdd.left === "odd") {
 			if (leftDigit % 2 > 0) {
 				leftCheckPass = true;
@@ -250,9 +246,7 @@ export default function AddPage() {
 					Reset
 				</button>
 
-				<div style={{ display: "flex", gap: 5, width: "100px", flexWrap: "wrap" }}>
-					{displayOptions}
-				</div>
+				<div style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>{displayOptions}</div>
 			</form>
 		</>
 	);
