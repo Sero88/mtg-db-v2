@@ -75,12 +75,61 @@ function getPossibleDigits(currentOptions, specificDigits) {
 	return newPossibleOptions;
 }
 
+function getEvenOddDigits(currentOptions, evenOdd) {
+	const newPossibleOptions = [];
+
+	currentOptions.filter((option) => {
+		const decimalString = String((option * 0.1).toFixed(1));
+		const splitNums = decimalString.split(".");
+		const leftDigit = splitNums[0];
+		const rightDigit = splitNums[1];
+
+		let leftCheckPass = false;
+		let rightCheckPass = false;
+
+		//todo remove after testing 👇
+		console.log("even odd", evenOdd);
+		//todo remove after testing 👆
+
+		if (evenOdd.left === "odd") {
+			if (leftDigit % 2 > 0) {
+				leftCheckPass = true;
+			}
+		} else if (evenOdd.left === "even") {
+			if (leftDigit % 2 == 0) {
+				leftCheckPass = true;
+			}
+		} else if (!evenOdd.left) {
+			leftCheckPass = true;
+		}
+
+		if (evenOdd.right === "odd") {
+			if (rightDigit % 2 > 0) {
+				rightCheckPass = true;
+			}
+		} else if (evenOdd.right === "even") {
+			if (rightDigit % 2 == 0) {
+				rightCheckPass = true;
+			}
+		} else if (!evenOdd.right) {
+			rightCheckPass = true;
+		}
+
+		if (leftCheckPass && rightCheckPass) {
+			newPossibleOptions.push(option);
+		}
+	});
+
+	return newPossibleOptions;
+}
+
 export default function AddPage() {
 	const initialRange = { greater: 10, less: 100 };
 	const initialSpecificDigits = { left: "", right: "" };
 	const [range, setRange] = useState(initialRange);
 	const [addition, setAddition] = useState("");
 	const [specificDigits, setSpecificDigits] = useState(initialSpecificDigits);
+	const [evenOdd, setEvenOdd] = useState(initialSpecificDigits);
 	//const [possibleOptions, setPossibleOptions] = useState(getPossibleRange(numberOptions, range));
 
 	const updateRange = (event: React.ChangeEvent<HTMLInputElement>, type: "greater" | "less") => {
@@ -95,6 +144,7 @@ export default function AddPage() {
 	};
 
 	let possibleOptions = getPossibleRange(numberOptions, range);
+	possibleOptions = getEvenOddDigits(possibleOptions, evenOdd);
 	possibleOptions = addition ? getPossibleAddition(possibleOptions, addition) : possibleOptions;
 	possibleOptions =
 		specificDigits.left || specificDigits.right
@@ -104,6 +154,10 @@ export default function AddPage() {
 	const displayOptions = possibleOptions.map((number) => {
 		return <span>{number}</span>;
 	});
+
+	const handleOptionChange = (value, type) => {
+		setEvenOdd({ ...evenOdd, [type]: value });
+	};
 
 	return (
 		<>
@@ -139,25 +193,57 @@ export default function AddPage() {
 				</div>
 
 				<div>
-					<label>Left Digit:</label>
-					<input
-						className={styles.inputNum}
-						type="number"
-						value={specificDigits.left}
-						onChange={(event) =>
-							setSpecificDigits({ ...specificDigits, left: event.target.value })
-						}
-					/>
+					<div>
+						<label>Left Digit:</label>
+						<input
+							className={styles.inputNum}
+							type="number"
+							value={specificDigits.left}
+							onChange={(event) =>
+								setSpecificDigits({ ...specificDigits, left: event.target.value })
+							}
+						/>
+						even
+						<input
+							type="radio"
+							value="even"
+							onChange={(event) => handleOptionChange(event?.target.value, "left")}
+							checked={evenOdd.left === "even"}
+						/>
+						odd
+						<input
+							type="radio"
+							value="odd"
+							onChange={(event) => handleOptionChange(event?.target.value, "left")}
+							checked={evenOdd.left === "odd"}
+						/>
+					</div>
 
-					<label>Right Digit:</label>
-					<input
-						className={styles.inputNum}
-						type="number"
-						value={specificDigits.right}
-						onChange={(event) =>
-							setSpecificDigits({ ...specificDigits, right: event.target.value })
-						}
-					/>
+					<div>
+						<label>Right Digit:</label>
+						<input
+							className={styles.inputNum}
+							type="number"
+							value={specificDigits.right}
+							onChange={(event) =>
+								setSpecificDigits({ ...specificDigits, right: event.target.value })
+							}
+						/>
+						even
+						<input
+							type="radio"
+							value="even"
+							onChange={(event) => handleOptionChange(event?.target.value, "right")}
+							checked={evenOdd.right === "even"}
+						/>
+						odd
+						<input
+							type="radio"
+							value="odd"
+							onChange={(event) => handleOptionChange(event?.target.value, "right")}
+							checked={evenOdd.right === "odd"}
+						/>
+					</div>
 				</div>
 
 				<button type="button" onClick={resetForm} className={styles.resetButton}>
